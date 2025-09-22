@@ -12,7 +12,7 @@
       "$application/*": ["src/application/*"],
       "$config/*": ["src/config/*"],
       "$domain/*": ["src/domain/*"],
-      "$infrastructure/*": ["src/infrastructur/*"],
+      "$infrastructure/*": ["src/infrastructure/*"],
       "$presentation/*": ["src/presentation/*"],
       "$types/*": ["src/types/*"],
       "$utils/*": ["src/utils/*"]
