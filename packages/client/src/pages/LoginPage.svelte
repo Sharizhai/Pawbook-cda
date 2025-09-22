@@ -23,9 +23,8 @@
 
     let errorMessage: string = $state(" ");
 
-    function onLoginButtonClick() {
-        push("/feed");
-    }
+    let email: string = $state("");
+    let password: string = $state("");
 
     function onCreateAccountButtonClick() {
         push("/signup");
@@ -34,17 +33,23 @@
     async function onSubmit(event: Event) {
         event.preventDefault();
 
-        const formData = new FormData(event.target as HTMLFormElement);
-        const email = formData.get("email") as string;
-        const password = formData.get("password") as string;
-
         console.log(email, password);
+
+        if (!email || !password) {
+            errorMessage = "Veuillez remplir tous les champs";
+            return;
+        }
+
+        if (!email.includes("@")) {
+            errorMessage = "Veuillez entrer un email valide";
+            return;
+        }
 
         const submitResponse = await signIn(email, password);
 
-        if(submitResponse) {
-            push("/dashboard");
-        }
+        if(!submitResponse) return;
+
+        push("/feed");
     }
 
     async function signIn(email: string, password: string) {
@@ -72,10 +77,10 @@
 
         <div class="login-page-form-container">
             <form class="login-page-form" action="/login" method="POST" onsubmit={onSubmit}>
-                <Input label={emailLabel} type={"email"} name={"email"} placeholder={emailPlaceholder}/>
-                <Input label={passwordLabel} type={"password"} name={"password"} placeholder={passwordPlaceholder} customClass={"login-page-form-input-no-margin"}/>
+                <Input label={emailLabel} type={"email"} name={"email"} placeholder={emailPlaceholder} bind:value={email} />
+                <Input label={passwordLabel} type={"password"} name={"password"} placeholder={passwordPlaceholder} bind:value={password} customClass={"login-page-form-input-no-margin"}/>
                 <a href="/forgotten-password" use:link class="login-page-form-link">{passwordForgotten}</a>
-                <Button label={loginLabel} onClick={onLoginButtonClick} customClass="extra-margin-top"/>
+                <Button label={loginLabel} type="submit" customClass="extra-margin-top"/>
             </form>
         </div>
 
