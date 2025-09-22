@@ -11,19 +11,19 @@ export interface IEnv {
     ORIGIN: string;
     MONGO_URI: string;
 
-    // Nodemailer
-    EMAIL_USER: string;
-    EMAIL_APP_PASSWORD: string;
-    JWT_RESET_PWD_SECRET: string;
-
-    // Cloudinary
-    CLOUDINARY_URL: string;
-    CLOUDINARY_CLOUD_NAME: string;
-    CLOUDINARY_API_KEY: string;
-    CLOUDINARY_API_SECRET: string;
-    LOGO_URL: string;
-
-    // Helmet
-    FRONTEND_DOMAIN: string;
-    BACKEND_URL: string;
+    // // Nodemailer
+    // EMAIL_USER: string;
+    // EMAIL_APP_PASSWORD: string;
+    // JWT_RESET_PWD_SECRET: string;
+    //
+    // // Cloudinary
+    // CLOUDINARY_URL: string;
+    // CLOUDINARY_CLOUD_NAME: string;
+    // CLOUDINARY_API_KEY: string;
+    // CLOUDINARY_API_SECRET: string;
+    // LOGO_URL: string;
+    //
+    // // Helmet
+    // FRONTEND_DOMAIN: string;
+    // BACKEND_URL: string;
 }
