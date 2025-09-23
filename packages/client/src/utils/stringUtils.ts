@@ -3,5 +3,5 @@ export function isMail(value: string) {
 }
 
 export function isStringNotValid(value: string) {
-    return !value || value.length === 0;
+    return !value || value.trim() === "";
 }
