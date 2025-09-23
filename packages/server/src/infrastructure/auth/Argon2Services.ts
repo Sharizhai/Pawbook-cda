@@ -1,10 +1,14 @@
-import argon2 from 'argon2';
+import argon2 from "argon2";
+import {IPasswordServices} from "$domain/interfaces/passwordServices.interface";
+import {isStringNotValid} from "$utils/stringUtils.utils";
 
-export class Argon2Services {
+export class Argon2Services implements IPasswordServices {
     /**
      * Hash un mot de passe
      */
     async hashPassword(plainPassword: string): Promise<string> {
+        if(isStringNotValid(plainPassword)) throw new Error("Password is not valid");
+
         return await argon2.hash(plainPassword);
     }
 
@@ -16,6 +20,15 @@ export class Argon2Services {
      */
 
     async verifyPassword(plainPassword: string, hashedPassword: string): Promise<boolean> {
-        return await argon2.verify(hashedPassword, plainPassword);
+        if (!plainPassword || !hashedPassword) {
+            return false;
+        }
+
+        try {
+            return await argon2.verify(hashedPassword, plainPassword);
+        } catch (error) {
+            console.error("Password error:", error);
+            return false;
+        }
     }
 }
