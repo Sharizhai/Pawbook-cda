@@ -79,11 +79,8 @@ describe("Argon2Services", () => {
 
         it("should handle empty password verification", async () => {
             const emptyPassword = "";
-            const hashedEmpty = await argon2Services.hashPassword(emptyPassword);
 
-            const isValid = await argon2Services.verifyPassword(emptyPassword, hashedEmpty);
-
-            expect(isValid).toBe(true);
+            await expect(argon2Services.hashPassword(emptyPassword)).rejects.toThrow("Password is not valid");
         });
 
         it("should handle malformed hash", async () => {
@@ -92,7 +89,7 @@ describe("Argon2Services", () => {
 
             await expect(
                 argon2Services.verifyPassword(plainPassword, malformedHash)
-            ).rejects.toThrow();
+            ).resolves.toBe(false);
         });
 
         it("should be case sensitive", async () => {
