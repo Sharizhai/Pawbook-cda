@@ -5,7 +5,7 @@ import { z } from "zod";
 //Faire un vrai système de blacklistage (par e-mail, IP...)
 const blacklistedEmails = ["shrek@swamp.de", "donkey@swamp.de"];
 
-export const loginValidation = z.object({
+const loginValidation = z.object({
     email: z.string().email({ message: "Adresse e-mail invalide" }).refine((email): boolean => {
         return !blacklistedEmails.includes(email)
     }, { message: "Cette adresse email n'est pas autorisée" }),
