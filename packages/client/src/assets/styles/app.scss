@@ -110,3 +110,9 @@
       font-variation-settings: 'wght' 900;
     }
   }
+
+  .error-message {
+      color: var(--color-alert);
+      font-size: 0.9rem;
+      font-weight: bold;
+  }
