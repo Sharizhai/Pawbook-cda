@@ -6,11 +6,11 @@ services:
     container_name: pawbook-api
     working_dir: /app
     ports:
-      - '3000:3000'
+      - '3001:3001'
     env_file:
       - ./packages/server/.env
     environment:
-      PORT: '3000'
+      PORT: '3001'
       NODE_ENV: 'development'
       ORIGIN: 'http://localhost:5173'
     volumes:
@@ -28,7 +28,7 @@ services:
     env_file:
       - ./packages/client/.env
     environment:
-      VITE_API_URL: 'http://localhost:3000'
+      VITE_API_URL: 'http://api:3001'
     depends_on:
       - api
     volumes:
