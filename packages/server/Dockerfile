@@ -16,5 +16,5 @@ RUN pnpm install
 
 COPY ./packages/server/src ./packages/server/src
 
-EXPOSE 3000
+EXPOSE 3001
 CMD ["pnpm", "dev"]
