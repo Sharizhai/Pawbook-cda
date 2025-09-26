@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const env: IEnv = {
-    PORT: parseInt(process.env.PORT || "3000"),
+    PORT: parseInt(process.env.PORT || "3001"),
     NODE_ENV: process.env.NODE_ENV as 'development' | 'production' | 'test',
 
     JWT_SECRET: process.env.JWT_SECRET || (() => {
