@@ -31,7 +31,9 @@ export class JwtAuthService implements IJwtServices {
             const decoded = jwt.verify(token, this.secret) as ITokenPayload;
             return decoded;
         } catch (error) {
-            throw new Error(`Invalid JWT token: ${error.message}`);
+            if (error instanceof Error) throw new Error(`Invalid JWT token: ${error.message}`);
+
+            throw new Error("Invalid JWT token: Unknown error");
         }
     }
 
