@@ -21,7 +21,7 @@
     const createAccount = messages.login_create_account();
     const gcuLabel = messages.home_gcu();
 
-    let errorMessage: string = $state(" ");
+    let errorMessage: string = $state("\u00A0");
 
     let email: string = $state("");
     let password: string = $state("");
@@ -32,8 +32,7 @@
 
     async function onSubmit(event: Event) {
         event.preventDefault();
-
-        console.log(email, password);
+        errorMessage = "\u00A0";
 
         if (!email || !password) {
             errorMessage = "Veuillez remplir tous les champs";
@@ -58,6 +57,7 @@
         const response = await authLogin(email, password)
             .catch((error) => {
                 errorMessage = error.message;
+                return false;
             });
 
         return response;
@@ -80,6 +80,9 @@
                 <Input label={emailLabel} type={"email"} name={"email"} placeholder={emailPlaceholder} bind:value={email} />
                 <Input label={passwordLabel} type={"password"} name={"password"} placeholder={passwordPlaceholder} bind:value={password} customClass={"login-page-form-input-no-margin"}/>
                 <a href="/forgotten-password" use:link class="login-page-form-link">{passwordForgotten}</a>
+
+                    <div class="error-message">{errorMessage}</div>
+
                 <Button label={loginLabel} type="submit" customClass="extra-margin-top"/>
             </form>
         </div>
@@ -167,6 +170,10 @@
                 &:hover {
                     color: var(--second-highlight-color);
                 }
+            }
+
+            .error-message {
+                padding: 0.5rem 0 0 0;
             }
         }
 
