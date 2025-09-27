@@ -1,4 +1,6 @@
-import { env } from "./config/env";
+import {setupRoutes} from "$presentation/routes";
+import {connectDB} from "$config/database";
+import { env } from "$config/env";
 import express from "express";
 import cors from "cors";
 
@@ -14,6 +16,10 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+setupRoutes(app);
+
+connectDB();
 
 app.listen(PORT, () => {
   console.log(`🚀 Server is running in ${NODE_ENV} mode on http://localhost:${PORT}`);
