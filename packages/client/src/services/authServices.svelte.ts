@@ -14,7 +14,11 @@ export async function authLogin(email: string, password: string) {
     if(!response.ok) {
         console.error(result.errorCode);
 
-        return false;
+        if (result.errors) {
+            throw new Error(result.errors.map((err: any) => err.message).join(', '));
+        }
+
+        throw new Error(result.message || 'Erreur de connexion');
     }
 
     user.setAccessToken(result.data.token);
