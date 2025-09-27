@@ -8,7 +8,7 @@
 
     function onMenuButtonClick () {
         console.log("Menu button clicked");
-    };
+    }
 
 </script>
 
