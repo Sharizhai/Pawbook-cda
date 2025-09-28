@@ -68,12 +68,16 @@ export class AuthController {
      * @route GET /api/auth/me
      */
     me = async (req: Request, res: Response): Promise<void> => {
-        const user : User | undefined = req.user;
+        const user: User | undefined = req.user;
 
         if (!user) {
             APIResponse(res, null, 'Non authentifié', 401);
             return;
         }
+
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
 
         APIResponse(res, user.toJSON(), 'Utilisateur récupéré avec succès');
     };
