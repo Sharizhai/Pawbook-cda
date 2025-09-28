@@ -1,6 +1,6 @@
 <script lang="ts">
     import SettingsButton from "$components/generic/SettingsButton.svelte";
-    import Button from "$components/generic/Button.svelte"
+    import Button from "$components/generic/Button.svelte";
 
     let {
         customClass,
