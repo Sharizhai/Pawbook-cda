@@ -2,7 +2,7 @@ import { type UserInformations} from "$types/userTypes";
 import {user} from "$stores/stores.svelte";
 
 export function createUserSlice() {
-    let information: UserInformations = $state({});
+    let information: UserInformations = $state({} as UserInformations);
     let accessToken: string = $state(localStorage.getItem("accessToken") ?? "");
 
     let isAdmin: boolean = $derived(user.information.role === "admin");
@@ -13,7 +13,8 @@ export function createUserSlice() {
     }
 
     function clearInformations() {
-        information = {};
+        information = {} as UserInformations;
+        localStorage.removeItem("accessToken");
     }
 
     return {
