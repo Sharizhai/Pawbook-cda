@@ -1,4 +1,4 @@
-import { apiFetch } from "./backendServices";
+import { apiFetch } from "./backendServices.svelte";
 import {user} from "$stores/stores.svelte";
 import {push} from "svelte-spa-router";
 

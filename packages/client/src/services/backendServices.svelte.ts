@@ -1,4 +1,4 @@
-import { authLogout } from '$services/authServices.svelte';
+import { authLogout } from '$services/authServices.svelte.js';
 import { user } from '$stores/stores.svelte';
 import type { APIFetchRequestInit } from '$types/backendTypes';
 import { isTokenExpired } from '$utils/tokenUtils';
