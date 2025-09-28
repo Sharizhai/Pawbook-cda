@@ -61,5 +61,10 @@
     "post_creation_dialog_panel_publish": "Publique",
 
     "animal_creation_dialog_panel_title": "Nueva mascota",
-    "animal_creation_dialog_panel_add": "Añadir mi mascota"
+    "animal_creation_dialog_panel_add": "Añadir mi mascota",
+
+    "logout": "Cerrar sesión",
+
+    "quick_action_profile_update": "Actualizar mi perfil",
+    "quick_action_profile_delete": "Eliminar mi cuenta"
 }

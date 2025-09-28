@@ -61,5 +61,10 @@
     "post_creation_dialog_panel_publish": "Pubblicare",
 
     "animal_creation_dialog_panel_title": "Nuovo animale domestico",
-    "animal_creation_dialog_panel_add": "Aggiungi il mio animale domestico"
+    "animal_creation_dialog_panel_add": "Aggiungi il mio animale domestico",
+
+    "logout": "Esci",
+
+    "quick_action_profile_update": "Aggiorna il mio profilo",
+    "quick_action_profile_delete": "Elimina il mio account"
 }

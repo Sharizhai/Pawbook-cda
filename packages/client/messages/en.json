@@ -61,5 +61,10 @@
     "post_creation_dialog_panel_publish": "Publish",
 
     "animal_creation_dialog_panel_title": "New animal",
-    "animal_creation_dialog_panel_add": "Add my animal"
+    "animal_creation_dialog_panel_add": "Add my animal",
+
+    "logout": "Log out",
+
+    "quick_action_profile_update": "Update my profile",
+    "quick_action_profile_delete": "Delete my account"
 }

@@ -61,5 +61,10 @@
     "post_creation_dialog_panel_publish": "Veröffentlichen",
 
     "animal_creation_dialog_panel_title": "Neues Haustier",
-    "animal_creation_dialog_panel_add": "Mein Haustier hinzufügen"
+    "animal_creation_dialog_panel_add": "Mein Haustier hinzufügen",
+
+    "logout": "Abmelden",
+
+    "quick_action_profile_update": "Mein Profil aktualisieren",
+    "quick_action_profile_delete": "Mein Konto löschen"
 }
