@@ -4,7 +4,7 @@
     import filledLikeIcon from "$assets/icons/posts/like-fill.svg?raw";
     import likeIcon from "$assets/icons/posts/like.svg?raw";
 
-    let { onClick, likeCount } : { onClick: MouseEventHandler<HTMLButtonElement>, likeCount?: number } = $props();
+    let { onClick, likeCount } : { onClick: MouseEventHandler<HTMLButtonElement>, likeCount?: string[] } = $props();
     let isLikedBeMe = $state(false);
 
     function onLikeButtonClick(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
