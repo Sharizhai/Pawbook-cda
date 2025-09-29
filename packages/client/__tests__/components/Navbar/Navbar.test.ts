@@ -1,13 +1,27 @@
-import { test, expect, vi } from "vitest";
+import { test, expect, vi, beforeEach } from "vitest";
 import { render, fireEvent } from "@testing-library/svelte";
 import "@testing-library/jest-dom";
 import Navbar from "$components/navbar/Navbar.svelte";
+import * as messages from "$lib/paraglide/messages";
+
+const panelTitle = messages.post_creation_dialog_panel_title();
 
 vi.mock("svelte-spa-router", () => ({
     push: vi.fn()
 }));
 
+vi.mock("$services/userServices.svelte", () => ({
+    fetchUserInformations: vi.fn().mockResolvedValue({
+        id: "test-user",
+        username: "testuser",
+    })
+}));
+
 import { push } from "svelte-spa-router";
+
+beforeEach(() => {
+    vi.clearAllMocks();
+});
 
 test("Navbar should render the logo", () => {
     const { getByAltText } = render(Navbar);
@@ -55,15 +69,17 @@ test("Search button should trigger a console.log", async () => {
     consoleSpy.mockRestore();
 });
 
-test("Add button should trigger a console.log", async () => {
-    const consoleSpy = vi.spyOn(console, "log");
-    const { getByText } = render(Navbar);
+test("Add button should open PostCreationDialogPanel", async () => {
+    const { getByText, queryByText } = render(Navbar);
     const addButton = getByText("Publier");
-    
-    await fireEvent.click(addButton);
-    expect(consoleSpy).toHaveBeenCalledWith("Add button clicked");
 
-    consoleSpy.mockRestore();
+    const panelTitle = messages.post_creation_dialog_panel_title();
+
+    expect(queryByText(panelTitle)).not.toBeInTheDocument();
+
+    await fireEvent.click(addButton);
+
+    expect(getByText(panelTitle)).toBeInTheDocument();
 });
 
 test("Notifications button should trigger a console.log", async () => {
