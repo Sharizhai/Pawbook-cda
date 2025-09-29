@@ -25,6 +25,7 @@ export default defineConfig(({ mode }) =>({
         'src/paraglide/**',
         'node_modules/**',
         '**/*.d.ts',
+          "src/stores/userStore.svelte.ts",
       ]
     },
     watch: false,
