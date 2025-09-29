@@ -78,7 +78,7 @@
                 font-size: 1rem;
                 color: var(--main-text-color);
                 padding: 0 0.9rem;
-                border: 1px solid var(--color-main-dark);
+                border: 1px solid rgba(30, 138, 182, 0.7);
                 cursor: pointer;
 
                 &:hover {
