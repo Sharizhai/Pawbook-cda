@@ -10,9 +10,10 @@
         profilePicture?: string, 
         firstName: string, 
         lastName: string,
-        postCreationDate: Date} = $props();
+        postCreationDate: Date
+    } = $props();
 
-    let formattedDate = $derived(postCreationDate ? timeElapsed(postCreationDate) : '');
+    let formattedDate = $derived(postCreationDate ? timeElapsed(new Date(postCreationDate)) : '');
 </script>
     
     <div class="postcard-user-infos-container">
