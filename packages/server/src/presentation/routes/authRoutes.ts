@@ -5,6 +5,7 @@ import express from "express";
  * Creates routes related to authentication
  *
  * @param authController - Authentication controller
+ * @param middleware
  */
 export default function authRoutesFactory(authController: AuthController, middleware: {isAuthenticated: any}) {
     const router = express.Router();
