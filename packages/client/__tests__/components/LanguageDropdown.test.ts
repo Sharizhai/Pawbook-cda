@@ -1,4 +1,4 @@
-import { test, expect, vi } from "vitest";
+import { test, expect } from "vitest";
 import { render, fireEvent } from "@testing-library/svelte";
 import LanguageDropdown from "$components/LanguageDropdown.svelte";
 import { app } from "../../src/stores/stores.svelte";
