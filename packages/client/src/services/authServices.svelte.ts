@@ -1,3 +1,4 @@
+import {fetchUserInformations} from "$services/userServices.svelte";
 import { apiFetch } from "./backendServices.svelte";
 import {user} from "$stores/stores.svelte";
 import {push} from "svelte-spa-router";
@@ -26,6 +27,11 @@ export async function authLogin(email: string, password: string) {
 }
 
 export async function authLogout() {
+    await apiFetch("/auth/logout", {
+        method: "POST",
+        checkCredentials: true,
+    })
+
     user.setAccessToken("");
     user.clearInformations();
 

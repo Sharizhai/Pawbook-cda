@@ -1,6 +1,20 @@
 <script lang="ts">
+    import QuickActionsMenu from "$components/generic/quickActionsMenu/QuickActionsMenu.svelte";
+    import type {QuickActionsMenuActionProperties} from "$types/quickActionsMenuTypes";
     import SettingsButton from "$components/generic/SettingsButton.svelte";
+    import {authLogout} from "$services/authServices.svelte";
     import Button from "$components/generic/Button.svelte";
+    import * as messages from "$lib/paraglide/messages";
+
+    import deleteIcon from "$assets/icons/delete.svg?raw";
+    import logoutIcon from "$assets/icons/logout.svg?raw";
+    import editIcon from "$assets/icons/edit.svg?raw";
+    import gcuIcon from "$assets/icons/gcu.svg?raw";
+
+    const updateProfileLabel = messages.quick_action_profile_update();
+    const gcuLabel = messages.home_gcu();
+    const logoutLabel = messages.logout();
+    const deleteLabel = messages.quick_action_profile_delete();
 
     let {
         customClass,
@@ -16,14 +30,55 @@
         description?: string
     } = $props();
 
+    let isQuickActionsMenuOpen = $state(false);
+
+    let settingsQuickActionsMenuActionProperties: QuickActionsMenuActionProperties[] = $derived([
+        {
+            icon: editIcon,
+            label: updateProfileLabel,
+            onClick: onQuickActionUpdateProfileButtonClick
+        },
+        {
+            icon: gcuIcon,
+            label: gcuLabel,
+            onClick: onQuickActionGcuButtonClick
+        },
+        {
+            icon: logoutIcon,
+            label: logoutLabel,
+            onClick: onQuickActionDisconnectButtonClick
+        },
+        {
+            icon: deleteIcon,
+            label: deleteLabel,
+            onClick: onQuickActionDeleteAccountButtonClick,
+            isWarningAction: true
+        }
+    ])
+
     function onFollowButtonClick() {
 
     }
 
     function onSettingsButtonClick() {
+        isQuickActionsMenuOpen = !isQuickActionsMenuOpen;
+    }
+
+    function onQuickActionUpdateProfileButtonClick() {
 
     }
 
+    function onQuickActionGcuButtonClick() {
+
+    }
+
+    function onQuickActionDisconnectButtonClick() {
+        authLogout();
+    }
+
+    function onQuickActionDeleteAccountButtonClick() {
+
+    }
 </script>
     <div class="profile-card-container {customClass ?? ''}">
         <SettingsButton onClick={onSettingsButtonClick} customClass="profile-card-settings-button" />
@@ -44,6 +99,9 @@
             <Button label="Suivre" onClick={onFollowButtonClick} isCTA hadShadow/>
         </div>
     </div>
+
+<QuickActionsMenu isVisible={isQuickActionsMenuOpen} actions={settingsQuickActionsMenuActionProperties} top={"1rem"} right={"3rem"} haslanguageDropdown />
+
 <style lang="scss">
     .profile-card-container {
         position: relative;
