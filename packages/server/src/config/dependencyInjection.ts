@@ -5,8 +5,8 @@ import {IUserRepository} from "$domain/interfaces/userRepository.interface";
 import {IAuthServices} from "$domain/interfaces/authServices.interface";
 import {IJwtServices} from "$domain/interfaces/jwtServices.interface";
 
-import {InMemoryUserRepository} from "$infrastructure/repositories/inMemoryUserRepository";
-import {MongoUserRepository} from "$infrastructure/repositories/MongoUserRepository";
+import {InMemoryUserRepository} from "$infrastructure/repositories/user/inMemoryUserRepository";
+import {MongoUserRepository} from "$infrastructure/repositories/user/MongoUserRepository";
 import {JwtAuthService} from "$infrastructure/auth/jwtAuthServices";
 import {Argon2Services} from "$infrastructure/auth/argon2Services";
 

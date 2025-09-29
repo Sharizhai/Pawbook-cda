@@ -1,4 +1,4 @@
-import {InMemoryUserRepository} from "$infrastructure/repositories/inMemoryUserRepository";
+import {InMemoryUserRepository} from "$infrastructure/repositories/user/inMemoryUserRepository";
 import {IUserRepository} from "$domain/interfaces/userRepository.interface";
 import {IAuthServices} from "$domain/interfaces/authServices.interface";
 import {describe, it, expect, beforeAll} from "vitest";

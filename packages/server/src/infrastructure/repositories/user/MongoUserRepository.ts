@@ -1,6 +1,6 @@
 import { User, UserData } from '$domain/entities/Users';
 import { UserFilters, IUserRepository } from '$domain/interfaces/userRepository.interface';
-import { MongoUserModel } from '../database/mongoUserModel.model';
+import { MongoUserModel } from '../../database/mongoUserModel.model';
 
 export class MongoUserRepository implements IUserRepository {
     async findAll(): Promise<User[]> {
