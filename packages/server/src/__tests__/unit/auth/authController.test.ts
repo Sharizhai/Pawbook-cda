@@ -23,6 +23,7 @@ const createMockRes = (): Partial<Response> => {
         cookieOptions: null,
         clearedCookie: null,
         clearedCookieOptions: null,
+        headers: {},
         status: function(code: number) {
             this.statusCode = code;
             return this;
@@ -39,6 +40,10 @@ const createMockRes = (): Partial<Response> => {
         clearCookie: function(name: string, options?: any) {
             this.clearedCookie = name;
             this.clearedCookieOptions = options;
+            return this;
+        },
+        setHeader: function(name: string, value: string) {
+            this.headers[name] = value;
             return this;
         }
     };
