@@ -2,11 +2,16 @@ import { asClass, asFunction, createContainer } from "awilix";
 
 import {IPasswordServices} from "$domain/interfaces/passwordServices.interface";
 import {IUserRepository} from "$domain/interfaces/userRepository.interface";
+import {IPostRepository} from "$domain/interfaces/postRepository.interface";
 import {IAuthServices} from "$domain/interfaces/authServices.interface";
 import {IJwtServices} from "$domain/interfaces/jwtServices.interface";
 
 import {InMemoryUserRepository} from "$infrastructure/repositories/user/inMemoryUserRepository";
 import {MongoUserRepository} from "$infrastructure/repositories/user/MongoUserRepository";
+
+import {InMemoryPostRepository} from "$infrastructure/repositories/post/inMemoryPostRepository";
+import {MongoPostRepository} from "$infrastructure/repositories/post/MongoPostRepository";
+
 import {JwtAuthService} from "$infrastructure/auth/jwtAuthServices";
 import {Argon2Services} from "$infrastructure/auth/argon2Services";
 
@@ -19,6 +24,7 @@ export interface Dependencies {
     jwtAuthService: IJwtServices;
     argon2Services: IPasswordServices;
     authServices: IAuthServices;
+    postRepository: IPostRepository;
 }
 
 const container = createContainer<Dependencies>({
@@ -28,6 +34,10 @@ const container = createContainer<Dependencies>({
 const userRepositoryClass = env.NODE_ENV === "test"
     ? InMemoryUserRepository
     : MongoUserRepository;
+
+const postRepositoryClass = env.NODE_ENV === "test"
+    ? InMemoryPostRepository
+    : MongoPostRepository
 
 console.log(userRepositoryClass);
 
@@ -47,6 +57,7 @@ console.log(userRepositoryClass);
 container.register({
     // === INFRASTRUCTURE LAYER - asClass pour l'injection automatique ===
     userRepository: asClass(userRepositoryClass).singleton(),
+    postRepository: asClass(postRepositoryClass).singleton(),
     argon2Services: asClass(Argon2Services).singleton(),
     jwtAuthService: asFunction(() =>
         new JwtAuthService(env.JWT_SECRET, env.JWT_EXPIRATION_SECRET)
