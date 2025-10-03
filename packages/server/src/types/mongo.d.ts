@@ -15,3 +15,15 @@ export interface IMongoUserDocument {
     profilePicture?: string;
     refreshToken?: string;
 }
+
+export interface IMongoPostDocument {
+    _id: ObjectId;
+    authorId: ObjectId;
+    textContent?: string;
+    photoContent?: string[];
+    likes: ObjectId[];
+    comments: ObjectId[];
+    updated: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+}
