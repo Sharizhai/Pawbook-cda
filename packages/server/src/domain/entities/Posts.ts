@@ -6,11 +6,11 @@
 export interface PostData {
     id: string;
     authorId: string;
-    textContent: string;
-    photoContent: string[];
-    likes: string[];
-    comments: string[];
-    updated: boolean;
+    textContent?: string;
+    photoContent?: string[];
+    likes?: string[];
+    comments?: string[];
+    updated?: boolean;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -18,11 +18,11 @@ export interface PostData {
 export class Post {
     public readonly id: string;
     public readonly authorId: string;
-    public readonly textContent: string;
-    public readonly photoContent: string[];
-    public readonly likes: string[];
-    public readonly comments: string[];
-    public readonly updated: boolean;
+    public readonly textContent?: string;
+    public readonly photoContent?: string[];
+    public readonly likes?: string[];
+    public readonly comments?: string[];
+    public readonly updated?: boolean;
     public readonly createdAt: Date;
     public readonly updatedAt: Date;
 
@@ -30,9 +30,9 @@ export class Post {
         this.id = data.id;
         this.authorId = data.authorId;
         this.textContent = data.textContent;
-        this.photoContent = [...data.photoContent];
-        this.likes = [...data.likes];
-        this.comments = [...data.comments];
+        this.photoContent = data.photoContent ? [...data.photoContent] : [];
+        this.likes = data.likes ? [...data.likes] : [];
+        this.comments = data.comments ? [...data.comments] : [];
         this.updated = data.updated;
         this.createdAt = data.createdAt;
         this.updatedAt = data.updatedAt;
