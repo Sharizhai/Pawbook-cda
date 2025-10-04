@@ -1,4 +1,4 @@
-import { asClass, asFunction, createContainer } from "awilix";
+import {asClass, asFunction, asValue, createContainer} from "awilix";
 
 import {ICommentRepository} from "$domain/interfaces/commentRepository.interface";
 import {IPasswordServices} from "$domain/interfaces/passwordServices.interface";
@@ -26,15 +26,20 @@ import {Argon2Services} from "$infrastructure/auth/argon2Services";
 import {AuthServices} from "$application/services/authServices";
 
 import {env} from "$config/env";
+import {GetAllPostsUseCase} from "$application/use-cases/post/GetAllPostsUseCase";
 
 export interface Dependencies {
-    userRepository: IUserRepository;
     jwtAuthService: IJwtServices;
     argon2Services: IPasswordServices;
+
     authServices: IAuthServices;
+
+    userRepository: IUserRepository;
     postRepository: IPostRepository;
     commentRepository: ICommentRepository;
     likeRepository: ILikeRepository;
+
+    getAllPostsUseCase: GetAllPostsUseCase;
 }
 
 const container = createContainer<Dependencies>({
@@ -90,6 +95,11 @@ container.register({
             deps.argon2Services,
             deps.jwtAuthService
         )
+    ).singleton(),
+
+    // === PRESENTATION LAYER ===
+    getAllPostsUseCase: asFunction((deps: Dependencies) =>
+        new GetAllPostsUseCase(deps.postRepository)
     ).singleton(),
 });
 
