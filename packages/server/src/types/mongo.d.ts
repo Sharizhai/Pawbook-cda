@@ -1,3 +1,6 @@
+import {Types} from "mongoose";
+import ObjectId = module
+
 export interface IMongoUserDocument {
     _id: ObjectId;
     name: string;
@@ -23,6 +26,24 @@ export interface IMongoPostDocument {
     photoContent?: string[];
     likes: ObjectId[];
     comments: ObjectId[];
+    updated: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface IMongoLikeDocument {
+    _id: ObjectId;
+    authorId: ObjectId;
+    postId: ObjectId;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface IMongoCommentDocument {
+    _id: ObjectId;
+    authorId: ObjectId;
+    postId: ObjectId;
+    textContent: string;
     updated: boolean;
     createdAt: Date;
     updatedAt: Date;
