@@ -85,7 +85,7 @@ export class InMemoryPostRepository implements IPostRepository {
         }
 
         return Promise.all(posts.map(async (post) => {
-            const postData = { ...post };
+            const postData: any = { ...post };
 
             if (typeof post.authorId === 'string') {
                 const author = await this.userRepository!.findById(post.authorId);
