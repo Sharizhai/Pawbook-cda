@@ -8,8 +8,8 @@
         postCreationDate 
     } : { 
         profilePicture?: string, 
-        firstName: string, 
-        lastName: string,
+        firstName: string | undefined,
+        lastName: string | undefined,
         postCreationDate: Date
     } = $props();
 
