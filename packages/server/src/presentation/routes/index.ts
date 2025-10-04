@@ -5,6 +5,8 @@ import {makeAuthMiddleware} from "$presentation/middlewares/authMiddleware";
 import authRoutesFactory from "$presentation/routes/authRoutes";
 import container from "$config/dependencyInjection";
 import {IUserRepository} from "$domain/interfaces/userRepository.interface";
+import postRoutesFactory from "$presentation/routes/postRoutes";
+import {PostController} from "$presentation/controllers/postController";
 
 /**
  * Interface pour les statistiques de santé de l"API
@@ -37,6 +39,7 @@ interface ApiInfo {
  */
 export const setupRoutes = (app: express.Application): void => {
     const userRepository = container.resolve<IUserRepository>("userRepository");
+    const postRepository = container.resolve("postRepository");
     const authServices = container.resolve<AuthServices>("authServices");
 
     // Configuration du middleware d"authentification
@@ -44,9 +47,11 @@ export const setupRoutes = (app: express.Application): void => {
 
     // Contrôleurs
     const authController = new AuthController(authServices);
+    const postController = container.resolve<PostController>("postController");
 
     // Routes principales
     app.use("/api/auth", authRoutesFactory(authController, { isAuthenticated }));
+    app.use("/api/posts", postRoutesFactory(postController, {isAuthenticated}));
 
     // Route de base pour vérifier que l"API fonctionne
     app.get("/api", (req: express.Request, res: express.Response) => {
@@ -119,6 +124,9 @@ export const setupRoutes = (app: express.Application): void => {
                             login: "POST /auth/login",
                             logout: "POST /auth/logout",
                             me: "GET /auth/me",
+                        },
+                        posts: {
+                            getAllPosts: "GET /posts",
                         },
                         utility: {
                             health: "GET /health",
