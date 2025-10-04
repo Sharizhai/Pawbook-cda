@@ -3,7 +3,7 @@ import {describe, it, expect, beforeAll} from "vitest";
 import container from "$config/dependencyInjection";
 import {UnitPost} from "../../seeds/unit-post";
 import {Container} from "$types/container";
-import {GetAllPostsUseCase} from "$application/use-cases/GetAllPostsUseCase";
+import {GetAllPostsUseCase} from "$application/use-cases/post/GetAllPostsUseCase";
 import {UnitUser} from "../../seeds/unit-user";
 import {IUserRepository} from "$domain/interfaces/userRepository.interface";
 import {InMemoryPostRepository} from "$infrastructure/repositories/post/inMemoryPostRepository";
