@@ -1,11 +1,16 @@
 export type PostInformations = {
-    "id": string,
-    authorId: string;
+    id: string;
+    authorId: {
+        id: string;
+        name: string;
+        firstName: string;
+        profilePicture: string;
+    } | string;
     textContent?: string;
     photoContent?: string[];
     likes: string[];
     comments: string[];
-    updated?: Boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    updated?: boolean;
+    createdAt: string;
+    updatedAt: string;
 }
