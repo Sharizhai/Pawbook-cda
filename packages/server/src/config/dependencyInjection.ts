@@ -2,6 +2,7 @@ import { asClass, asFunction, createContainer } from "awilix";
 
 import {ICommentRepository} from "$domain/interfaces/commentRepository.interface";
 import {IPasswordServices} from "$domain/interfaces/passwordServices.interface";
+import {ILikeRepository} from "$domain/interfaces/likeRepository.interface";
 import {IUserRepository} from "$domain/interfaces/userRepository.interface";
 import {IPostRepository} from "$domain/interfaces/postRepository.interface";
 import {IAuthServices} from "$domain/interfaces/authServices.interface";
@@ -15,6 +16,9 @@ import {MongoPostRepository} from "$infrastructure/repositories/post/MongoPostRe
 
 import {InMemoryCommentRepository} from "$infrastructure/repositories/comment/InMemoryCommentRepository";
 import {MongoCommentRepository} from "$infrastructure/repositories/comment/MongoCommentRepository";
+
+import {InMemoryLikeRepository} from "$infrastructure/repositories/like/inMemoryLikeRepository";
+import {MongoLikeRepository} from "$infrastructure/repositories/like/MongoLikeRepository";
 
 import {JwtAuthService} from "$infrastructure/auth/jwtAuthServices";
 import {Argon2Services} from "$infrastructure/auth/argon2Services";
@@ -30,6 +34,7 @@ export interface Dependencies {
     authServices: IAuthServices;
     postRepository: IPostRepository;
     commentRepository: ICommentRepository;
+    likeRepository: ILikeRepository;
 }
 
 const container = createContainer<Dependencies>({
@@ -47,6 +52,10 @@ const postRepositoryClass = env.NODE_ENV === "test"
 const commentRepositoryClass = env.NODE_ENV === "test"
     ? InMemoryCommentRepository
     : MongoCommentRepository;
+
+const likeRepositoryClass = env.NODE_ENV === "test"
+    ? InMemoryLikeRepository
+    : MongoLikeRepository;
 
 console.log(userRepositoryClass);
 
@@ -68,6 +77,7 @@ container.register({
     userRepository: asClass(userRepositoryClass).singleton(),
     postRepository: asClass(postRepositoryClass).singleton(),
     commentRepository: asClass(commentRepositoryClass).singleton(),
+    likeRepository: asClass(likeRepositoryClass).singleton(),
     argon2Services: asClass(Argon2Services).singleton(),
     jwtAuthService: asFunction(() =>
         new JwtAuthService(env.JWT_SECRET, env.JWT_EXPIRATION_SECRET)
