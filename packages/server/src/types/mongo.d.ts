@@ -34,7 +34,8 @@ export interface IMongoPostDocument {
 export interface IMongoLikeDocument {
     _id: ObjectId;
     authorId: ObjectId;
-    postId: ObjectId;
+    postId?: ObjectId;
+    animalId?: ObjectId;
     createdAt: Date;
     updatedAt: Date;
 }
