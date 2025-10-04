@@ -3,6 +3,7 @@
     import SettingsButton from "$components/generic/SettingsButton.svelte";
     import LikeButton from "$components/post/LikeButton.svelte";
     import TopContainerInfos from "./TopContainerInfos.svelte";
+    import type {PostInformations} from "$types/postTypes";
     import * as messages from "$lib/paraglide/messages";
     import PostContent from "./PostContent.svelte";
 
@@ -10,7 +11,9 @@
 
     const commentLabel = messages.post_comment();
 
-    let isCommentInputVisible = false;
+    let { post } : { post : PostInformations } = $props();
+
+    let isCommentInputVisible = $state(false);
 
     const postPhotos = [
         "/paws.png",
@@ -40,11 +43,11 @@
     <div class="postcard-main-container">
         <SettingsButton onClick={onSettingsButtonClick} customClass="postcard-settings-button" />
 
-        <TopContainerInfos profilePicture="/paws.png" firstName="User" lastName="Name" postCreationDate={new Date("2024-10-14T17:33:11.964+00:00")}/>
-        <PostContent textContent="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." imageContent={postPhotos}/>
+        <TopContainerInfos profilePicture="/paws.png" firstName="User" lastName="Name" postCreationDate={new Date(post.createdAt)}/>
+        <PostContent textContent={post.textContent} imageContent={postPhotos}/>
 
         <div class="postcard-buttons-container">
-            <LikeButton onClick={onLikeButtonClick} likeCount={150}/>
+            <LikeButton onClick={onLikeButtonClick} likeCount={post.likes}/>
 
             <button class="postcard-button postcard-comment-button" onclick={onCommentButtonClick}>
                 <span class="postcard-button-icon">{@html commentIcon}</span>
