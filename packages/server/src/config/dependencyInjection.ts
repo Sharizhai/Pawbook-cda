@@ -20,13 +20,16 @@ import {MongoCommentRepository} from "$infrastructure/repositories/comment/Mongo
 import {InMemoryLikeRepository} from "$infrastructure/repositories/like/inMemoryLikeRepository";
 import {MongoLikeRepository} from "$infrastructure/repositories/like/MongoLikeRepository";
 
+import {PostController} from "$presentation/controllers/postController";
+
+import {GetAllPostsUseCase} from "$application/use-cases/post/GetAllPostsUseCase";
+
 import {JwtAuthService} from "$infrastructure/auth/jwtAuthServices";
 import {Argon2Services} from "$infrastructure/auth/argon2Services";
 
 import {AuthServices} from "$application/services/authServices";
 
 import {env} from "$config/env";
-import {GetAllPostsUseCase} from "$application/use-cases/post/GetAllPostsUseCase";
 
 export interface Dependencies {
     jwtAuthService: IJwtServices;
@@ -38,6 +41,8 @@ export interface Dependencies {
     postRepository: IPostRepository;
     commentRepository: ICommentRepository;
     likeRepository: ILikeRepository;
+
+    postController: PostController;
 
     getAllPostsUseCase: GetAllPostsUseCase;
 }
@@ -97,9 +102,13 @@ container.register({
         )
     ).singleton(),
 
-    // === PRESENTATION LAYER ===
     getAllPostsUseCase: asFunction((deps: Dependencies) =>
         new GetAllPostsUseCase(deps.postRepository)
+    ).singleton(),
+
+    // === PRESENTATION LAYER ===
+    postController: asFunction((deps: Dependencies) => // ✅ Ajoute ça
+        new PostController(deps.getAllPostsUseCase)
     ).singleton(),
 });
 
