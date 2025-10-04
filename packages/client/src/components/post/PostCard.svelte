@@ -13,14 +13,9 @@
 
     let { post } : { post : PostInformations } = $props();
 
-    let isCommentInputVisible = $state(false);
+    const author = $derived(typeof post.authorId === 'object' ? post.authorId : null);
 
-    const postPhotos = [
-        "/paws.png",
-        "/paws.png",
-        "/paws.png",
-        "/paws.png",
-    ];
+    let isCommentInputVisible = $state(false);
 
     function onSettingsButtonClick() {
         console.log("Settings button clicked!");
@@ -43,11 +38,11 @@
     <div class="postcard-main-container">
         <SettingsButton onClick={onSettingsButtonClick} customClass="postcard-settings-button" />
 
-        <TopContainerInfos profilePicture="/paws.png" firstName="User" lastName="Name" postCreationDate={new Date(post.createdAt)}/>
-        <PostContent textContent={post.textContent} imageContent={postPhotos}/>
+        <TopContainerInfos profilePicture={author?.profilePicture || "/paws.png"} firstName={author?.firstName} lastName={author?.name} postCreationDate={new Date(post.createdAt)}/>
+        <PostContent textContent={post.textContent} imageContent={post.photoContent}/>
 
         <div class="postcard-buttons-container">
-            <LikeButton onClick={onLikeButtonClick} likeCount={post.likes}/>
+            <LikeButton onClick={onLikeButtonClick} likeCount={post.likes.length}/>
 
             <button class="postcard-button postcard-comment-button" onclick={onCommentButtonClick}>
                 <span class="postcard-button-icon">{@html commentIcon}</span>
