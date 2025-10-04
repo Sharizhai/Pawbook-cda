@@ -5,9 +5,9 @@ export type PostDocument = Document & IMongoPostDocument;
 
 const postSchema = new Schema<PostDocument>(
     {
-        authorId: [{ type: Schema.Types.ObjectId, ref: "User" }],
+        authorId: { type: Schema.Types.ObjectId, ref: "User" },
         textContent: { type: String },
-        photoContent: { type: String },
+        photoContent: [{ type: String }],
         likes: [{ type: Schema.Types.ObjectId, ref: "Like" }],
         comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
         updated: { type: Boolean, default: false },
