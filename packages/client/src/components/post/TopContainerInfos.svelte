@@ -40,6 +40,7 @@
             border-radius: 50%;
             margin-right: 0.5rem;
             border: 1px solid rgba(30, 138, 182, 0.4);
+            object-fit: cover;
         }
 
         &-name {
