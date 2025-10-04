@@ -3,9 +3,24 @@
 </svelte:head>
 
 <script lang="ts">
+    import {fetchAllPosts} from "$services/postsServices.svelte";
     import NavHeader from "$components/navbar/NavHeader.svelte";
     import PostCard from "$components/post/PostCard.svelte";
+    import type {PostInformations} from "$types/postTypes";
     import Navbar from "$components/navbar/Navbar.svelte";
+    import {onMount} from "svelte";
+
+    let posts: PostInformations[] = $state([] as PostInformations[]);
+    let isLoading = $state(true);
+    let error = $state<string | null>(null);
+
+    onMount(async () => {
+        onLoad();
+    });
+
+    async function onLoad() {
+        posts = await fetchAllPosts();
+    }
 </script>
 
     <main id="feed-page-container">
@@ -13,9 +28,9 @@
         <NavHeader />
 
         <div class="feed-page-postcard-container">
-            <PostCard />
-            <PostCard />
-            <PostCard />
+            {#each posts as post (post.id)}
+                <PostCard {post} />
+            {/each}
         </div>
 
         <Navbar />
