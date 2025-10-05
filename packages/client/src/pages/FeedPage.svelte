@@ -6,20 +6,56 @@
     import {fetchAllPosts} from "$services/postsServices.svelte";
     import NavHeader from "$components/navbar/NavHeader.svelte";
     import PostCard from "$components/post/PostCard.svelte";
-    import type {PostInformations} from "$types/postTypes";
     import Navbar from "$components/navbar/Navbar.svelte";
     import {onMount} from "svelte";
+    import {post} from "$stores/stores.svelte";
+    import {setupInfiniteScroll} from "$utils/infiniteScrollUtils";
 
-    let posts: PostInformations[] = $state([] as PostInformations[]);
     let isLoading = $state(true);
     let error = $state<string | null>(null);
 
-    onMount(async () => {
-        onLoad();
+    onMount(() => {
+        loadInitialPosts();
+
+        const cleanup = setupInfiniteScroll({threshold: 300, loadMorePosts: loadMorePosts });
+
+        return cleanup;
     });
 
-    async function onLoad() {
-        posts = await fetchAllPosts();
+    async function loadInitialPosts() {
+        isLoading = true;
+        error = null;
+
+        try {
+            const result = await fetchAllPosts(1, 10);
+            post.setPosts(result.posts);
+            post.setHasMore(result.hasMore);
+            post.setCurrentPage(1);
+        } catch (e) {
+            error = "Erreur lors du chargement des posts";
+        } finally {
+            isLoading = false;
+        }
+    }
+
+    async function loadMorePosts() {
+        if (isLoading || !post.hasMore) return;
+
+        isLoading = true;
+
+        try {
+            const nextPage = post.currentPage + 1;
+            const result = await fetchAllPosts(nextPage, 10);
+
+            post.addPosts(result.posts);
+            post.setHasMore(result.hasMore);
+            post.setCurrentPage(nextPage);
+        } catch (e) {
+            console.error('Erreur:', e);
+            error = "Erreur lors du chargement";
+        } finally {
+            isLoading = false;
+        }
     }
 </script>
 
@@ -28,8 +64,8 @@
         <NavHeader />
 
         <div class="feed-page-postcard-container">
-            {#each posts as post (post.id)}
-                <PostCard {post} />
+            {#each post.posts as postItem (postItem.id)}
+                <PostCard post={postItem} />
             {/each}
         </div>
 
