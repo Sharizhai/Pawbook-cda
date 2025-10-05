@@ -14,12 +14,12 @@ export class PostController {
      */
     async getAllPosts(req: any, res: any) {
         try {
-            const skip = parseInt(req.query.skip as string) || 0;
-            const limit = Math.min(parseInt(req.query.limit as string) || 10, 50); // Max 50
+            const page = Math.max(parseInt(req.query.page as string) || 1, 1);
+            const limit = Math.min(parseInt(req.query.limit as string) || 10, 50);
 
-            const posts = await this.getAllPostsUseCase.execute(skip, limit);
+            const result = await this.getAllPostsUseCase.execute(page, limit);
 
-            return APIResponse(res, posts, "Posts récupérés avec succès");
+            return APIResponse(res, result, "Posts récupérés avec succès");
 
         } catch (error) {
             const message = error instanceof Error

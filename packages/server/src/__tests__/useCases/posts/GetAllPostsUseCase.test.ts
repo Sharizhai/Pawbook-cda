@@ -49,16 +49,16 @@ describe("Usecase: We must be able to get all posts", () => {
     it("should return an empty array of likes if no like are found", async () => {
         const posts = await getAllPostsUseCase.execute(0, 10);
 
-        expect(posts).toBeDefined();
-        expect(posts).toHaveLength(5);
+        expect(posts.posts).toBeDefined();
+        expect(posts.posts).toHaveLength(5);
     });
 
     it("should return posts with populated user data (id, profilePicture, name & firstName)", async () => {
         const posts = await getAllPostsUseCase.execute(0, 10);
 
-        expect(posts).toHaveLength(5);
+        expect(posts.posts).toHaveLength(5);
 
-        const returnedPost = posts[0];
+        const returnedPost = posts.posts[0];
         expect(returnedPost.authorId).toBeDefined();
         expect(returnedPost.authorId.id).toBe(UnitUser.john.id);
         expect(returnedPost.authorId.name).toBe(UnitUser.john.name);
@@ -69,69 +69,69 @@ describe("Usecase: We must be able to get all posts", () => {
     it("should return posts sorted by newest first", async () => {
         const posts = await getAllPostsUseCase.execute(0, 10);
 
-        expect(posts).toHaveLength(5);
-        expect(posts[0].id).toBe(UnitPost.post5.id);
-        expect(posts[1].id).toBe(UnitPost.post4.id);
-        expect(posts[2].id).toBe(UnitPost.post3.id);
+        expect(posts.posts).toHaveLength(5);
+        expect(posts.posts[0].id).toBe(UnitPost.post5.id);
+        expect(posts.posts[1].id).toBe(UnitPost.post4.id);
+        expect(posts.posts[2].id).toBe(UnitPost.post3.id);
     });
 
     it("should return an array of posts if some are found", async () => {
         const posts = await getAllPostsUseCase.execute(0, 10);
 
-        expect(posts).toHaveLength(5);
-        expect(posts[0].textContent).toBe("Cinquième post");
-        expect(posts[1].textContent).toBe("Quatrième post");
+        expect(posts.posts).toHaveLength(5);
+        expect(posts.posts[0].textContent).toBe("Cinquième post");
+        expect(posts.posts[1].textContent).toBe("Quatrième post");
     });
 
     it("should paginate posts with a specified limit", async () => {
         const page1 = await getAllPostsUseCase.execute(0, 2);
-        expect(page1).toHaveLength(2);
-        expect(page1[0].id).toBe("post-5");
-        expect(page1[1].id).toBe("post-4");
+        expect(page1.posts).toHaveLength(2);
+        expect(page1.posts[0].id).toBe("post-5");
+        expect(page1.posts[1].id).toBe("post-4");
 
         const page2 = await getAllPostsUseCase.execute(2, 2);
-        expect(page2).toHaveLength(2);
-        expect(page2[0].id).toBe("post-3");
-        expect(page2[1].id).toBe("post-2");
+        expect(page2.posts).toHaveLength(2);
+        expect(page2.posts[0].id).toBe("post-3");
+        expect(page2.posts[1].id).toBe("post-2");
     });
 
-    // it("should return hasMore: true when more posts exist", async () => {
-    //     const result = await getAllPostsUseCase.execute( 1, 2);
-    //
-    //     expect(result.data.hasMore).toBe(true);
-    //     expect(result.data.posts).toHaveLength(2);
-    // });
-    //
-    // it("should return hasMore: false when no more posts exist", async () => {
-    //     const result = await getAllPostsUseCase.execute(1, 10);
-    //
-    //     expect(result.data.hasMore).toBe(false);
-    //     expect(result.data.posts).toHaveLength(2);
-    // });
+    it("should return hasMore: true when more posts exist", async () => {
+        const result = await getAllPostsUseCase.execute( 1, 2);
+
+        expect(result.hasMore).toBe(true);
+        expect(result.posts).toHaveLength(2);
+    });
+
+    it("should return hasMore: false when no more posts exist", async () => {
+        const result = await getAllPostsUseCase.execute(1, 10);
+
+        expect(result.hasMore).toBe(false);
+        expect(result.posts).toHaveLength(4);
+    });
 
     it("should include likesCount and commentsCount for each post", async () => {
         const posts = await getAllPostsUseCase.execute(0, 2);
 
-        expect(posts).toHaveLength(2);
-        const returnedPost = posts[0];
-        expect(returnedPost.likes.length).toBe(2);
-        expect(returnedPost.comments.length).toBe(2);
+        expect(posts.posts).toHaveLength(2);
+        const returnedPost = posts.posts[0];
+        expect(returnedPost.likes?.length).toBe(2);
+        expect(returnedPost.comments?.length).toBe(2);
     });
 
     it("should return an empty array of comments if no comment are found", async () => {
         const posts = await getAllPostsUseCase.execute(0, 2);
 
-        expect(posts).toHaveLength(2);
-        const returnedPost = posts[1];
+        expect(posts.posts).toHaveLength(2);
+        const returnedPost = posts.posts[1];
         expect(returnedPost.comments).toEqual([]);
-        expect(returnedPost.comments.length).toBe(0);
+        expect(returnedPost.comments?.length).toBe(0);
     });
 
     it("should return populated comments with textContent and populated author data (id, profilePicture, name & firstName)", async () => {
         const posts = await getAllPostsUseCase.execute(0, 10);
 
-        expect(posts).toHaveLength(5);
-        const returnedPost = posts[0];
+        expect(posts.posts).toHaveLength(5);
+        const returnedPost = posts.posts[0];
 
         expect(returnedPost.comments).toHaveLength(2);
 

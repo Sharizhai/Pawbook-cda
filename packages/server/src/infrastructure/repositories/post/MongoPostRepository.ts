@@ -3,10 +3,11 @@ import {IPostRepository} from "$domain/interfaces/postRepository.interface";
 import {Post, PostData} from "$domain/entities/Posts";
 
 export class MongoPostRepository implements IPostRepository {
-    async findAll(skip: number, limit: number): Promise<Post[]> {
+    async findAll(page: number, limit: number): Promise<Post[]> {
+        const skip = (page - 1) * limit;
         const docs = await MongoPostModel.find()
                                                 .sort({ createdAt: -1 })
-                                                .skip(skip).limit(limit)
+                                                .skip(skip).limit(limit + 1)
                                                 .populate({path: "authorId",
                                                            select: "name firstName profilePicture"})
                                                 .populate({path: "likes", populate: {
