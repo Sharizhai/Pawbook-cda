@@ -3,6 +3,7 @@
  * Représente un membre de Pawbook dans le système
  */
 import {IMongoUserDocument} from "$types/mongo";
+import {Types} from "mongoose";
 
 export interface UserData {
     id: string;
@@ -170,6 +171,20 @@ export class User {
     getPublicData(): Omit<UserData, "password" | "refreshToken" | "email"> {
         const { password, refreshToken, email, ...publicData } = this;
         return publicData;
+    }
+
+    static create(data: Omit<UserData, 'id' | 'posts' | 'animals' | 'follows' | 'followers' | 'createdAt' | 'updatedAt' | 'refreshToken'>): User {
+        return new User({
+            ...data,
+            id: new Types.ObjectId().toString(),
+            posts: [],
+            animals: [],
+            follows: [],
+            followers: [],
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            refreshToken: "",
+        });
     }
 
     /**
