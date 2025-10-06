@@ -28,12 +28,6 @@ export const userCreationValidation = z.object({
     role: z.enum(["USER", "ADMIN"]).default("USER"),
     profilePicture: z.string().optional(),
     profileDescription: z.string().max(150, { message: "La description ne doit pas dépasser 150 caractères" }).optional(),
-    posts: z.array(z.instanceof(Types.ObjectId)).optional(),
-    animals: z.array(z.instanceof(Types.ObjectId)).optional(),
-    follows: z.array(z.instanceof(Types.ObjectId)).optional(),
-    followers: z.array(z.instanceof(Types.ObjectId)).optional(),
-    createdAt: z.date().optional(),
-    updatedAt: z.date().optional()
 });
 
 export type LoginDto = z.infer<typeof loginValidation>;
