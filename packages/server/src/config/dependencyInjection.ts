@@ -21,8 +21,10 @@ import {InMemoryLikeRepository} from "$infrastructure/repositories/like/inMemory
 import {MongoLikeRepository} from "$infrastructure/repositories/like/MongoLikeRepository";
 
 import {PostController} from "$presentation/controllers/postController";
+import {UserController} from "$presentation/controllers/userController";
 
 import {GetAllPostsUseCase} from "$application/use-cases/post/GetAllPostsUseCase";
+import {CreateUserUseCase} from "$application/use-cases/user/CreateUserUseCase";
 
 import {JwtAuthService} from "$infrastructure/auth/jwtAuthServices";
 import {Argon2Services} from "$infrastructure/auth/argon2Services";
@@ -43,8 +45,10 @@ export interface Dependencies {
     likeRepository: ILikeRepository;
 
     postController: PostController;
+    userController: UserController;
 
     getAllPostsUseCase: GetAllPostsUseCase;
+    createUserUserCase: CreateUserUseCase
 }
 
 const container = createContainer<Dependencies>({
@@ -106,9 +110,16 @@ container.register({
         new GetAllPostsUseCase(deps.postRepository)
     ).singleton(),
 
+    createUserUserCase: asFunction((deps: Dependencies) =>
+        new CreateUserUseCase(deps.userRepository, deps.argon2Services)
+    ).singleton(),
+
     // === PRESENTATION LAYER ===
-    postController: asFunction((deps: Dependencies) => // ✅ Ajoute ça
+    postController: asFunction((deps: Dependencies) =>
         new PostController(deps.getAllPostsUseCase)
+    ).singleton(),
+    userController: asFunction((deps: Dependencies) =>
+        new UserController(deps.createUserUserCase)
     ).singleton(),
 });
 

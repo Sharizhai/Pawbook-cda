@@ -7,6 +7,8 @@ import container from "$config/dependencyInjection";
 import {IUserRepository} from "$domain/interfaces/userRepository.interface";
 import postRoutesFactory from "$presentation/routes/postRoutes";
 import {PostController} from "$presentation/controllers/postController";
+import {UserController} from "$presentation/controllers/userController";
+import userRoutesFactory from "$presentation/routes/userRoutes";
 
 /**
  * Interface pour les statistiques de santé de l"API
@@ -48,10 +50,12 @@ export const setupRoutes = (app: express.Application): void => {
     // Contrôleurs
     const authController = new AuthController(authServices);
     const postController = container.resolve<PostController>("postController");
+    const userController = container.resolve<UserController>("userController");
 
     // Routes principales
     app.use("/api/auth", authRoutesFactory(authController, { isAuthenticated }));
     app.use("/api/posts", postRoutesFactory(postController, {isAuthenticated}));
+    app.use("/api/users", userRoutesFactory(userController));
 
     // Route de base pour vérifier que l"API fonctionne
     app.get("/api", (req: express.Request, res: express.Response) => {
@@ -127,6 +131,9 @@ export const setupRoutes = (app: express.Application): void => {
                         },
                         posts: {
                             getAllPosts: "GET /posts",
+                        },
+                        users: {
+                            createUser: "POST /users/register",
                         },
                         utility: {
                             health: "GET /health",
