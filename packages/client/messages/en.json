@@ -35,6 +35,7 @@
     "signup_username_placeholder": "Your username",
     "signup_first_name_placeholder": "Your first name",
     "signup_last_name_placeholder": "Your last name",
+    "signup_bio_placeholder": "Describe yourself in a few words",
     "signup_gcu_privacy_policy": "By creating your account, you acknowledge that you have read and accepted our Terms of Use and Privacy Policy.",
 
     "navbar_home": "Home",

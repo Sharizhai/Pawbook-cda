@@ -13,3 +13,18 @@ export async function fetchUserInformations(): Promise<UserInformations> {
 
     return responseData.data || {} as UserInformations;
 }
+
+export async function createUser(name: string, firstName:string, email: string, password: string, profilePicture: string, profileDescription: string) {
+    const response = await apiFetch("/users/register", {
+        method: "POST",
+        body: JSON.stringify({ name, firstName, email, password, profilePicture, profileDescription }),
+        checkCredentials: false,
+    })
+
+    if(!response.ok) {
+        const error = await response.json();
+        throw error;
+    }
+
+    return response.json();
+}

@@ -7,7 +7,8 @@
         placeholder,
         isDisabled = false,
         required = false,
-        value = $bindable(type === 'checkbox' ? false : "")
+        value = $bindable(type === 'checkbox' ? false : ""),
+        checked = $bindable(false)
     } : {
         label?: string,
         customClass?: string,
@@ -16,7 +17,8 @@
         placeholder?: string,
         isDisabled?: boolean,
         required?: boolean,
-        value?: string | boolean
+        value?: string | boolean,
+        checked?: boolean
     } = $props();
 
     let isPasswordVisible = $state(false);
@@ -35,7 +37,7 @@
 
         {#if type === 'checkbox'}
         <div class="input-container-checkbox-input-wrapper">
-            <input class="input-container-input" type={type} id={name} name={name} disabled={isDisabled} {required} />
+            <input class="input-container-input" type="checkbox" id={name} name={name} disabled={isDisabled} {required} bind:checked onchange={(e) => (value = e.currentTarget.checked)}/>
             <label for={name}>{placeholder}</label>
         </div>
         {:else}
@@ -80,7 +82,7 @@
             width: 100%;
             padding: 0.3rem 0.5rem;
             border-radius: 0.375rem;
-            border: 1px solid var(--color-main-dark);
+            border: 1px solid rgba(30, 138, 182, 0.5);
             background-color: rgba(255, 255, 255, 0.5);
             color: var(--main-text-color);
             font-size: 1rem;
@@ -142,7 +144,7 @@
         -moz-appearance: none;
         appearance: none;
         background-color: rgba(255, 255, 255, 0.5);
-        border: 1px solid var(--color-main-dark);
+        border: 1px solid rgba(30, 138, 182, 0.5);
         border-radius: 0.188rem;
 
         &:checked {

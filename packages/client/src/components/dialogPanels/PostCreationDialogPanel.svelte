@@ -91,7 +91,7 @@
             id="input-file"
             name="input-file"
             multiple
-            accept="image/jpeg,image/jpg,image/png,image/gif,image/webp,image/svg+xml,image/bmp"
+            accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
             onchange={handleFileChange}
             disabled={selectedImages.length >= maxImagesAuthorized}
     />
