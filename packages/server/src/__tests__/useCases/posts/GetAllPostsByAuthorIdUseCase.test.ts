@@ -1,5 +1,6 @@
 import {beforeAll, describe, expect, it} from "vitest";
 
+import {GetAllPostsByAuthorIdUseCase} from "$application/use-cases/post/GetAllPostsByAuthorIdUseCase";
 import {InMemoryPostRepository} from "$infrastructure/repositories/post/inMemoryPostRepository";
 import {ICommentRepository} from "$domain/interfaces/commentRepository.interface";
 import {IUserRepository} from "$domain/interfaces/userRepository.interface";
@@ -33,7 +34,7 @@ describe("Usecase: We must be able to get all posts with an author id", () => {
             postRepository.setCommentRepository(commentRepository);
         }
 
-        getAllPostsByAuthorIdUseCase = new GetAllPostsByAuthorIdUseCase(postRepository);
+        getAllPostsByAuthorIdUseCase = new GetAllPostsByAuthorIdUseCase(postRepository, userRepository);
 
         await commentRepository.create(UnitComment.comment1);
         await commentRepository.create(UnitComment.comment2);

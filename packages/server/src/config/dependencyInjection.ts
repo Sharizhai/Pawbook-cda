@@ -23,7 +23,9 @@ import {MongoLikeRepository} from "$infrastructure/repositories/like/MongoLikeRe
 import {PostController} from "$presentation/controllers/postController";
 import {UserController} from "$presentation/controllers/userController";
 
+import {GetAllPostsByAuthorIdUseCase} from "$application/use-cases/post/GetAllPostsByAuthorIdUseCase";
 import {GetAllPostsUseCase} from "$application/use-cases/post/GetAllPostsUseCase";
+
 import {CreateUserUseCase} from "$application/use-cases/user/CreateUserUseCase";
 
 import {JwtAuthService} from "$infrastructure/auth/jwtAuthServices";
@@ -47,7 +49,9 @@ export interface Dependencies {
     postController: PostController;
     userController: UserController;
 
+    getAllPostsByAuthorIdUseCase: GetAllPostsByAuthorIdUseCase
     getAllPostsUseCase: GetAllPostsUseCase;
+
     createUserUserCase: CreateUserUseCase
 }
 
@@ -106,6 +110,10 @@ container.register({
         )
     ).singleton(),
 
+    getAllPostsByAuthorIdUseCase: asFunction((deps: Dependencies) =>
+        new GetAllPostsByAuthorIdUseCase(deps.postRepository, deps.userRepository)
+    ).singleton(),
+
     getAllPostsUseCase: asFunction((deps: Dependencies) =>
         new GetAllPostsUseCase(deps.postRepository)
     ).singleton(),
@@ -116,8 +124,11 @@ container.register({
 
     // === PRESENTATION LAYER ===
     postController: asFunction((deps: Dependencies) =>
-        new PostController(deps.getAllPostsUseCase)
+        new PostController(
+            deps.getAllPostsUseCase,
+            deps.getAllPostsByAuthorIdUseCase)
     ).singleton(),
+
     userController: asFunction((deps: Dependencies) =>
         new UserController(deps.createUserUserCase)
     ).singleton(),

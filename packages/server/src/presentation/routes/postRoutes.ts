@@ -16,5 +16,12 @@ export default function postRoutesFactory(postController: PostController, middle
      */
     router.get("/", middleware.isAuthenticated, postController.getAllPosts.bind(postController));
 
+    /**
+     * @route GET /api/posts/:id
+     * @desc Récupère tous les posts d'un user à l'aide de son ID'
+     * @access Protected
+     */
+    router.get("/:id", middleware.isAuthenticated, postController.getPostById.bind(postController));
+
     return router;
 }
