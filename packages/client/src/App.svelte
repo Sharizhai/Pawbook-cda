@@ -21,7 +21,7 @@
     "/signup": AccountCreationPage,
     "/forgotten-password": ForgottenPasswordPage,
     "/feed": FeedPage,
-    "/profile": ProfilePage,
+    "/profile/:userId": ProfilePage,
   };
 
   onMount(() => {

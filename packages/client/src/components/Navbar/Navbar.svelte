@@ -51,7 +51,9 @@
     }
 
     function onProfileButtonClick() {
-        push("/profile");
+        const currentUserId = user.information?.id;
+
+        if (currentUserId) push(`/profile/${currentUserId}`);
     }
 
     function onMenuButtonClick() {
@@ -158,7 +160,7 @@
             justify-self: flex-end;
             align-items: center;
             width: auto;
-            margin-left: 1;
+            margin-left: 1rem;
         }
     }
 </style>

@@ -16,3 +16,22 @@ export async function fetchAllPosts(page = 1, limit = 10): Promise<{ posts: Post
         hasMore: responseData.data?.hasMore || false
     };
 }
+
+export async function fetchPostsByAuthorId(page = 1, limit = 10, authorId: string) {
+    const response = await apiFetch(`/posts/${authorId}?page=${page}&limit=${limit}`, {
+        method: "GET",
+        checkCredentials: true,
+    });
+
+    if(!response.ok) {
+        return { posts: [], hasMore: false, authorId: ""};
+    }
+
+    const responseData = await response.json();
+
+    return {
+        posts: responseData.data?.posts || [],
+        hasMore: responseData.data?.hasMore || false,
+        authorId: responseData.data?.authorId || ""
+    };
+}

@@ -3,8 +3,10 @@
 </svelte:head>
 
 <script lang="ts">
+    import AnimalCreationDialogPanel from "$components/dialogPanels/AnimalCreationDialogPanel.svelte";
     import PostCreationDialogPanel from "$components/dialogPanels/PostCreationDialogPanel.svelte";
     import EmptyContentCTA from "$components/profile/EmptyContentCTA.svelte";
+    import {fetchPostsByAuthorId} from "$services/postsServices.svelte";
     import ProfileCard from "$components/profile/ProfileCard.svelte";
     import AnimalCard from "$components/profile/AnimalCard.svelte";
     import ProfileTabs from "$components/profile/ProfileTabs.svelte";
@@ -13,17 +15,32 @@
     import * as messages from "$lib/paraglide/messages";
     import {ProfileTab} from "$types/profileTabsTypes";
     import {profileTabs} from "$config/profileTabsUI";
+    import { user } from "\$stores/stores.svelte";
+    import {onMount} from "svelte";
 
     const emptyPostIncentive = messages.profile_tab_posts_incentive();
     const emptyPostButtonLabel = messages.profile_tab_first_post();
+    const noPostLabel = messages.profile_tab_no_post();
     const emptyAnimalIncentive = messages.profile_tab_animals_incentive();
     const emptyAnimalButtonLabel = messages.profile_tab_first_animal();
 
     let activeTab = $state(ProfileTab.Publications);
+
+    let isOwnProfile = $state(false);
+    let profilePosts = $state<any[]>([]);
     let hasNoPosts = $state(true);
     let hasNoAnimals = $state(true);
 
     let isPostCreationDialogPanelOpen = $state(false);
+    let isAnimalCreationDialogPanelOpen = $state(false);
+
+    const { params = {} }: { params?: { userId?: string } } = $props();
+
+    $effect(() => {
+        if (params.userId && user.information) {
+            loadProfileData();
+        }
+    });
 
     function onHeaderTabButtonClick(tab: ProfileTab) {
         activeTab = tab;
@@ -34,17 +51,41 @@
     }
 
     function onCreateFirstAnimalButtonClick() {
+        isAnimalCreationDialogPanelOpen = true;
+    }
 
+    async function loadProfileData() {
+        const userId = params.userId;
+
+        if (!userId) {
+            return;
+        }
+
+        isOwnProfile = userId === user.information?.id;
+
+        try {
+            const result = await fetchPostsByAuthorId(0, 10, userId);
+
+            profilePosts = result.posts || [];
+            hasNoPosts = profilePosts.length === 0;
+        } catch (error) {
+            console.error("Error loading profile:", error);
+            profilePosts = [];
+            hasNoPosts = true;
+        }
     }
 </script>
     {#snippet profileTabContentSnippet()}
         {#if activeTab === ProfileTab.Publications}
             <div class="content-container">
-                {#if hasNoPosts}
+                {#if hasNoPosts && isOwnProfile}
                     <EmptyContentCTA label={emptyPostButtonLabel} incentive={emptyPostIncentive} onClick={onCreateFirstPostButtonClick}/>
-
+                {:else if hasNoPosts && !isOwnProfile}
+                    <p>{noPostLabel}</p>
                 {:else}
-                    <PostCard />
+                    {#each profilePosts as post (post.id)}
+                        <PostCard {post}/>
+                    {/each}
                 {/if}
             </div>
 
@@ -65,13 +106,14 @@
         <div class="profile-page-background"></div>
 
         <div class="profile-page-container">
-            <ProfileCard firstName={"User"} lastName="Name" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pellentesque est a sapien semper bibendum. Mauris velit neque, tempor non tellus metus."/>
+            <ProfileCard firstName={user.information?.firstName} lastName={user.information?.name} description={user.information?.profileDescription} profilePicture={user.information?.profilePicture}/>
             <ProfileTabs onClick={onHeaderTabButtonClick} tabContent={profileTabContentSnippet} activeTab={activeTab} tabs={profileTabs} />
         </div>
         <Navbar />
     </main>
 
     <PostCreationDialogPanel bind:isVisible={isPostCreationDialogPanelOpen}/>
+    <AnimalCreationDialogPanel bind:isVisible={isAnimalCreationDialogPanelOpen}/>
 
 <style lang="scss">
     #profile-page {
