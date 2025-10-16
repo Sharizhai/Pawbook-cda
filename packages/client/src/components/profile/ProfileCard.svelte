@@ -10,6 +10,7 @@
     import logoutIcon from "$assets/icons/logout.svg?raw";
     import editIcon from "$assets/icons/edit.svg?raw";
     import gcuIcon from "$assets/icons/gcu.svg?raw";
+    import {push} from "svelte-spa-router";
 
     const updateProfileLabel = messages.quick_action_profile_update();
     const gcuLabel = messages.home_gcu();
@@ -74,6 +75,8 @@
 
     function onQuickActionDisconnectButtonClick() {
         authLogout();
+        
+        push("/");
     }
 
     function onQuickActionDeleteAccountButtonClick() {

@@ -35,5 +35,5 @@ export async function authLogout() {
     user.setAccessToken("");
     user.clearInformations();
 
-    push("/");
+    // push("/");
 }
