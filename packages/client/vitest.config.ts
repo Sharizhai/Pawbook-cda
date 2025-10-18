@@ -26,6 +26,7 @@ export default defineConfig(({ mode }) =>({
         'node_modules/**',
         '**/*.d.ts',
           "src/stores/userStore.svelte.ts",
+          'src/stores/**',
       ]
     },
     watch: false,
