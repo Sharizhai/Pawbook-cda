@@ -2,7 +2,7 @@
     import DialogPanelButton from "$components/generic/dialogPanel/DialogPanelButton.svelte";
     import DialogPanelInput from "$components/generic/dialogPanel/DialogPanelInput.svelte";
     import DialogPanel from "$components/generic/dialogPanel/DialogPanel.svelte";
-    import Dropdown from "$components/generic/Dropdown.svelte";
+    // import Dropdown from "$components/generic/Dropdown.svelte";
     import {isStringNotValid} from "$utils/stringUtils";
     import * as messages from "$lib/paraglide/messages";
     import type {Snippet} from "svelte";
@@ -33,7 +33,7 @@
     <div class="animal-creation-dialog-panel-inputs-wrapper">
         <DialogPanelInput type={"text"} name={"type"} label="Type" />
         <DialogPanelInput type={"text"} name={"race"} label="Race" />
-        <Dropdown options={[]} />
+<!--        <Dropdown options={[]} />-->
     </div>
     <DialogPanelInput type={"text"} name={"description"} label="Description" isTextarea />
     <DialogPanelButton onClick={onAddAnimalButtonClick} label={addButtonLabel} isCTA />
