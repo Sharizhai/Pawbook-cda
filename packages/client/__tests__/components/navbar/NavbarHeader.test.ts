@@ -1,7 +1,7 @@
 import { test, expect, vi } from "vitest";
 import { render, fireEvent } from "@testing-library/svelte";
 import "@testing-library/jest-dom";
-import NavbarHeader from "$components/navbar/NavHeader.svelte";
+import NavbarHeader from "../../../src/components/navbar/NavHeader.svelte";
 
 test("Should render the logo", () => {
     const { container } = render(NavbarHeader);

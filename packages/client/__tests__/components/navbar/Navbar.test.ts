@@ -1,7 +1,7 @@
 import { test, expect, vi, beforeEach } from "vitest";
 import { render, fireEvent } from "@testing-library/svelte";
 import "@testing-library/jest-dom";
-import Navbar from "$components/navbar/Navbar.svelte";
+import Navbar from "../../../src/components/navbar/Navbar.svelte";
 import * as messages from "$lib/paraglide/messages";
 
 const panelTitle = messages.post_creation_dialog_panel_title();
