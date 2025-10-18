@@ -1,17 +1,6 @@
 import { defineConfig } from "vitest/config";
 import path from "path";
 
-const isCI = process.env.CI === 'true';
-
-const getAbsolutePath = (relativePath: string) => {
-    if (isCI) {
-        // Chemins absolus pour CircleCI
-        return `/home/circleci/project/packages/server/${relativePath}`;
-    }
-    // Chemins relatifs pour local
-    return path.resolve(__dirname, relativePath);
-};
-
 export default defineConfig({
     test: {
         globals: true,
@@ -32,13 +21,13 @@ export default defineConfig({
     },
     resolve: {
         alias: {
-            '$application': getAbsolutePath('src/application'),
-            '$config': getAbsolutePath('src/config'),
-            '$domain': getAbsolutePath('src/domain'),
-            '$infrastructure': getAbsolutePath('src/infrastructure'),
-            '$presentation': getAbsolutePath('src/presentation'),
-            '$types': getAbsolutePath('src/types'),
-            '$utils': getAbsolutePath('src/utils'),
+            '$application': path.join(__dirname, 'src/application'),
+            '$config': path.join(__dirname, 'src/config'),
+            '$domain': path.join(__dirname, 'src/domain'),
+            '$infrastructure': path.join(__dirname, 'src/infrastructure'),
+            '$presentation': path.join(__dirname, 'src/presentation'),
+            '$types': path.join(__dirname, 'src/types'),
+            '$utils': path.join(__dirname, 'src/utils'),
         },
         extensions: ['.ts', '.js', '.json'],
     },
