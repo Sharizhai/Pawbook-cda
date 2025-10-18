@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Argon2Services } from "$infrastructure/auth/argon2Services";
+import { Argon2Services } from "../../../infrastructure/auth/argon2Services";
 import { UnitUser } from "../../seeds/unit-user";
 
 describe("Argon2Services", () => {
