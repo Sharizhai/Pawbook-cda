@@ -1,12 +1,18 @@
 import { defineConfig } from "vitest/config";
-import tsconfigPaths from 'vitest-tsconfig-paths';
+import path from "path";
+
+const isCI = process.env.CI === 'true';
+
+const getAbsolutePath = (relativePath: string) => {
+    if (isCI) {
+        // Chemins absolus pour CircleCI
+        return `/home/circleci/project/packages/server/${relativePath}`;
+    }
+    // Chemins relatifs pour local
+    return path.resolve(__dirname, relativePath);
+};
 
 export default defineConfig({
-    plugins: [
-        tsconfigPaths({
-            projects: ['./tsconfig.vitest.json']
-        })
-    ],
     test: {
         globals: true,
         environment: 'node',
@@ -25,6 +31,15 @@ export default defineConfig({
         setupFiles: ["./setup-tests.ts"],
     },
     resolve: {
+        alias: {
+            '$application': getAbsolutePath('src/application'),
+            '$config': getAbsolutePath('src/config'),
+            '$domain': getAbsolutePath('src/domain'),
+            '$infrastructure': getAbsolutePath('src/infrastructure'),
+            '$presentation': getAbsolutePath('src/presentation'),
+            '$types': getAbsolutePath('src/types'),
+            '$utils': getAbsolutePath('src/utils'),
+        },
         extensions: ['.ts', '.js', '.json'],
     },
 });
