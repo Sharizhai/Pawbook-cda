@@ -55,7 +55,7 @@ test("Profile button should navigate to profile page when clicked", async () => 
     const profilButton = getByText("Profil");
     
     await fireEvent.click(profilButton);
-    expect(push).toHaveBeenCalledWith("/profile");
+    expect(push).toHaveBeenCalledWith("/profile/test-user");
 });
 
 test("Search button should trigger a console.log", async () => {
