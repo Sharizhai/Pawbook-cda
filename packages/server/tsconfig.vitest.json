@@ -4,5 +4,7 @@
       "types": ["vitest", "node"],
       "moduleResolution": "node"
     },
-    "include": ["src/**/*.ts", "vitest.config.ts"]
+    "include": ["src/**/*.ts",
+      "vitest.config.cjs"
+    ]
   }
