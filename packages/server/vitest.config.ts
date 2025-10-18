@@ -20,4 +20,7 @@ export default defineConfig({
         watch: false,
         setupFiles: ["./setup-tests.ts"],
     },
+    resolve: {
+        extensions: ['.ts', '.js', '.json'],
+    },
 });
