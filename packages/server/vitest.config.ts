@@ -1,16 +1,8 @@
 import { defineConfig } from "vitest/config";
-import path from "path";
-import { fileURLToPath } from 'url';
+import tsconfigPaths from 'vitest-tsconfig-paths';
 
-// Détection de __dirname pour ESM/CJS
-const __filename = typeof __filename !== 'undefined'
-    ? __filename
-    : fileURLToPath(import.meta.url);
-const __dirname = typeof __dirname !== 'undefined'
-    ? __dirname
-    : path.dirname(__filename);
-
-export default defineConfig(({ mode }) =>({
+export default defineConfig({
+    plugins: [tsconfigPaths()],
     test: {
         globals: true,
         environment: 'node',
@@ -28,16 +20,4 @@ export default defineConfig(({ mode }) =>({
         watch: false,
         setupFiles: ["./setup-tests.ts"],
     },
-    resolve: {
-        alias: {
-            $application: path.resolve(__dirname, "./src/application"),
-            $config: path.resolve(__dirname, "./src/config"),
-            $domain: path.resolve(__dirname, "./src/domain"),
-            $infrastructure: path.resolve(__dirname, "./src/infrastructure"),
-            $presentation: path.resolve(__dirname, "./src/presentation"),
-            $types: path.resolve(__dirname, "./src/types"),
-            $utils: path.resolve(__dirname, "./src/utils"),
-        },
-        conditions: mode === 'test' ? ['browser'] : [],
-    }
-}));
+});
