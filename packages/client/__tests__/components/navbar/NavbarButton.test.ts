@@ -1,8 +1,8 @@
 import { test, expect, vi } from "vitest";
 import { render, fireEvent } from "@testing-library/svelte";
 import "@testing-library/jest-dom";
-import NavbarButton from "../../../src/components/navbar/NavbarButton.svelte";
 import addIcon from "$assets/icons/navbar/add.svg?raw";
+import NavbarButton from "$components/navbar/NavbarButton.svelte";
 
 test("Should render with the good label", () => {
   const { getByText } = render(NavbarButton, { props: { label: "Click", onClick: () => {} } });
