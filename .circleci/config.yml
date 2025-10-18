@@ -123,9 +123,22 @@ jobs:
       - install-dependencies
       - save-dependencies
       - run:
+          name: Debug TypeScript config
+          command: |
+            cd packages/server
+            echo "=== Checking tsconfig.json ==="
+            cat tsconfig.json
+            echo ""
+            echo "=== Checking TypeScript version ==="
+            npx tsc --version
+            echo ""
+            echo "=== Checking if tsc-alias is installed ==="
+            npx tsc-alias --version || echo "tsc-alias not found"
+      - run:
           name: Build server
           command: |
             cd packages/server
+            npx tsc -p tsconfig.json --listFiles 2>&1 | head -20
             pnpm run build
       - persist_to_workspace:
           root: ~/project
