@@ -4,6 +4,25 @@ import PostCard from "$components/post/PostCard.svelte";
 
 const originalConsoleLog = console.log;
 
+const mockPost = {
+    _id: "1",
+    authorId: {
+        _id: "42",
+        firstName: "John",
+        name: "Doe",
+        profilePicture: "/john.png"
+    },
+    createdAt: new Date().toISOString(),
+    textContent: "Ceci est un post de test",
+    photoContent: ["/photo1.jpg"],
+    likes: [],
+    comments: []
+};
+
+function renderPostCard() {
+    return render(PostCard, { post: mockPost });
+}
+
 describe("PostCard Component", () => {
   beforeEach(() => {
     console.log = vi.fn();
@@ -15,7 +34,7 @@ describe("PostCard Component", () => {
   });
 
   it("Should render the component with all components", () => {
-    const { container } = render(PostCard);
+    const { container } = renderPostCard();
     
     expect(container.querySelector(".postcard-main-container")).not.toBeNull();
     expect(container.querySelector(".postcard-settings-button")).not.toBeNull();
@@ -25,7 +44,7 @@ describe("PostCard Component", () => {
   });
 
   it("Should display iuser infos", () => {
-    const { container } = render(PostCard);
+    const { container } = renderPostCard();
     
     const userAvatar = container.querySelector(".postcard-user-avatar") as HTMLImageElement;
     expect(userAvatar).not.toBeNull();
@@ -39,7 +58,7 @@ describe("PostCard Component", () => {
   });
 
   it("Should render correctly post content", () => {
-    const { container } = render(PostCard);
+    const { container } = renderPostCard();
     
     const hasTextContent = container.querySelector(".postcard-content-text-content") !== null;
     const hasImageContent = container.querySelector(".post-images-grid") !== null;
@@ -48,7 +67,7 @@ describe("PostCard Component", () => {
   });
 
   it("devrait appeler onSettingsButtonClick lors du clic sur le bouton de paramètres", async () => {
-    const { container } = render(PostCard);
+    const { container } = renderPostCard();
     
     const settingsButton = container.querySelector(".postcard-settings-button") as HTMLElement;
     await fireEvent.click(settingsButton);
@@ -57,7 +76,7 @@ describe("PostCard Component", () => {
   });
 
   it("Should toggle like correctly and call onLikeButtonClick", async () => {
-    const { container } = render(PostCard);
+    const { container } = renderPostCard();
     
     const initialLikeButton = container.querySelector(".like-button-icon") as HTMLElement;
     const initialIsLiked = initialLikeButton.classList.contains("liked");
@@ -70,7 +89,7 @@ describe("PostCard Component", () => {
   });
 
   it("Should toggle CommentInpu visibility", async () => {
-    const { container } = render(PostCard);
+    const { container } = renderPostCard();
     
     const initialCommentInputVisible = container.querySelector(".comment-input-container") !== null;
     
@@ -86,7 +105,7 @@ describe("PostCard Component", () => {
   });
 
   it("Should send the right comment", async () => {
-    const { container } = render(PostCard);
+    const { container } = renderPostCard();
     
     if (!container.querySelector(".comment-input-container")) {
       await fireEvent.click(container.querySelector(".postcard-comment-button") as HTMLElement);
@@ -104,7 +123,7 @@ describe("PostCard Component", () => {
   });
 
   it("Should work if comment text is empty", async () => {
-    const { container } = render(PostCard);
+    const { container } = renderPostCard();
     
     if (!container.querySelector(".comment-input-container")) {
       await fireEvent.click(container.querySelector(".postcard-comment-button") as HTMLElement);
@@ -119,7 +138,7 @@ describe("PostCard Component", () => {
   });
 
   it("Should call onImageClick when image is clicked", async () => {
-    const { container } = render(PostCard);
+    const { container } = renderPostCard();
     
     const images = container.querySelectorAll(".post-image-content");
     
