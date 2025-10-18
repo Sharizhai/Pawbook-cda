@@ -55,6 +55,11 @@ jobs:
       - install-dependencies
       - save-dependencies
       - run:
+          name: Compile localization files
+          command: |
+            cd packages/client
+            pnpm run compile-localization
+      - run:
           name: Run client tests
           command: |
             cd packages/client
