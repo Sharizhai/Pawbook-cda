@@ -98,7 +98,7 @@ container.register({
     likeRepository: asClass(likeRepositoryClass).singleton(),
     argon2Services: asClass(Argon2Services).singleton(),
     jwtAuthService: asFunction(() =>
-        new JwtAuthService(env.JWT_SECRET, env.JWT_EXPIRATION_SECRET)
+        new JwtAuthService(env.JWT_SECRET, env.JWT_EXPIRATION_SECRET as any)
     ).singleton(),
     
     // === APPLICATION LAYER - asFunction pour les interfaces complexes ===
