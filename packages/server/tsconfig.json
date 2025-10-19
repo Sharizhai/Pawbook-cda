@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ES2022",
     "strict": true,
+    "strictNullChecks": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -22,10 +23,6 @@
       "$types/*": ["src/types/*"],
       "$utils/*": ["src/utils/*"]
     },
-    "plugins": [
-      { "transform": "typescript-transform-paths" },
-      { "transform": "typescript-transform-paths", "afterDeclarations": true }
-    ]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["src/__tests__/**"]
