@@ -88,7 +88,7 @@ describe("Usecase: We must be able to get all posts with an author id", () => {
 
         expect(posts.posts).toHaveLength(5);
 
-        const returnedPost = posts.posts[0];
+        const returnedPost: any = posts.posts[0];
         expect(returnedPost.authorId).toBeDefined();
         expect(returnedPost.authorId.id).toBe(UnitUser.john.id);
         expect(returnedPost.authorId.name).toBe(UnitUser.john.name);
@@ -127,7 +127,7 @@ describe("Usecase: We must be able to get all posts with an author id", () => {
 
         expect(returnedPost.comments).toHaveLength(2);
 
-        const firstComment = returnedPost.comments[0];
+        const firstComment: any = returnedPost.comments[0];
         expect(firstComment.textContent).toBe("Super post !");
         expect(firstComment.authorId).toBeDefined();
         expect(firstComment.authorId.id).toBe(UnitUser.john.id);
@@ -136,7 +136,7 @@ describe("Usecase: We must be able to get all posts with an author id", () => {
         expect(firstComment.authorId.profilePicture).toBe(UnitUser.john.profilePicture);
         expect(firstComment.authorId.email).toBeUndefined();
 
-        const secondComment = returnedPost.comments[1];
+        const secondComment: any = returnedPost.comments[1];
         expect(secondComment.textContent).toBe("Je suis d'accord");
         expect(secondComment.authorId).toBeDefined();
         expect(secondComment.authorId.id).toBe(UnitUser.jane.id);
