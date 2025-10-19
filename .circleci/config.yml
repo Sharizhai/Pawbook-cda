@@ -74,19 +74,31 @@ jobs:
       - store_artifacts:
           path: packages/client/coverage
 
-  # Job pour le backend (server) - TEMPORAIREMENT DÉSACTIVÉ
-  # TODO: Réactiver une fois le problème de path aliases résolu
+  # Job pour le backend (server)
   test-server:
     docker:
       - image: cimg/node:20.11
     working_directory: ~/project
     steps:
+      - checkout
+      - install-pnpm
+      - restore-dependencies
+      - install-dependencies
+      - save-dependencies
       - run:
-          name: Skip server tests temporarily
+          name: Run server tests
           command: |
-            echo "Server tests temporarily disabled due to path alias resolution issues"
-            echo "Tests pass locally but fail in CI environment"
-            exit 0
+            cd packages/server
+            pnpm run test:run
+      - run:
+          name: Generate coverage report
+          command: |
+            cd packages/server
+            pnpm run test:coverage
+      - store_test_results:
+          path: packages/server/coverage
+      - store_artifacts:
+          path: packages/server/coverage
 
   # Job pour builder le frontend
   build-client:
