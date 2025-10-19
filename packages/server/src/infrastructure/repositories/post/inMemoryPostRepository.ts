@@ -106,7 +106,7 @@ export class InMemoryPostRepository implements IPostRepository {
                             const like = await this.likeRepository!.findById(likeId);
                             if (like) {
                                 const likeAuthor = await this.userRepository!.findById(
-                                    typeof like.authorId === 'string' ? like.authorId : like.authorId.id
+                                    typeof like.authorId === 'string' ? like.authorId : (like.authorId as any)?.id
                                 );
                                 return {
                                     ...like,
@@ -131,7 +131,7 @@ export class InMemoryPostRepository implements IPostRepository {
                             const comment = await this.commentRepository!.findById(commentId);
                             if (comment) {
                                 const commentAuthor = await this.userRepository!.findById(
-                                    typeof comment.authorId === 'string' ? comment.authorId : comment.authorId.id
+                                    typeof comment.authorId === 'string' ? comment.authorId : (comment.authorId as any)?.id
                                 );
                                 return {
                                     ...comment,
