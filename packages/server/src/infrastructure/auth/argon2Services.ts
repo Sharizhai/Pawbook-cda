@@ -24,6 +24,10 @@ export class Argon2Services implements IPasswordServices {
             return false;
         }
 
+        if (!hashedPassword.startsWith('$argon2')) {
+            return false;
+        }
+
         try {
             return await argon2.verify(hashedPassword, plainPassword);
         } catch (error) {
