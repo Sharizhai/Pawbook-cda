@@ -44,4 +44,4 @@ export const uploadMultiple = multer({
         files: 10
     },
     fileFilter: fileFilter
-}).array('photos', 5);
+}).array('photos', 10);
