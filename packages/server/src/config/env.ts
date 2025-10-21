@@ -29,4 +29,21 @@ export const env: IEnv = {
     MONGO_URI: process.env.MONGO_URI || (() => {
         throw new Error('MONGO_URI must be defined');
     })(),
+
+    // Cloudinary
+    CLOUDINARY_URL: process.env.CLOUDINARY_URL || (() => {
+        throw new Error('CLOUDINARY_URL must be defined');
+    })(),
+    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME || (() => {
+        throw new Error('CLOUDINARY_CLOUD_NAME must be defined');
+    })(),
+    CLOUDINARY_API_KEY: process.env.MONGO_URI || (() => {
+        throw new Error('MONGO_URI must be defined');
+    })(),
+    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET || (() => {
+        throw new Error('CLOUDINARY_API_SECRET must be defined');
+    })(),
+    // LOGO_URL: process.env.LOGO_URL || (() => {
+    //     throw new Error('LOGO_URL must be defined');
+    // })(),
 };

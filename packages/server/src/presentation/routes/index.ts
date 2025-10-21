@@ -9,6 +9,8 @@ import postRoutesFactory from "$presentation/routes/postRoutes";
 import {PostController} from "$presentation/controllers/postController";
 import {UserController} from "$presentation/controllers/userController";
 import userRoutesFactory from "$presentation/routes/userRoutes";
+import {PhotoController} from "$presentation/controllers/photoController";
+import photoRoutesFactory from "$presentation/routes/photoRoutes";
 
 /**
  * Interface pour les statistiques de santé de l"API
@@ -29,9 +31,11 @@ interface ApiInfo {
     message: string;
     version: string;
     endpoints: {
+        health: string;
         auth: string;
         users: string;
-        health: string;
+        posts: string;
+        photos: string;
     };
     documentation?: string;
 }
@@ -41,7 +45,6 @@ interface ApiInfo {
  */
 export const setupRoutes = (app: express.Application): void => {
     const userRepository = container.resolve<IUserRepository>("userRepository");
-    const postRepository = container.resolve("postRepository");
     const authServices = container.resolve<AuthServices>("authServices");
 
     // Configuration du middleware d"authentification
@@ -51,11 +54,13 @@ export const setupRoutes = (app: express.Application): void => {
     const authController = new AuthController(authServices);
     const postController = container.resolve<PostController>("postController");
     const userController = container.resolve<UserController>("userController");
+    const photoController = container.resolve<PhotoController>("photoController");
 
     // Routes principales
     app.use("/api/auth", authRoutesFactory(authController, { isAuthenticated }));
     app.use("/api/posts", postRoutesFactory(postController, {isAuthenticated}));
     app.use("/api/users", userRoutesFactory(userController));
+    app.use("/api/photos", photoRoutesFactory(photoController));
 
     // Route de base pour vérifier que l"API fonctionne
     app.get("/api", (req: express.Request, res: express.Response) => {
@@ -63,9 +68,11 @@ export const setupRoutes = (app: express.Application): void => {
             message: "API Pawbook",
             version: "1.0.0",
             endpoints: {
+                health: "/api/health",
                 auth: "/api/auth",
                 users: "/api/users",
-                health: "/api/health",
+                posts: "api/posts",
+                photos: "/api/photos",
             },
             documentation:
                 process.env.NODE_ENV === "development"
@@ -135,6 +142,9 @@ export const setupRoutes = (app: express.Application): void => {
                         },
                         users: {
                             createUser: "POST /users/register",
+                        },
+                        photos: {
+                            uploadProfilePicture: "POST /photos/profile-picture",
                         },
                         utility: {
                             health: "GET /health",

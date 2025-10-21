@@ -94,7 +94,6 @@ export class MongoUserRepository implements IUserRepository {
             mongoQuery.firstName = { $regex: filters.firstName, $options: 'i' };
         }
 
-        // MongoDB fait automatiquement un AND entre les conditions
         const docs = await MongoUserModel.find(mongoQuery);
         return docs.map((doc) => new User(doc.toObject() as UserData));
     }

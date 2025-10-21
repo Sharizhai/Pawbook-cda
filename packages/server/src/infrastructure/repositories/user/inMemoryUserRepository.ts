@@ -20,12 +20,16 @@ export class InMemoryUserRepository implements IUserRepository {
         return Promise.resolve(this.users.some(user => user.email === email && user.id !== excludeId));
     }
 
-    save(userData: UserData): Promise<User> {
-        const user = new User(userData);
+    async save(user: User): Promise<User> {
+        const index = this.users.findIndex(u => u.id === user.id);
 
-        this.users.push(user);
+        if (index !== -1) {
+            this.users[index] = user;
+        } else {
+            this.users.push(user);
+        }
 
-        return Promise.resolve(user);
+        return user;
     }
 
     update(id: string, userData: Partial<UserData>): Promise<User | null> {

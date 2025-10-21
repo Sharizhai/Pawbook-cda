@@ -1,5 +1,6 @@
-import {asClass, asFunction, asValue, createContainer} from "awilix";
+import {asClass, asFunction, asValue, Constructor, createContainer} from "awilix";
 
+import {IPhotoStorageService} from "$domain/interfaces/photoStorageServices.interface";
 import {ICommentRepository} from "$domain/interfaces/commentRepository.interface";
 import {IPasswordServices} from "$domain/interfaces/passwordServices.interface";
 import {ILikeRepository} from "$domain/interfaces/likeRepository.interface";
@@ -20,13 +21,19 @@ import {MongoCommentRepository} from "$infrastructure/repositories/comment/Mongo
 import {InMemoryLikeRepository} from "$infrastructure/repositories/like/inMemoryLikeRepository";
 import {MongoLikeRepository} from "$infrastructure/repositories/like/MongoLikeRepository";
 
+import {InMemoryPhotosStorageServices} from "$infrastructure/storage/inMemoryPhotoStorageServices";
+import {CloudinaryStorageServices} from "$infrastructure/storage/cloudinaryStorageServices";
+
 import {PostController} from "$presentation/controllers/postController";
 import {UserController} from "$presentation/controllers/userController";
+import {PhotoController} from "$presentation/controllers/photoController";
 
 import {GetAllPostsByAuthorIdUseCase} from "$application/use-cases/post/GetAllPostsByAuthorIdUseCase";
 import {GetAllPostsUseCase} from "$application/use-cases/post/GetAllPostsUseCase";
 
 import {CreateUserUseCase} from "$application/use-cases/user/CreateUserUseCase";
+
+import {UploadProfilePictureUseCase} from "$application/use-cases/pictures/uploadProfilePictureUseCase";
 
 import {JwtAuthService} from "$infrastructure/auth/jwtAuthServices";
 import {Argon2Services} from "$infrastructure/auth/argon2Services";
@@ -41,6 +48,8 @@ export interface Dependencies {
 
     authServices: IAuthServices;
 
+    photoStorageServices: IPhotoStorageService;
+
     userRepository: IUserRepository;
     postRepository: IPostRepository;
     commentRepository: ICommentRepository;
@@ -48,11 +57,14 @@ export interface Dependencies {
 
     postController: PostController;
     userController: UserController;
+    photoController: PhotoController;
 
     getAllPostsByAuthorIdUseCase: GetAllPostsByAuthorIdUseCase
     getAllPostsUseCase: GetAllPostsUseCase;
 
     createUserUserCase: CreateUserUseCase
+
+    uploadProfilePictureUseCase: UploadProfilePictureUseCase;
 }
 
 const container = createContainer<Dependencies>({
@@ -74,6 +86,10 @@ const commentRepositoryClass = env.NODE_ENV === "test"
 const likeRepositoryClass = env.NODE_ENV === "test"
     ? InMemoryLikeRepository
     : MongoLikeRepository;
+
+const photoStorageServiceClass = (env.NODE_ENV === "test"
+    ? InMemoryPhotosStorageServices
+    : CloudinaryStorageServices) as Constructor<IPhotoStorageService>;
 
 console.log(userRepositoryClass);
 
@@ -97,10 +113,11 @@ container.register({
     commentRepository: asClass(commentRepositoryClass).singleton(),
     likeRepository: asClass(likeRepositoryClass).singleton(),
     argon2Services: asClass(Argon2Services).singleton(),
+    photoStorageServices: asClass(photoStorageServiceClass).singleton(),
     jwtAuthService: asFunction(() =>
         new JwtAuthService(env.JWT_SECRET, env.JWT_EXPIRATION_SECRET as any)
     ).singleton(),
-    
+
     // === APPLICATION LAYER - asFunction pour les interfaces complexes ===
     authServices: asFunction((deps: Dependencies) =>
         new AuthServices(
@@ -122,6 +139,10 @@ container.register({
         new CreateUserUseCase(deps.userRepository, deps.argon2Services)
     ).singleton(),
 
+    uploadProfilePictureUseCase: asFunction((deps: Dependencies) =>
+        new UploadProfilePictureUseCase(deps.userRepository, deps.photoStorageServices)
+    ).singleton(),
+
     // === PRESENTATION LAYER ===
     postController: asFunction((deps: Dependencies) =>
         new PostController(
@@ -132,6 +153,10 @@ container.register({
     userController: asFunction((deps: Dependencies) =>
         new UserController(deps.createUserUserCase)
     ).singleton(),
+
+    photoController: asFunction((deps: Dependencies) =>
+        new PhotoController(deps.uploadProfilePictureUseCase)
+    )
 });
 
 export default container;

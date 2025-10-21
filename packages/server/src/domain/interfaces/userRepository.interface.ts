@@ -42,10 +42,10 @@ export interface IUserRepository {
 
     /**
      * Sauvegarde un nouveau membre
-     * @param userData - Données du membre à créer
+     * @param user - Données du membre à sauvegarder
      * @returns Membre créé
      */
-    save(userData: UserData): Promise<User>;
+    save(user: User): Promise<User>;
 
     /**
      * Met à jour un membre existant
