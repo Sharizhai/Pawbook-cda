@@ -37,8 +37,8 @@ export const env: IEnv = {
     CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME || (() => {
         throw new Error('CLOUDINARY_CLOUD_NAME must be defined');
     })(),
-    CLOUDINARY_API_KEY: process.env.MONGO_URI || (() => {
-        throw new Error('MONGO_URI must be defined');
+    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY || (() => {
+        throw new Error('CLOUDINARY_API_KEY must be defined');
     })(),
     CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET || (() => {
         throw new Error('CLOUDINARY_API_SECRET must be defined');
