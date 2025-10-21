@@ -144,7 +144,7 @@ export const setupRoutes = (app: express.Application): void => {
                             createUser: "POST /users/register",
                         },
                         photos: {
-                            uploadProfilePicture: "POST /photos/profile-picture",
+                            uploadProfilePicture: "POST /photos/:id/profile-picture",
                         },
                         utility: {
                             health: "GET /health",

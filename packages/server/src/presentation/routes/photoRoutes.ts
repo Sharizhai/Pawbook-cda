@@ -6,11 +6,11 @@ export default function photoRoutesFactory(photoController: PhotoController) {
     const router = express.Router();
 
     /**
-    * @route GET /api/photo/profile-picture
+    * @route GET /api/photo/:id/profile-picture
     * @desc Upload une photo de profil
     * @access Protected
     */
-    router.post("/profile-picture", uploadSingle, photoController.uploadProfilePicture.bind(photoController));
+    router.post("/:id/profile-picture", uploadSingle, photoController.uploadProfilePicture.bind(photoController));
 
     return router;
 }
