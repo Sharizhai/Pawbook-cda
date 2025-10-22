@@ -1,7 +1,7 @@
-import { authLogout } from '$services/authServices.svelte.js';
-import { user } from '$stores/stores.svelte';
 import type { APIFetchRequestInit } from '$types/backendTypes';
+import { authLogout } from '$services/authServices.svelte.js';
 import { isTokenExpired } from '$utils/tokenUtils';
+import { user } from '$stores/stores.svelte';
 
 export const backendURL = `${import.meta.env.VITE_PUBLIC_BACKEND_URL}/api`;
 

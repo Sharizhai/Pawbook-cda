@@ -11,6 +11,9 @@
     import {createUser} from "$services/userServices.svelte";
 
     import cameraIcon from "$assets/icons/images/camera.svg?raw";
+    import {uploadProfilePicture} from "$services/photosServices.svelte";
+    import {backendURL} from "$services/backendServices.svelte";
+    import {authLogin} from "$services/authServices.svelte";
 
     const incentiveLabel = messages.signup_incentive();
     const emailPlaceholder = messages.signup_email_placeholder();
@@ -60,18 +63,49 @@
             return;
         }
 
-        let uploadedImageUrl = "";
-        if (profilePictureFile) {
-            // TODO: Implémenter l'upload vers Cloudinary
-            // uploadedImageUrl = await uploadToCloudinary(profilePictureFile);
-            profilePicture = profilePicturePreview; // Temporaire
+        try {
+            const newUserResponse = await registerNewAccount(
+                name,
+                firstName,
+                email,
+                password,
+                "",
+                profileDescription
+            );
+
+            const createdUser = newUserResponse?.data;
+            if (!createdUser || !createdUser.id) {
+                errorMessage = "Erreur lors de la création du compte";
+                return;
+            }
+
+            const loginSuccess = await authLogin(email, password).catch((error) => {
+                errorMessage = error.message || "Échec de connexion";
+                return false;
+            });
+
+            if (!loginSuccess) return;
+
+            if (profilePictureFile) {
+                try {
+                    await uploadProfilePicture(createdUser.id, profilePictureFile);
+                    console.log("Photo uploadée:");
+                } catch (err) {
+                    console.error("Échec de l'upload de la photo :", err);
+                }
+            }
+
+            push("/feed");
+        } catch (error: any) {
+            if (error.errors && Array.isArray(error.errors)) {
+                error.errors.forEach((err: any) => {
+                    fieldErrors[err.field] = err.message;
+                });
+                errorMessage = error.message || "Erreur de validation";
+            } else {
+                errorMessage = error.message || "Une erreur est survenue";
+            }
         }
-
-        const submitResponse = await registerNewAccount(name, firstName, email, password, profilePicture, profileDescription);
-
-        if(!submitResponse) return;
-
-        push("/login");
     }
 
     async function registerNewAccount(name: string, firstName:string, email: string, password: string, profilePicture: string, profileDescription: string) {

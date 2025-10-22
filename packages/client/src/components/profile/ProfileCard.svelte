@@ -75,7 +75,7 @@
 
     function onQuickActionDisconnectButtonClick() {
         authLogout();
-        
+
         push("/");
     }
 
