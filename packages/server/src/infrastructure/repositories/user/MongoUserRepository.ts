@@ -13,12 +13,12 @@ export class MongoUserRepository implements IUserRepository {
 
     async findById(id: string): Promise<User | null> {
         const doc = await MongoUserModel.findById(id);
-        return doc ? new User(doc.toObject() as UserData) : null;
+        return doc ? User.fromMongoDocument(doc) : null;
     }
 
     async findByEmail(email: string): Promise<User | null> {
-        const doc = await MongoUserModel.findOne({ email: email.toLowerCase() });
-        return doc ? new User(doc.toObject() as UserData) : null;
+        const doc = await MongoUserModel.findOne({ email });
+        return doc ? User.fromMongoDocument(doc) : null;
     }
 
     async emailExists(email: string, excludeId?: string): Promise<boolean> {
@@ -30,20 +30,54 @@ export class MongoUserRepository implements IUserRepository {
         return count > 0;
     }
 
-    async save(memberData: UserData): Promise<User> {
-        const doc = await MongoUserModel.create(memberData);
-        return new User(doc.toObject() as UserData);
+    async save(user: User): Promise<User> {
+        const userData = {
+            _id: user.id,
+            name: user.name,
+            firstName: user.firstName,
+            email: user.email,
+            password: user.password,
+            role: user.role,
+            posts: [...user.posts],
+            animals: [...user.animals],
+            follows: [...user.follows],
+            followers: [...user.followers],
+            profileDescription: user.profileDescription,
+            profilePicture: user.profilePicture,
+            refreshToken: user.refreshToken,
+            createdAt: user.createdAt,
+            updatedAt: new Date(),
+        };
+
+        const doc = await MongoUserModel.findOneAndUpdate(
+            { _id: user.id },
+            { $set: userData },
+            {
+                new: true,
+                upsert: true,
+                runValidators: true
+            }
+        );
+
+        if (!doc) {
+            throw new Error("Échec de la sauvegarde de l'utilisateur");
+        }
+
+        return User.fromMongoDocument(doc);
     }
 
-    async update(
-        id: string,
-        data: Partial<UserData>,
-    ): Promise<User | null> {
-        const doc = await MongoUserModel.findOneAndUpdate({ id }, data, {
-            new: true,
-        });
-        return doc ? new User(doc.toObject() as UserData) : null;
+    async update(id: string, updates: Partial<UserData>): Promise<User | null> {
+        const doc = await MongoUserModel.findByIdAndUpdate(
+            id,
+            { $set: { ...updates, updatedAt: new Date() } },
+            { new: true, runValidators: true }
+        );
+        return doc ? User.fromMongoDocument(doc) : null;
     }
+
+    // async delete(id: string): Promise<void> {
+    //     await MongoUserModel.findByIdAndDelete(id);
+    // }
 
     async delete(id: string): Promise<boolean> {
         const result = await MongoUserModel.deleteOne({ id });
