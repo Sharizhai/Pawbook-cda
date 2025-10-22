@@ -1,5 +1,6 @@
 import {setupRoutes} from "$presentation/routes";
 import {connectDB} from "$config/database";
+import cookieParser from "cookie-parser";
 import { env } from "$config/env";
 import express from "express";
 import cors from "cors";
@@ -14,6 +15,7 @@ app.use(cors({
   methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
 }));
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
