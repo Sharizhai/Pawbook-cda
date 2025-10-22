@@ -2,7 +2,7 @@ import {PhotoController} from "$presentation/controllers/photoController";
 import {uploadSingle} from "$presentation/middlewares/photoMiddleware";
 import express from "express";
 
-export default function photoRoutesFactory(photoController: PhotoController) {
+export default function photoRoutesFactory(photoController: PhotoController, middleware: { isAuthenticated: any }) {
     const router = express.Router();
 
     /**
@@ -10,7 +10,7 @@ export default function photoRoutesFactory(photoController: PhotoController) {
     * @desc Upload une photo de profil
     * @access Protected
     */
-    router.post("/:id/profile-picture", uploadSingle, photoController.uploadProfilePicture.bind(photoController));
+    router.post("/:id/profile-picture", middleware.isAuthenticated, uploadSingle, photoController.uploadProfilePicture.bind(photoController));
 
     return router;
 }

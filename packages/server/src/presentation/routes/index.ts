@@ -60,7 +60,7 @@ export const setupRoutes = (app: express.Application): void => {
     app.use("/api/auth", authRoutesFactory(authController, { isAuthenticated }));
     app.use("/api/posts", postRoutesFactory(postController, {isAuthenticated}));
     app.use("/api/users", userRoutesFactory(userController));
-    app.use("/api/photos", photoRoutesFactory(photoController));
+    app.use("/api/photos", photoRoutesFactory(photoController, {isAuthenticated}));
 
     // Route de base pour vérifier que l"API fonctionne
     app.get("/api", (req: express.Request, res: express.Response) => {

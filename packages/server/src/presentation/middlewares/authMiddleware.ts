@@ -22,13 +22,15 @@ export const makeAuthMiddleware = (authService: IAuthServices, userRepository: I
     const isAuthenticated = async ( req: Request, res: Response, next: NextFunction ): Promise<void> => {
         try {
             const authHeader = req.headers.authorization;
+            const hasBearer = authHeader && authHeader.startsWith("Bearer ");
+            const cookieToken: string | undefined = (req as any).cookies?.accessToken;
 
-            if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            if (!hasBearer && !cookieToken) {
                 APIResponse(res, null, "Unauthorized - Authentication token required", 401);
                 return;
             }
 
-            const token = authHeader.split(" ")[1];
+            const token = hasBearer ? authHeader!.split(" ")[1] : cookieToken!;
             const decoded = authService.verifyToken(token);
 
             const user = await userRepository.findById(decoded!.id);

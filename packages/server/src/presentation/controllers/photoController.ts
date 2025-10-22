@@ -17,16 +17,32 @@ export class PhotoController {
      */
     async uploadProfilePicture(req: Request, res: Response) {
         try {
-            if (!req.file) return APIResponse(res, null, "Aucun fichier fourni", 400);
+            if (!req.file) {
+                return APIResponse(res, null, "Aucun fichier fourni", 400);
+            }
 
-            if (!req.user?.id) return APIResponse(res, null, "Non authentifié", 401);
+            const targetUserId = req.params.id;
+            const currentUserId = req.user?.id;
+
+            if (!targetUserId) {
+                return APIResponse(res, null, "Identifiant utilisateur manquant", 400);
+            }
+
+            if (currentUserId !== targetUserId && req.user?.role !== "ADMIN") {
+                return APIResponse(res, null, "Non autorisé à modifier cette photo", 403);
+            }
 
             const updatedUser = await this.uploadProfilePictureUseCase.execute(
-                req.user.id,
+                targetUserId,
                 req.file
             );
 
-            return APIResponse(res, {profilePicture: updatedUser.profilePicture}, "Photo de profil mise à jour", 200);
+            return APIResponse(
+                res,
+                { profilePicture: updatedUser.profilePicture },
+                "Photo de profil mise à jour",
+                200
+            );
 
         } catch (error) {
             console.error("Erreur upload photo:", error);

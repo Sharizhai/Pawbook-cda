@@ -22,15 +22,15 @@ export class AuthController {
 
             const token = await this.authService.login(validateData);
 
-            res.cookie("jwt", token, {
+            res.cookie("accessToken", token, {
                 httpOnly: true,
                 sameSite: "lax",
                 secure: process.env.NODE_ENV === "production",
                 maxAge: 24 * 60 * 60 * 1000, // 24h en ms
-                domain: "localhost",
             });
 
             APIResponse(res, { token }, "Connexion réussie", 200);
+            // APIResponse(res, { user: result.user.toJSON() }, "Connexion réussie", 200);
         } catch (error) {
             console.error('[AuthController] Login error:', error);
             APIResponse(res, null, 'Identifiants invalides', 401);
@@ -43,10 +43,10 @@ export class AuthController {
      */
     logout = async (req: Request, res: Response): Promise<void> => {
         try {
-            const token = req.cookies?.jwt;
+            const token = req.cookies?.jwt ?? req.cookies?.accessToken;
 
             if (token) {
-                await this.authService.logout(token); // éventuellement : invalider le token
+                await this.authService.logout(token); // éventuellement : invalider le token côté serveur si nécessaire
             }
 
             res.clearCookie('jwt', {

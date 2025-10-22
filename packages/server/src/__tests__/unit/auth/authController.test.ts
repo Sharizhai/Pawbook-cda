@@ -148,14 +148,13 @@ describe("AuthController", () => {
             await authController.login(mockReq as Request, mockRes as Response);
 
             expect(mockRes.statusCode).toBe(200);
-            expect(mockRes.cookieData.name).toBe('jwt');
+            expect(mockRes.cookieData.name).toBe('accessToken');
             expect(mockRes.cookieData.value).toBeDefined();
             expect(mockRes.cookieOptions).toEqual({
                 httpOnly: true,
                 sameSite: 'lax',
                 secure: process.env.NODE_ENV === 'production',
                 maxAge: 24 * 60 * 60 * 1000,
-                domain: 'localhost',
             });
             expect(mockRes.jsonData).toEqual({
                 success: true,
