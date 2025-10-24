@@ -37,9 +37,9 @@ export class MongoPostRepository implements IPostRepository {
         return doc ? new Post(doc.toObject() as PostData) : null;
     }
 
-    async findByAuthorId(authorId: string, skip: number, limit: number): Promise<Post[]> {
+    async findByAuthorId(authorId: string, page: number, limit: number): Promise<Post[]> {
         const docs = await MongoPostModel.find({ authorId }).sort({ createdAt: -1 })
-                                                .skip(skip).limit(limit)
+                                                .skip(page).limit(limit)
                                                 .populate({path: "authorId",
                                                         select: "name firstName profilePicture"})
                                                 .populate({path: "likes", populate: {

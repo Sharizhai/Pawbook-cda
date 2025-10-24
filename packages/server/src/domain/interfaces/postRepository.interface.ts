@@ -7,11 +7,11 @@ import {Post, PostData} from "$domain/entities/Posts";
 export interface IPostRepository {
     /**
      * Récupère tous les posts
-     * @param skip
+     * @param page
      * @param limit
      * @returns Array de posts
      */
-    findAll(skip: number, limit: number): Promise<Post[]>;
+    findAll(page: number, limit: number): Promise<Post[]>;
 
     /**
      * Récupère un post par son ID
@@ -23,11 +23,11 @@ export interface IPostRepository {
     /**
      * Récupère les posts par l'id de leur auteur
      * @param authorId - ID de l'auteur
-     * @param skip
+     * @param page
      * @param limit
      * @returns Array de posts
      */
-    findByAuthorId(authorId: string, skip: number, limit: number): Promise<Post[]>;
+    findByAuthorId(authorId: string, page: number, limit: number): Promise<Post[]>;
 
     /**
      * Sauvegarde un nouveau post

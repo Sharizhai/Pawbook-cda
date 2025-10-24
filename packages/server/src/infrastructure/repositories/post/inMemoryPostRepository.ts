@@ -22,12 +22,12 @@ export class InMemoryPostRepository implements IPostRepository {
         this.commentRepository = repo;
     }
 
-    async findAll(skip: number, limit: number): Promise<Post[]> {
+    async findAll(page: number, limit: number): Promise<Post[]> {
         const sorted = [...this.posts].sort((a, b) =>
             b.createdAt.getTime() - a.createdAt.getTime()
         );
 
-        const paginated = sorted.slice(skip, skip + limit);
+        const paginated = sorted.slice(page, page + limit);
 
         return await this.populatePosts(paginated);
     }
@@ -40,12 +40,12 @@ export class InMemoryPostRepository implements IPostRepository {
         return populated[0];
     }
 
-    async findByAuthorId(authorId: string, skip: number, limit: number): Promise<Post[]> {
+    async findByAuthorId(authorId: string, page: number, limit: number): Promise<Post[]> {
         const filtered = this.posts.filter(post => post.authorId === authorId);
         const sorted = filtered.sort((a, b) =>
             b.createdAt.getTime() - a.createdAt.getTime()
         );
-        const paginated = sorted.slice(skip, skip + limit);
+        const paginated = sorted.slice(page, page + limit);
 
         return await this.populatePosts(paginated);
     }
