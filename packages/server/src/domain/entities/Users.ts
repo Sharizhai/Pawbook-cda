@@ -3,7 +3,7 @@
  * Représente un membre de Pawbook dans le système
  */
 import {IMongoUserDocument} from "$types/mongo";
-import {Types} from "mongoose";
+import {randomUUID} from "crypto";
 
 export interface UserData {
     id: string;
@@ -176,7 +176,7 @@ export class User {
     static create(data: Omit<UserData, 'id' | 'posts' | 'animals' | 'follows' | 'followers' | 'createdAt' | 'updatedAt' | 'refreshToken'>): User {
         return new User({
             ...data,
-            id: new Types.ObjectId().toString(),
+            id: randomUUID(),
             posts: [],
             animals: [],
             follows: [],

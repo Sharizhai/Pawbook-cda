@@ -26,9 +26,12 @@ export const env: IEnv = {
     ORIGIN: process.env.ORIGIN || (() => {
         throw new Error('ORIGIN must be defined');
     })(),
-    MONGO_URI: process.env.MONGO_URI || (() => {
-        throw new Error('MONGO_URI must be defined');
-    })(),
+
+    USE_POSTGRES: process.env.USE_POSTGRES,
+
+    //Databases
+    MONGO_URI: process.env.MONGO_URI,
+    DATABASE_URL: process.env.DATABASE_URL,
 
     // Cloudinary
     CLOUDINARY_URL: process.env.CLOUDINARY_URL || (() => {

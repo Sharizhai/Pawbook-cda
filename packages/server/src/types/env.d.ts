@@ -9,7 +9,13 @@ export interface IEnv {
 
     FRONTEND_URL: string;
     ORIGIN: string;
-    MONGO_URI: string;
+
+    // Database selection
+    USE_POSTGRES?: string;
+
+    //Databases
+    MONGO_URI?: string;
+    DATABASE_URL?: string;
 
     // // Nodemailer
     // EMAIL_USER: string;

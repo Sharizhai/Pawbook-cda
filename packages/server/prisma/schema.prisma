@@ -1,0 +1,160 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER MODEL
+// ============================================
+model User {
+  id        String @id @default(uuid())
+  name      String
+  firstName String
+  email     String @unique
+  password  String
+  role      Role   @default(USER)
+
+  // Optional fields
+  profileDescription String?
+  profilePicture     String?
+  refreshToken       String?
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  posts    Post[]
+  animals  Animal[]
+  likes    Like[]
+  comments Comment[]
+
+  // Self-referential many-to-many for follows
+  following Follow[] @relation("UserFollowing")
+  followers Follow[] @relation("UserFollowers")
+
+  @@map("users")
+}
+
+// ============================================
+// POST MODEL
+// ============================================
+model Post {
+  id String @id @default(uuid())
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  textContent  String?
+  photoContent String[] @default([])
+
+  // Relations
+  likes    Like[]
+  comments Comment[]
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("posts")
+}
+
+// ============================================
+// COMMENT MODEL
+// ============================================
+model Comment {
+  id          String @id @default(uuid())
+  textContent String
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("comments")
+}
+
+// ============================================
+// LIKE MODEL
+// ============================================
+model Like {
+  id String @id @default(uuid())
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  // Un like peut être sur un post ou un animal (pas les deux)
+  postId String?
+  post   Post?   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  animalId String?
+  animal   Animal? @relation(fields: [animalId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  // Contraintes : un user ne peut liker qu'une fois le même post/animal
+  @@unique([authorId, postId])
+  @@unique([authorId, animalId])
+  @@map("likes")
+}
+
+// ============================================
+// ANIMAL MODEL
+// ============================================
+model Animal {
+  id          String  @id @default(uuid())
+  name        String
+  type        String
+  picture     String?
+  race        String?
+  age         Int?
+  description String?
+
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  likes Like[]
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("animals")
+}
+
+// ============================================
+// FOLLOW MODEL (Table de liaison)
+// ============================================
+model Follow {
+  id String @id @default(uuid())
+
+  followerId String
+  follower   User   @relation("UserFollowing", fields: [followerId], references: [id], onDelete: Cascade)
+
+  followingId String
+  following   User   @relation("UserFollowers", fields: [followingId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  // Un user ne peut follow qu'une fois un autre user
+  @@unique([followerId, followingId])
+  @@map("follows")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+enum Role {
+  USER
+  ADMIN
+  MODERATOR
+}

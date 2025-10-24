@@ -10,6 +10,7 @@ import {IAuthServices} from "$domain/interfaces/authServices.interface";
 import {IJwtServices} from "$domain/interfaces/jwtServices.interface";
 
 import {InMemoryUserRepository} from "$infrastructure/repositories/user/inMemoryUserRepository";
+import {PostgresUserRepository} from "$infrastructure/repositories/user/PostgresUserRepository";
 import {MongoUserRepository} from "$infrastructure/repositories/user/MongoUserRepository";
 
 import {InMemoryPostRepository} from "$infrastructure/repositories/post/inMemoryPostRepository";
@@ -41,8 +42,12 @@ import {Argon2Services} from "$infrastructure/auth/argon2Services";
 import {AuthServices} from "$application/services/authServices";
 
 import {env} from "$config/env";
+import {prisma} from "$config/prisma";
+import {PrismaClient} from "@prisma/client";
 
 export interface Dependencies {
+    prisma: PrismaClient;
+
     jwtAuthService: IJwtServices;
     argon2Services: IPasswordServices;
 
@@ -71,9 +76,22 @@ const container = createContainer<Dependencies>({
     injectionMode: 'PROXY'
 });
 
-const userRepositoryClass = env.NODE_ENV === "test"
-    ? InMemoryUserRepository
-    : MongoUserRepository;
+/**
+ * Choix du repository User selon l'environnement
+ *
+ * Variable d'environnement : USE_POSTGRES
+ * - true  → PostgreSQL (via Prisma)
+ * - false → MongoDB (via Mongoose)
+ * - test  → InMemory
+ */
+const USE_POSTGRES = process.env.USE_POSTGRES === 'true';
+
+const userRepositoryClass =
+    env.NODE_ENV === "test"
+        ? InMemoryUserRepository
+        : USE_POSTGRES
+            ? PostgresUserRepository
+            : MongoUserRepository;
 
 const postRepositoryClass = env.NODE_ENV === "test"
     ? InMemoryPostRepository
@@ -91,7 +109,9 @@ const photoStorageServiceClass = (env.NODE_ENV === "test"
     ? InMemoryPhotosStorageServices
     : CloudinaryStorageServices) as Constructor<IPhotoStorageService>;
 
-console.log(userRepositoryClass);
+console.log(`🔧 Environment: ${env.NODE_ENV}`);
+console.log(`🗄️  User Repository: ${userRepositoryClass.name}`) ;
+console.log(`📊 Database: ${USE_POSTGRES ? 'PostgreSQL' : 'MongoDB'}`);
 
 /**
  * Stratégie d'injection des dépendances :
@@ -107,8 +127,9 @@ console.log(userRepositoryClass);
  * - Plus fiable pour les dépendances complexes
  */
 container.register({
+    prisma: asValue(prisma),
     // === INFRASTRUCTURE LAYER - asClass pour l'injection automatique ===
-    userRepository: asClass(userRepositoryClass).singleton(),
+    userRepository: asFunction(() => new userRepositoryClass(prisma)).singleton(),
     postRepository: asClass(postRepositoryClass).singleton(),
     commentRepository: asClass(commentRepositoryClass).singleton(),
     likeRepository: asClass(likeRepositoryClass).singleton(),
