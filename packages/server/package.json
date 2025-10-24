@@ -7,6 +7,7 @@
     "prebuild": "node convert-to-relative.js",
     "build": "tsc -p tsconfig.json",
     "postbuild": "node restore-aliases.js",
+    "postinstall": "prisma generate",
     "start": "node dist/index.js",
     "test": "vitest",
     "test:run": "vitest run",
