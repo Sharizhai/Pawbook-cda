@@ -30,7 +30,6 @@ export class AuthController {
             });
 
             APIResponse(res, { token }, "Connexion réussie", 200);
-            // APIResponse(res, { user: result.user.toJSON() }, "Connexion réussie", 200);
         } catch (error) {
             console.error('[AuthController] Login error:', error);
             APIResponse(res, null, 'Identifiants invalides', 401);
