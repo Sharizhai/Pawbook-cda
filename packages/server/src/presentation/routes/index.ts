@@ -11,6 +11,8 @@ import {UserController} from "$presentation/controllers/userController";
 import userRoutesFactory from "$presentation/routes/userRoutes";
 import {PhotoController} from "$presentation/controllers/photoController";
 import photoRoutesFactory from "$presentation/routes/photoRoutes";
+import {AnimalController} from "$presentation/controllers/animalController";
+import animalRoutesFactory from "$presentation/routes/animalRoutes";
 
 /**
  * Interface pour les statistiques de santé de l"API
@@ -35,6 +37,7 @@ interface ApiInfo {
         auth: string;
         users: string;
         posts: string;
+        animals: string;
         photos: string;
     };
     documentation?: string;
@@ -54,12 +57,14 @@ export const setupRoutes = (app: express.Application): void => {
     const authController = new AuthController(authServices);
     const postController = container.resolve<PostController>("postController");
     const userController = container.resolve<UserController>("userController");
+    const animalController = container.resolve<AnimalController>("animalController");
     const photoController = container.resolve<PhotoController>("photoController");
 
     // Routes principales
     app.use("/api/auth", authRoutesFactory(authController, { isAuthenticated }));
     app.use("/api/posts", postRoutesFactory(postController, {isAuthenticated}));
     app.use("/api/users", userRoutesFactory(userController));
+    app.use("/api/animals", animalRoutesFactory(animalController, {isAuthenticated}));
     app.use("/api/photos", photoRoutesFactory(photoController, {isAuthenticated}));
 
     // Route de base pour vérifier que l"API fonctionne
@@ -71,7 +76,8 @@ export const setupRoutes = (app: express.Application): void => {
                 health: "/api/health",
                 auth: "/api/auth",
                 users: "/api/users",
-                posts: "api/posts",
+                posts: "/api/posts",
+                animals: "/api/animals",
                 photos: "/api/photos",
             },
             documentation:
@@ -142,6 +148,9 @@ export const setupRoutes = (app: express.Application): void => {
                         },
                         users: {
                             createUser: "POST /users/register",
+                        },
+                        animals: {
+                            createAnimalProfile: "POST /animals/register",
                         },
                         photos: {
                             uploadProfilePicture: "POST /photos/:id/profile-picture",

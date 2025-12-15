@@ -2,7 +2,7 @@ import {PostController} from "$presentation/controllers/postController";
 import express from "express";
 
 /**
- * Routes pour la gestion des posts du coworking
+ * Routes pour la gestion des posts de Pawbook
  * @param postController - Contrôleur des posts
  * @param middleware - Middleware
  */
