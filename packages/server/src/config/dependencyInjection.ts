@@ -32,6 +32,7 @@ import {CloudinaryStorageServices} from "$infrastructure/storage/cloudinaryStora
 import {PostController} from "$presentation/controllers/postController";
 import {UserController} from "$presentation/controllers/userController";
 import {PhotoController} from "$presentation/controllers/photoController";
+import {AnimalController} from "$presentation/controllers/animalController";
 
 import {GetAllPostsByAuthorIdUseCase} from "$application/use-cases/post/GetAllPostsByAuthorIdUseCase";
 import {GetAllPostsUseCase} from "$application/use-cases/post/GetAllPostsUseCase";
@@ -70,6 +71,7 @@ export interface Dependencies {
     postController: PostController;
     userController: UserController;
     photoController: PhotoController;
+    animalController: AnimalController
 
     getAllPostsByAuthorIdUseCase: GetAllPostsByAuthorIdUseCase
     getAllPostsUseCase: GetAllPostsUseCase;
@@ -195,7 +197,11 @@ container.register({
 
     photoController: asFunction((deps: Dependencies) =>
         new PhotoController(deps.uploadProfilePictureUseCase)
-    )
+    ),
+
+    animalController: asFunction((deps: Dependencies) =>
+        new AnimalController(deps.createAnimalProfileUseCase)
+    ).singleton(),
 });
 
 export default container;
