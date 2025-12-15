@@ -3,6 +3,7 @@ import {asClass, asFunction, asValue, Constructor, createContainer} from "awilix
 import {IPhotoStorageService} from "$domain/interfaces/photoStorageServices.interface";
 import {ICommentRepository} from "$domain/interfaces/commentRepository.interface";
 import {IPasswordServices} from "$domain/interfaces/passwordServices.interface";
+import {IAnimalRepository} from "$domain/interfaces/animalRepository.interface";
 import {ILikeRepository} from "$domain/interfaces/likeRepository.interface";
 import {IUserRepository} from "$domain/interfaces/userRepository.interface";
 import {IPostRepository} from "$domain/interfaces/postRepository.interface";
@@ -22,6 +23,9 @@ import {MongoCommentRepository} from "$infrastructure/repositories/comment/Mongo
 import {InMemoryLikeRepository} from "$infrastructure/repositories/like/inMemoryLikeRepository";
 import {MongoLikeRepository} from "$infrastructure/repositories/like/MongoLikeRepository";
 
+import {InMemoryAnimalRepository} from "$infrastructure/repositories/animal/inMemoryAnimalRepository";
+import {PostgresAnimalRepository} from "$infrastructure/repositories/animal/PostgresAnimalRepository";
+
 import {InMemoryPhotosStorageServices} from "$infrastructure/storage/inMemoryPhotoStorageServices";
 import {CloudinaryStorageServices} from "$infrastructure/storage/cloudinaryStorageServices";
 
@@ -33,6 +37,8 @@ import {GetAllPostsByAuthorIdUseCase} from "$application/use-cases/post/GetAllPo
 import {GetAllPostsUseCase} from "$application/use-cases/post/GetAllPostsUseCase";
 
 import {CreateUserUseCase} from "$application/use-cases/user/CreateUserUseCase";
+
+import {CreateAnimalProfileUseCase} from "$application/use-cases/animal/CreateAnimalProfileUseCase";
 
 import {UploadProfilePictureUseCase} from "$application/use-cases/pictures/uploadProfilePictureUseCase";
 
@@ -59,6 +65,7 @@ export interface Dependencies {
     postRepository: IPostRepository;
     commentRepository: ICommentRepository;
     likeRepository: ILikeRepository;
+    animalRepository: IAnimalRepository;
 
     postController: PostController;
     userController: UserController;
@@ -67,7 +74,9 @@ export interface Dependencies {
     getAllPostsByAuthorIdUseCase: GetAllPostsByAuthorIdUseCase
     getAllPostsUseCase: GetAllPostsUseCase;
 
-    createUserUserCase: CreateUserUseCase
+    createUserUserCase: CreateUserUseCase;
+
+    createAnimalProfileUseCase: CreateAnimalProfileUseCase
 
     uploadProfilePictureUseCase: UploadProfilePictureUseCase;
 }
@@ -105,6 +114,10 @@ const likeRepositoryClass = env.NODE_ENV === "test"
     ? InMemoryLikeRepository
     : MongoLikeRepository;
 
+const animalRepositoryClass = env.NODE_ENV === "test"
+    ? InMemoryAnimalRepository
+    : PostgresAnimalRepository;
+
 const photoStorageServiceClass = (env.NODE_ENV === "test"
     ? InMemoryPhotosStorageServices
     : CloudinaryStorageServices) as Constructor<IPhotoStorageService>;
@@ -133,6 +146,7 @@ container.register({
     postRepository: asClass(postRepositoryClass).singleton(),
     commentRepository: asClass(commentRepositoryClass).singleton(),
     likeRepository: asClass(likeRepositoryClass).singleton(),
+    animalRepository: asFunction(() => new animalRepositoryClass(prisma)).singleton(),
     argon2Services: asClass(Argon2Services).singleton(),
     photoStorageServices: asClass(photoStorageServiceClass).singleton(),
     jwtAuthService: asFunction(() =>
@@ -158,6 +172,10 @@ container.register({
 
     createUserUserCase: asFunction((deps: Dependencies) =>
         new CreateUserUseCase(deps.userRepository, deps.argon2Services)
+    ).singleton(),
+
+    createAnimalProfileUseCase: asFunction((deps: Dependencies) =>
+        new CreateAnimalProfileUseCase(deps.animalRepository, deps.userRepository)
     ).singleton(),
 
     uploadProfilePictureUseCase: asFunction((deps: Dependencies) =>
