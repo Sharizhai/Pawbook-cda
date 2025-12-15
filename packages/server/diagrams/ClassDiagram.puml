@@ -1,0 +1,436 @@
+@startuml Pawbook - Class Diagram
+
+' ========== ENTITÉS DU DOMAINE ==========
+
+class User {
+  + id: string {readOnly}
+  + name: string {readOnly}
+  + firstName: string {readOnly}
+  + email: string {readOnly}
+  + password: string {readOnly}
+  + role: Role {readOnly}
+  + posts: string[] {readOnly}
+  + animals: string[] {readOnly}
+  + follows: string[] {readOnly}
+  + followers: string[] {readOnly}
+  + profileDescription?: string {readOnly}
+  + profilePicture?: string {readOnly}
+  + refreshToken?: string {readOnly}
+  + createdAt: Date {readOnly}
+  + updatedAt: Date {readOnly}
+  __
+  + constructor(data: UserData)
+  + getFullName(): string
+  + isAdmin(): boolean
+  + isModerator(): boolean
+  + canModerate(): boolean
+  + canModifyUser(targetUserId: string): boolean
+  + canDeletePost(postAuthorId: string): boolean
+  + getAnimalsCount(): number
+  + getPostsCount(): number
+  + getFollowersCount(): number
+  + getFollowingCount(): number
+  + isFollowing(memberId: string): boolean
+  + isFollowedBy(memberId: string): boolean
+  + ownsAnimal(animalId: string): boolean
+  + hasCreatedPost(postId: string): boolean
+  + getUsershipDuration(): number
+  + getPublicData(): object
+  + getProfileData(): object
+  + toJSON(): object
+  + updateWith(updates: Partial<UserData>): User
+  {static} + create(data): User
+  {static} + fromMongoDocument(doc): User
+}
+
+class Animal {
+  + id: string {readOnly}
+  + name: string {readOnly}
+  + type: string {readOnly}
+  + race?: string {readOnly}
+  + age?: number {readOnly}
+  + description?: string {readOnly}
+  + ownerId: string {readOnly}
+  + picture?: string {readOnly}
+  + createdAt: Date {readOnly}
+  + updatedAt: Date {readOnly}
+  __
+  + constructor(data: AnimalData)
+  + getAge(): number
+  + isOwnedBy(userId: string): boolean
+  + updateWith(updates): Animal
+  {static} + create(data): Animal
+  {static} + fromMongoDocument(doc): Animal
+}
+
+class Post {
+  + id: string {readOnly}
+  + authorId: string {readOnly}
+  + textContent: string {readOnly}
+  + photoContent: string[] {readOnly}
+  + likes: string[] {readOnly}
+  + comments: string[] {readOnly}
+  + createdAt: Date {readOnly}
+  + updatedAt: Date {readOnly}
+  __
+  + constructor(data: PostData)
+  + getLikesCount(): number
+  + getCommentsCount(): number
+  + isLikedBy(userId: string): boolean
+  + hasComment(commentId: string): boolean
+  + canBeModifiedBy(user: User): boolean
+  + canBeDeletedBy(user: User): boolean
+  + updateWith(updates): Post
+  {static} + create(data): Post
+  {static} + fromMongoDocument(doc): Post
+}
+
+class Comment {
+  + id: string {readOnly}
+  + textContent: string {readOnly}
+  + authorId: string {readOnly}
+  + postId: string {readOnly}
+  + createdAt: Date {readOnly}
+  + updatedAt: Date {readOnly}
+  __
+  + constructor(data: CommentData)
+  + isAuthoredBy(userId: string): boolean
+  + canBeModifiedBy(user: User): boolean
+  + canBeDeletedBy(user: User): boolean
+  + updateWith(updates): Comment
+  {static} + create(data): Comment
+  {static} + fromMongoDocument(doc): Comment
+}
+
+class Like {
+  + id: string {readOnly}
+  + authorId: string {readOnly}
+  + postId?: string {readOnly}
+  + animalId?: string {readOnly}
+  + createdAt: Date {readOnly}
+  __
+  + constructor(data: LikeData)
+  + isOnPost(): boolean
+  + isOnAnimal(): boolean
+  + isAuthoredBy(userId: string): boolean
+  {static} + create(data): Like
+  {static} + fromMongoDocument(doc): Like
+}
+
+class Follow {
+  + id: string {readOnly}
+  + followerId: string {readOnly}
+  + followingId: string {readOnly}
+  + createdAt: Date {readOnly}
+  __
+  + constructor(data: FollowData)
+  + involves(userId: string): boolean
+  {static} + create(followerId, followingId): Follow
+  {static} + fromMongoDocument(doc): Follow
+}
+
+enum Role {
+  USER
+  ADMIN
+  MODERATOR
+}
+
+' ========== REPOSITORIES (Interfaces) ==========
+
+interface IUserRepository {
+  + findAll(): Promise<User[]>
+  + findById(id: string): Promise<User | null>
+  + findByEmail(email: string): Promise<User | null>
+  + emailExists(email: string, excludeId?: string): Promise<boolean>
+  + save(user: User): Promise<User>
+  + update(id: string, userData: Partial<UserData>): Promise<User | null>
+  + delete(id: string): Promise<boolean>
+  + findByFilters(filters: UserFilters): Promise<User[]>
+  + findFollowers(userId: string): Promise<User[]>
+  + findFollowing(userId: string): Promise<User[]>
+  + searchByName(query: string): Promise<User[]>
+  + count(): Promise<number>
+}
+
+interface IAnimalRepository {
+  + findAll(): Promise<Animal[]>
+  + findById(id: string): Promise<Animal | null>
+  + findByOwnerId(ownerId: string): Promise<Animal[]>
+  + save(animal: Animal): Promise<Animal>
+  + update(id: string, animalData: Partial<AnimalData>): Promise<Animal | null>
+  + delete(id: string): Promise<boolean>
+  + count(): Promise<number>
+}
+
+interface IPostRepository {
+  + findAll(page: number, limit: number): Promise<Post[]>
+  + findById(id: string): Promise<Post | null>
+  + findByAuthorId(authorId: string, page: number, limit: number): Promise<Post[]>
+  + save(post: Post): Promise<Post>
+  + update(id: string, postData: Partial<PostData>): Promise<Post | null>
+  + delete(id: string): Promise<boolean>
+  + count(): Promise<number>
+}
+
+interface ICommentRepository {
+  + findAll(): Promise<Comment[]>
+  + findAllByAuthorId(authorId: string): Promise<Comment[]>
+  + findAllByPostId(postId: string): Promise<Comment[]>
+  + findById(id: string): Promise<Comment | null>
+  + save(comment: Comment): Promise<Comment>
+  + update(id: string, commentData: Partial<CommentData>): Promise<Comment | null>
+  + delete(id: string): Promise<boolean>
+  + count(): Promise<number>
+}
+
+interface ILikeRepository {
+  + findById(id: string): Promise<Like | null>
+  + findByPostId(postId: string): Promise<Like[]>
+  + findByAnimalId(animalId: string): Promise<Like[]>
+  + findByAuthorId(authorId: string): Promise<Like[]>
+  + exists(authorId: string, targetId: string): Promise<boolean>
+  + save(like: Like): Promise<Like>
+  + delete(id: string): Promise<boolean>
+  + deleteByAuthorAndTarget(authorId: string, targetId: string): Promise<boolean>
+}
+
+interface IFollowRepository {
+  + findById(id: string): Promise<Follow | null>
+  + findByFollowerId(followerId: string): Promise<Follow[]>
+  + findByFollowingId(followingId: string): Promise<Follow[]>
+  + exists(followerId: string, followingId: string): Promise<boolean>
+  + save(follow: Follow): Promise<Follow>
+  + delete(id: string): Promise<boolean>
+  + deleteByUsers(followerId: string, followingId: string): Promise<boolean>
+}
+
+' ========== IMPLÉMENTATIONS REPOSITORIES ==========
+
+class InMemoryUserRepository {
+  - users: User[]
+  __
+  + findAll(): Promise<User[]>
+  + findById(id: string): Promise<User | null>
+  + findByEmail(email: string): Promise<User | null>
+  + emailExists(email: string, excludeId?: string): Promise<boolean>
+  + save(user: User): Promise<User>
+  + update(id: string, userData: Partial<UserData>): Promise<User | null>
+  + delete(id: string): Promise<boolean>
+  + findByFilters(filters: UserFilters): Promise<User[]>
+  + findFollowers(userId: string): Promise<User[]>
+  + findFollowing(userId: string): Promise<User[]>
+  + searchByName(query: string): Promise<User[]>
+  + count(): Promise<number>
+}
+
+class PostgresUserRepository {
+  - prisma: PrismaClient
+  __
+  + constructor(prisma: PrismaClient)
+  + findAll(): Promise<User[]>
+  + findById(id: string): Promise<User | null>
+  + findByEmail(email: string): Promise<User | null>
+  + emailExists(email: string, excludeId?: string): Promise<boolean>
+  + save(user: User): Promise<User>
+  + update(id: string, updates: Partial<UserData>): Promise<User | null>
+  + delete(id: string): Promise<boolean>
+  + findByFilters(filters: UserFilters): Promise<User[]>
+  + findFollowers(userId: string): Promise<User[]>
+  + findFollowing(userId: string): Promise<User[]>
+  + searchByName(query: string): Promise<User[]>
+  + count(): Promise<number>
+  - toDomain(prismaUser: any): User
+}
+
+class InMemoryPostRepository {
+  - users: User[]
+  __
+  + findAll(page: number, limit: number): Promise<Post[]>
+  + findById(id: string): Promise<Post | null>
+  + findByAuthorId(authorId: string, page: number, limit: number): Promise<Post[]>
+  + create(post: Post): Promise<Post>
+  + update(id: string, postData: Partial<PostData>): Promise<post | null>
+  + delete(id: string): Promise<boolean>
+  + count(): Promise<number>
+  + populatePosts(posts: Post[]): Promise<Post[]>
+}
+
+class PostgresPostRepository {
+  - prisma: PrismaClient
+  __
+  + constructor(prisma: PrismaClient)
+  + findAll(page: number, limit: number): Promise<Post[]>
+  + findById(id: string): Promise<Post | null>
+  + findByAuthorId(authorId: string, page: number, limit: number): Promise<Post[]>
+  + save(post: Post): Promise<Post>
+  + update(id: string, postData: Partial<PostData>): Promise<Post | null>
+  + delete(id: string): Promise<boolean>
+  + count(): Promise<number>
+  - toDomain(prismaPost: any): Post
+}
+
+class InMemoryAnimalRepository {
+  - animals: Animal[]
+  __
+  + findAll(): Promise<Animal[]>
+  + findById(id: string): Promise<Animal | null>
+  + findByOwnerId(ownerId: string): Promise<Animal[]>
+  + save(animal: Animal): Promise<Animal>
+  + update(id: string, animalData: Partial<AnimalData>): Promise<Animal | null>
+  + delete(id: string): Promise<boolean>
+  + count(): Promise<number>
+}
+
+class PostgresAnimalRepository {
+  - prisma: PrismaClient
+  __
+  + constructor(prisma: PrismaClient)
+  + findAll(): Promise<Animal[]>
+  + findById(id: string): Promise<Animal | null>
+  + findByOwnerId(ownerId: string): Promise<Animal[]>
+  + save(animal: Animal): Promise<Animal>
+  + update(id: string, animalData: Partial<AnimalData>): Promise<Animal | null>
+  + delete(id: string): Promise<boolean>
+  + count(): Promise<number>
+  - toDomain(prismaAnimal: any): Animal
+}
+
+class InMemoryCommentRepository {
+  - comments: Comment[]
+  __
+  + findAll(): Promise<Comment[]>
+  + findAllByAuthorId(authorId: string): Promise<Comment[]>
+  + findAllByPostId(postId: string): Promise<Comment[]>
+  + findById(id: string): Promise<Comment | null>
+  + save(comment: Comment): Promise<Comment>
+  + update(id: string, commentData: Partial<CommentData>): Promise<Comment | null>
+  + delete(id: string): Promise<boolean>
+  + count(): Promise<number>
+}
+
+class PostgresCommentRepository {
+  - prisma: PrismaClient
+  __
+  + constructor(prisma: PrismaClient)
+  + findAll(): Promise<Comment[]>
+  + findAllByAuthorId(authorId: string): Promise<Comment[]>
+  + findAllByPostId(postId: string): Promise<Comment[]>
+  + findById(id: string): Promise<Comment | null>
+  + save(comment: Comment): Promise<Comment>
+  + update(id: string, commentData: Partial<CommentData>): Promise<Comment | null>
+  + delete(id: string): Promise<boolean>
+  + count(): Promise<number>
+  - toDomain(prismaComment: any): Comment
+}
+
+class InMemoryLikeRepository {
+  - likes: Like[]
+  __
+  + findById(id: string): Promise<Like | null>
+  + findByPostId(postId: string): Promise<Like[]>
+  + findByAnimalId(animalId: string): Promise<Like[]>
+  + findByAuthorId(authorId: string): Promise<Like[]>
+  + exists(authorId: string, targetId: string): Promise<boolean>
+  + save(like: Like): Promise<Like>
+  + delete(id: string): Promise<boolean>
+  + deleteByAuthorAndTarget(authorId: string, targetId: string): Promise<boolean>
+}
+
+class PostgresLikeRepository {
+  - prisma: PrismaClient
+  __
+  + constructor(prisma: PrismaClient)
+  + findById(id: string): Promise<Like | null>
+  + findByPostId(postId: string): Promise<Like[]>
+  + findByAnimalId(animalId: string): Promise<Like[]>
+  + findByAuthorId(authorId: string): Promise<Like[]>
+  + exists(authorId: string, targetId: string): Promise<boolean>
+  + save(like: Like): Promise<Like>
+  + delete(id: string): Promise<boolean>
+  + deleteByAuthorAndTarget(authorId: string, targetId: string): Promise<boolean>
+  - toDomain(prismaLike: any): Like
+}
+
+class InMemoryFollowRepository {
+  - follows: Follow[]
+  __
+  + findById(id: string): Promise<Follow | null>
+  + findByFollowerId(followerId: string): Promise<Follow[]>
+  + findByFollowingId(followingId: string): Promise<Follow[]>
+  + exists(followerId: string, followingId: string): Promise<boolean>
+  + save(follow: Follow): Promise<Follow>
+  + delete(id: string): Promise<boolean>
+  + deleteByUsers(followerId: string, followingId: string): Promise<boolean>
+}
+
+class PostgresFollowRepository {
+  - prisma: PrismaClient
+  __
+  + constructor(prisma: PrismaClient)
+  + findById(id: string): Promise<Follow | null>
+  + findByFollowerId(followerId: string): Promise<Follow[]>
+  + findByFollowingId(followingId: string): Promise<Follow[]>
+  + exists(followerId: string, followingId: string): Promise<boolean>
+  + save(follow: Follow): Promise<Follow>
+  + delete(id: string): Promise<boolean>
+  + deleteByUsers(followerId: string, followingId: string): Promise<boolean>
+  - toDomain(prismaFollow: any): Follow
+}
+
+' ========== RELATIONS ==========
+
+' Relations entre entités
+User "1" -- "0..*" Animal : owns >
+User "1" -- "0..*" Post : authors >
+User "1" -- "0..*" Comment : writes >
+User "1" -- "0..*" Like : gives >
+Post "1" -- "0..*" Comment : contains >
+Post "1" -- "0..*" Like : receives >
+Animal "1" -- "0..*" Like : receives >
+User "1" -- "0..*" Follow : follower
+User "1" -- "0..*" Follow : following
+
+' Relation avec enum
+User --> Role : has
+
+' Relations repositories
+IUserRepository ..> User : manages
+IAnimalRepository ..> Animal : manages
+IPostRepository ..> Post : manages
+ICommentRepository ..> Comment : manages
+ILikeRepository ..> Like : manages
+IFollowRepository ..> Follow : manages
+
+' Implémentations
+InMemoryUserRepository ..|> IUserRepository : implements
+PostgresUserRepository ..|> IUserRepository : implements
+
+InMemoryPostRepository ..|> IPostRepository : implements
+PostgresPostRepository ..|> IPostRepository : implements
+
+InMemoryAnimalRepository ..|> IAnimalRepository : implements
+PostgresAnimalRepository ..|> IAnimalRepository : implements
+
+InMemoryCommentRepository ..|> ICommentRepository : implements
+PostgresCommentRepository ..|> ICommentRepository : implements
+
+InMemoryLikeRepository ..|> ILikeRepository : implements
+PostgresLikeRepository ..|> ILikeRepository : implements
+
+InMemoryFollowRepository ..|> IFollowRepository : implements
+PostgresFollowRepository ..|> IFollowRepository : implements
+
+' Notes et contraintes
+note right of Follow
+  Contrainte : unique(followerId, followingId)
+  Un user ne peut follow qu'une fois un autre user
+end note
+
+note right of Like
+  Contrainte : unique(authorId, postId)
+  Contrainte : unique(authorId, animalId)
+  Un user ne peut liker qu'une fois
+  une même ressource
+end note
+
+@enduml
