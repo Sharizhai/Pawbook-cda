@@ -1,5 +1,6 @@
 import { z } from "zod";
 import {Types} from "mongoose";
+import {type} from "node:os";
 
 //En cas de besoin, on a une liste d'adresses e-mail blacklistées
 //TODO:
@@ -30,5 +31,16 @@ export const userCreationValidation = z.object({
     profileDescription: z.string().max(150, { message: "La description ne doit pas dépasser 150 caractères" }).optional(),
 });
 
+export const animalCreationValidation = z.object({
+    ownerId: z.string(),
+    name: z.string().min(2, { message: "Le nom est requis" }),
+    type: z.string().min(2, { message: "Le type est requis" }),
+    race: z.string().min(2).optional(),
+    age: z.number().optional(),
+    picture: z.string().optional(),
+    description: z.string().max(150, { message: "La description ne doit pas dépasser 150 caractères" }).optional(),
+});
+
 export type LoginDto = z.infer<typeof loginValidation>;
 export type UserCreationDto = z.infer<typeof userCreationValidation>;
+export type AnimalCreationDto = z.infer<typeof animalCreationValidation>;
