@@ -1,27 +1,16 @@
 <script lang="ts">
     import SettingsButton from "$components/generic/SettingsButton.svelte";
     import LikeButton from "$components/post/LikeButton.svelte";
+    import type {AnimalInformations} from "$types/animalTypes";
 
     let {
-        animalPicture,
-        animalName,
-        animalAge,
-        animalRace,
-        animalType,
-        animalDescription,
-        animalLikes
+        animal
     } : {
-        animalPicture?: string,
-        animalName: string,
-        animalAge?: number,
-        animalRace?: string,
-        animalType: string
-        animalDescription?: string,
-        animalLikes: number
+        animal: AnimalInformations
     } = $props();
 
     function getAnimalInfo() {
-        const parts = [ animalType, animalRace, animalAge != null ? `${animalAge} ans` : null ];
+        const parts = [ animal.type, animal.race, animal.age != null ? `${animal.age} ans` : null ];
         return parts.filter(Boolean).join(', ');
     }
 
@@ -37,18 +26,18 @@
     <SettingsButton onClick={onSettingsButtonClick} customClass="animal-card-settings-button" />
     <div class="animal-card-container-infos">
         <div class="animal-card-container-infos-avatar-container">
-            <img src={animalPicture ? animalPicture : "/paws.png"} alt="Animal avatar" class="animal-card-container-infos-avatar" />
+            <img src={animal.picture ? animal.picture : "/paws.png"} alt="Animal avatar" class="animal-card-container-infos-avatar" />
         </div>
 
         <div class="animal-card-container-infos-container">
-            <div class="animal-card-container-infos-container-name">{animalName}</div>
+            <div class="animal-card-container-infos-container-name">{animal.name}</div>
             <div class="animal-card-container-infos-container-infos">{getAnimalInfo()}</div>
-            <div class="animal-card-container-infos-container-description">{animalDescription}</div>
+            <div class="animal-card-container-infos-container-description">{animal.description}</div>
         </div>
     </div>
 
     <div class="animal-card-container-like-button-container">
-        <LikeButton onClick={onLikeButtonClick} likeCount={animalLikes}/>
+        <LikeButton onClick={onLikeButtonClick} likeCount={animal.likes.length}/>
     </div>
 </div>
 <style lang="scss">

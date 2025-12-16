@@ -54,6 +54,8 @@
     "profile_tab_animals": "Animals",
     "profile_tab_animals_incentive": "You have not yet created a profile for your pet",
     "profile_tab_first_animal": "Create a profile for my pet",
+    "profile_tab_no_animal": "This user doesn't have a pet profile yet.",
+    "profile_tab_new_animal": "Add a new pet",
 
     "post_creation_dialog_panel_title": "New post",
     "post_creation_dialog_panel_photo_button": "Add a photo",

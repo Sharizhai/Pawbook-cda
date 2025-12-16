@@ -34,7 +34,7 @@
     {/if}
 
     {#if isTextarea}
-        <textarea class="input-container-input input-container-text-area" id={name} placeholder={placeholder} disabled={isDisabled}></textarea>
+        <textarea class="input-container-input input-container-text-area" id={name} placeholder={placeholder} disabled={isDisabled} bind:value></textarea>
     {:else}
         <div class="input-container-input-wrapper">
             <input class="input-container-input" type={inputType} id={name} placeholder={placeholder} disabled={isDisabled} bind:value />

@@ -14,3 +14,22 @@ export async function createAnimal(ownerId: string, name: string, type: string, 
 
     return response.json();
 }
+
+export async function fetchAnimalsByOwnerId(page = 0, limit = 10, ownerId: string) {
+    const response = await apiFetch(`/animals/${ownerId}?page=${page}&limit=${limit}`, {
+        method: "GET",
+        checkCredentials: true,
+    });
+
+    if(!response.ok) {
+        return { animals: [], hasMore: false, ownerId: "" };
+    }
+
+    const responseData = await response.json();
+
+    return {
+        animals: responseData.data?.animals || [],
+        hasMore: responseData.data?.hasMore || false,
+        ownerId: responseData.data?.ownerId || ""
+    };
+}

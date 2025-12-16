@@ -35,7 +35,7 @@ export const animalCreationValidation = z.object({
     ownerId: z.string(),
     name: z.string().min(2, { message: "Le nom est requis" }),
     type: z.string().min(2, { message: "Le type est requis" }),
-    race: z.string().min(2).optional(),
+    race: z.string().optional(),
     age: z.number().optional(),
     picture: z.string().optional(),
     description: z.string().max(150, { message: "La description ne doit pas dépasser 150 caractères" }).optional(),

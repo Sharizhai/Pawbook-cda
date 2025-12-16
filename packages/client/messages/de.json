@@ -54,6 +54,8 @@
     "profile_tab_animals": "Haustiere",
     "profile_tab_animals_incentive": "Sie haben noch kein Profil für Ihr Haustier erstellt",
     "profile_tab_first_animal": "Ein Profil für mein Haustier erstellen",
+    "profile_tab_no_animal": "Dieser Benutzer hat noch kein Haustierprofil.",
+    "profile_tab_new_animal": "Neues Haustier hinzufügen",
 
     "post_creation_dialog_panel_title": "Neue Stelle",
     "post_creation_dialog_panel_photo_button": "Ein Foto hinzufügen",

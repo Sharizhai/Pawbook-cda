@@ -7,29 +7,33 @@
     import PostCreationDialogPanel from "$components/dialogPanels/PostCreationDialogPanel.svelte";
     import EmptyContentCTA from "$components/profile/EmptyContentCTA.svelte";
     import {fetchPostsByAuthorId} from "$services/postsServices.svelte";
+    import {fetchAnimalsByOwnerId} from "$services/animalServices";
     import ProfileCard from "$components/profile/ProfileCard.svelte";
-    import AnimalCard from "$components/profile/AnimalCard.svelte";
     import ProfileTabs from "$components/profile/ProfileTabs.svelte";
+    import AnimalCard from "$components/profile/AnimalCard.svelte";
     import PostCard from "$components/post/PostCard.svelte";
+    import Button from "$components/generic/Button.svelte";
     import Navbar from "$components/navbar/Navbar.svelte";
     import * as messages from "$lib/paraglide/messages";
     import {ProfileTab} from "$types/profileTabsTypes";
     import {profileTabs} from "$config/profileTabsUI";
     import { user } from "\$stores/stores.svelte";
-    import {onMount} from "svelte";
 
     const emptyPostIncentive = messages.profile_tab_posts_incentive();
     const emptyPostButtonLabel = messages.profile_tab_first_post();
     const noPostLabel = messages.profile_tab_no_post();
     const emptyAnimalIncentive = messages.profile_tab_animals_incentive();
     const emptyAnimalButtonLabel = messages.profile_tab_first_animal();
+    const addNewAnimalButtonLabel = messages.profile_tab_new_animal();
 
     let activeTab = $state(ProfileTab.Publications);
 
     let isOwnProfile = $state(false);
     let profilePosts = $state<any[]>([]);
+    let profileAnimals = $state<any[]>([]);
     let hasNoPosts = $state(true);
     let hasNoAnimals = $state(true);
+    let hasAnimals = $derived(profileAnimals.length > 0);
 
     let isPostCreationDialogPanelOpen = $state(false);
     let isAnimalCreationDialogPanelOpen = $state(false);
@@ -41,6 +45,11 @@
             loadProfileData();
         }
     });
+
+    $effect(() => {
+        if (isAnimalCreationDialogPanelOpen === false)
+            loadProfileData()
+    })
 
     function onHeaderTabButtonClick(tab: ProfileTab) {
         activeTab = tab;
@@ -68,10 +77,16 @@
 
             profilePosts = result.posts || [];
             hasNoPosts = profilePosts.length === 0;
+
+            const animalsResult = await fetchAnimalsByOwnerId(0, 10, userId);
+            profileAnimals = animalsResult.animals || [];
+            hasNoAnimals = profileAnimals.length === 0;
         } catch (error) {
             console.error("Error loading profile:", error);
             profilePosts = [];
             hasNoPosts = true;
+            profileAnimals = [];
+            hasNoAnimals = true;
         }
     }
 </script>
@@ -91,12 +106,15 @@
 
         {:else if activeTab === ProfileTab.Animals}
             <div class="content-container">
-                {#if hasNoAnimals}
+                {#if !hasAnimals}
                     <EmptyContentCTA label={emptyAnimalButtonLabel} incentive={emptyAnimalIncentive} onClick={onCreateFirstAnimalButtonClick}/>
 
                 {:else}
-                    <AnimalCard animalAge={5} animalType={"Chat"} animalLikes={150} animalName="Lulu" animalRace="hnfdju" animalDescription="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pellentesque est a sapien semper bibendum. Mauris velit neque, tempor non tellus metus."/>
-                    <AnimalCard animalLikes={12} animalType={"Chien"} animalName="Lili" animalRace="hnfdju"/>
+                    <Button label={addNewAnimalButtonLabel} onClick={onCreateFirstAnimalButtonClick} isCTA/>
+
+                    {#each profileAnimals as animal (animal.id)}
+                        <AnimalCard {animal}/>
+                    {/each}
                 {/if}
             </div>
         {/if}
@@ -161,6 +179,11 @@
     }
 
     .content-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
         margin: 1rem 0 0 0;
+        gap: 1rem;
     }
 </style>

@@ -54,6 +54,8 @@
     "profile_tab_animals": "Animali domestici",
     "profile_tab_animals_incentive": "Non è stato ancora creato un profilo per il proprio animale domestico",
     "profile_tab_first_animal": "Creare un profilo per il mio animale domestico",
+    "profile_tab_no_animal": "Questo utente non ha ancora un profilo per il proprio animale domestico",
+    "profile_tab_new_animal": "Aggiungi un nuovo animale domestico",
 
     "post_creation_dialog_panel_title": "Nuovo post",
     "post_creation_dialog_panel_photo_button": "Aggiungi una foto",

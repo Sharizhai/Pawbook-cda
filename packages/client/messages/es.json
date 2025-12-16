@@ -54,6 +54,8 @@
     "profile_tab_animals": "Mascotas",
     "profile_tab_animals_incentive": "Aún no ha creado un perfil para su mascota",
     "profile_tab_first_animal": "Crear un perfil para mi mascota",
+    "profile_tab_no_animal": "Este usuario aún no tiene un perfil de mascota",
+    "profile_tab_new_animal": "Añadir una nueva mascota",
 
     "post_creation_dialog_panel_title": "Nuevo puesto",
     "post_creation_dialog_panel_photo_button": "Añadir una foto",

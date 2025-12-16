@@ -24,11 +24,11 @@
     let age: number = $state(0);
     let type: string = $state("");
     let race: string = $state("");
-    let profilePicture: string = $state("");
+    let picture: string = $state("");
     let description: string = $state("");
 
-    let profilePictureFile: File | null = $state(null);
-    let profilePicturePreview: string = $state("");
+    let pictureFile: File | null = $state(null);
+    let picturePreview: string = $state("");
 
     let errorMessage: string = $state("\u00A0");
     let fieldErrors: Record<string, string> = $state({});
@@ -40,7 +40,7 @@
         // Add logic
     }
 
-    async function registerNewAnimal(name: string, age: number, type: string, race: string, description: string, profilePicture: string) {
+    async function registerNewAnimal(name: string, age: number, type: string, race: string, picture: string, description: string) {
         try {
             const ownerId = user.information.id;
             const response = await createAnimal(
@@ -49,7 +49,7 @@
                 type,
                 race,
                 age,
-                profilePicture,
+                picture,
                 description
             );
 
@@ -72,11 +72,11 @@
         const file = input.files?.[0];
 
         if (file) {
-            profilePictureFile = file;
+            pictureFile = file;
             const reader = new FileReader();
 
             reader.onload = (e) => {
-                profilePicturePreview = e.target?.result as string;
+                picturePreview = e.target?.result as string;
             };
 
             reader.readAsDataURL(file);
@@ -90,7 +90,7 @@
         fieldErrors = {};
 
         try {
-            const createdAnimal = await registerNewAnimal(name, age, type, race, description, profilePicture);
+            const createdAnimal = await registerNewAnimal(name, age, type, race, picture, description);
 
             if(!createdAnimal || !createdAnimal.id) {
                 errorMessage = "Une erreur est survenue";
@@ -108,11 +108,11 @@
     <form class="animal-creation-dialog-panel-form" action="/login" method="POST" onsubmit={onSubmit}>
         <div class="animal-creation-dialog-panel-picture-wrapper">
             <div class="animal-creation-dialog-panel-picture-container">
-                <img src={profilePicturePreview ? profilePicturePreview : "/paws.png"} alt="User Avatar" class="animal-creation-dialog-panel-picture" />
+                <img src={picturePreview ? picturePreview : "/paws.png"} alt="User Avatar" class="animal-creation-dialog-panel-picture" />
 
-                <input type="file" id="profilePictureInput" class="animal-creation-dialog-panel-picture-input"
+                <input type="file" id="pictureInput" class="animal-creation-dialog-panel-picture-input"
                        accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" onchange={onProfilePictureChange} />
-                <label for="profilePictureInput" class="animal-creation-dialog-panel-picture-upload-button" >
+                <label for="pictureInput" class="animal-creation-dialog-panel-picture-upload-button" >
                                 <span class="animal-creation-dialog-panel-picture-upload-button-icon">
                                     {@html cameraIcon}
                                 </span>

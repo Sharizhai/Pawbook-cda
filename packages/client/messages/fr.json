@@ -54,6 +54,8 @@
     "profile_tab_animals": "Animaux",
     "profile_tab_animals_incentive": "Vous n'avez pas encore de profil d'animal",
     "profile_tab_first_animal": "Créer un profil pour mon animal",
+    "profile_tab_no_animal": "Cet utilisateur n'a pas encore de profil d'animal",
+    "profile_tab_new_animal": "Ajouter un nouvel animal",
 
     "post_creation_dialog_panel_title": "Nouvelle publication",
     "post_creation_dialog_panel_photo_button": "Ajouter une photo",
