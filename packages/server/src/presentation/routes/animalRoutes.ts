@@ -16,5 +16,12 @@ export default function animalRoutesFactory(animalController: AnimalController, 
      */
     router.post("/register", middleware.isAuthenticated, animalController.createAnimalProfile.bind(animalController));
 
+    /**
+     * @route GET /api/animals/:id
+     * @desc Récupère tous les animaux d'un user à l'aide de son ID
+     * @access Protected
+     */
+    router.get("/:id", middleware.isAuthenticated, animalController.getAnimalsByOwnerId.bind(animalController));
+
     return router;
 }

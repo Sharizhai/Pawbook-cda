@@ -151,6 +151,7 @@ export const setupRoutes = (app: express.Application): void => {
                         },
                         animals: {
                             createAnimalProfile: "POST /animals/register",
+                            getAllAnimalsByOwnerId: "GET /animals/:id",
                         },
                         photos: {
                             uploadProfilePicture: "POST /photos/:id/profile-picture",

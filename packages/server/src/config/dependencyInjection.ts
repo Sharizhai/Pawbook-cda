@@ -206,7 +206,9 @@ container.register({
     ),
 
     animalController: asFunction((deps: Dependencies) =>
-        new AnimalController(deps.createAnimalProfileUseCase)
+        new AnimalController(
+            deps.createAnimalProfileUseCase,
+            deps.getAllAnimalsByOwnerIdUseCase)
     ).singleton(),
 });
 
