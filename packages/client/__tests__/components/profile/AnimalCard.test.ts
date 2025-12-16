@@ -1,16 +1,19 @@
 import { describe, it, expect } from "vitest";
 import { render, fireEvent } from "@testing-library/svelte";
 import AnimalCard from "$components/profile/AnimalCard.svelte";
+import {AnimalInformations} from "../../../src/types/animalTypes";
 
 describe("AnimalCard Component", () => {
 
   it("Should render the component with all elements", () => {
+    const animal: AnimalInformations = {
+      name: "Rex",
+      type: "Chien",
+      likes: ["1", "2", "3", "4", "5"]
+    };
+
     const { container } = render(AnimalCard, {
-      props: {
-        animalName: "Rex",
-        animalType: "Chien",
-        animalLikes: 5
-      }
+      props: { animal }
     });
 
     expect(container.querySelector(".animal-card-container")).not.toBeNull();
@@ -23,29 +26,32 @@ describe("AnimalCard Component", () => {
   });
 
   it("Should display the correct animal name", () => {
-    const animalName = "Fluffy";
+    const animal: AnimalInformations = {
+      name: "Fluffy",
+      type: "Chat",
+      likes: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+    };
+
     const { container } = render(AnimalCard, {
-      props: {
-        animalName,
-        animalType: "Chat",
-        animalLikes: 10
-      }
+      props: { animal }
     });
 
     const nameElement = container.querySelector(".animal-card-container-infos-container-name");
     expect(nameElement).not.toBeNull();
-    expect(nameElement?.textContent).toBe(animalName);
+    expect(nameElement?.textContent).toBe(animal.name);
   });
 
   it("Should display the correct animal info with all properties", () => {
+    const animal: AnimalInformations = {
+      name: "Max",
+      type: "Chien",
+      race: "Labrador",
+      age: 3,
+      likes: ["1", "2", "3", "4", "5"]
+    };
+
     const { container } = render(AnimalCard, {
-      props: {
-        animalName: "Max",
-        animalType: "Chien",
-        animalRace: "Labrador",
-        animalAge: 3,
-        animalLikes: 15
-      }
+      props: { animal }
     });
 
     const infoElement = container.querySelector(".animal-card-container-infos-container-infos");
@@ -54,12 +60,14 @@ describe("AnimalCard Component", () => {
   });
 
   it("Should display the correct animal info with partial properties", () => {
+    const animal: AnimalInformations = {
+      name: "Kitty",
+      type: "Chat",
+      likes: Array(8).fill(0)
+    };
+
     const { container } = render(AnimalCard, {
-      props: {
-        animalName: "Kitty",
-        animalType: "Chat",
-        animalLikes: 8
-      }
+      props: { animal }
     });
 
     const infoElement = container.querySelector(".animal-card-container-infos-container-infos");
@@ -69,13 +77,15 @@ describe("AnimalCard Component", () => {
 
   it("Should display the animal description when provided", () => {
     const description = "A very friendly animal";
+    const animal: AnimalInformations = {
+      name: "Buddy",
+      type: "Chien",
+      description: description,
+      likes: Array(20).fill(0)
+    };
+
     const { container } = render(AnimalCard, {
-      props: {
-        animalName: "Buddy",
-        animalType: "Chien",
-        animalDescription: description,
-        animalLikes: 20
-      }
+      props: { animal }
     });
 
     const descriptionElement = container.querySelector(".animal-card-container-infos-container-description");
@@ -84,12 +94,14 @@ describe("AnimalCard Component", () => {
   });
 
   it("Should use default image when animalPicture is not provided", () => {
+    const animal: AnimalInformations = {
+      name: "Rex",
+      type: "Chien",
+      likes: Array(5).fill(0)
+    };
+
     const { container } = render(AnimalCard, {
-      props: {
-        animalName: "Rex",
-        animalType: "Chien",
-        animalLikes: 5
-      }
+      props: { animal }
     });
 
     const avatarElement = container.querySelector(".animal-card-container-infos-avatar") as HTMLImageElement;
@@ -99,13 +111,15 @@ describe("AnimalCard Component", () => {
 
   it("Should use provided image when animalPicture is provided", () => {
     const imagePath = "/test-image.jpg";
+    const animal: AnimalInformations = {
+      name: "Rex",
+      type: "Chien",
+      picture: imagePath,
+      likes: Array(5).fill(0)
+    };
+
     const { container } = render(AnimalCard, {
-      props: {
-        animalName: "Rex",
-        animalType: "Chien",
-        animalPicture: imagePath,
-        animalLikes: 5
-      }
+      props: { animal }
     });
 
     const avatarElement = container.querySelector(".animal-card-container-infos-avatar") as HTMLImageElement;
@@ -127,12 +141,14 @@ describe("AnimalCard Component", () => {
       }
     };
 
+    const animal: AnimalInformations = {
+      name: "Rex",
+      type: "Chien",
+      likes: Array(5).fill(0)
+    };
+
     const { container } = render(AnimalCard, {
-      props: {
-        animalName: "Rex",
-        animalType: "Chien",
-        animalLikes: 5
-      }
+      props: { animal }
     });
 
     const settingsButton = container.querySelector(".animal-card-settings-button") as HTMLElement;
@@ -161,12 +177,14 @@ describe("AnimalCard Component", () => {
       }
     };
 
+    const animal: AnimalInformations = {
+      name: "Rex",
+      type: "Chien",
+      likes: Array(5).fill(0)
+    };
+
     const { container } = render(AnimalCard, {
-      props: {
-        animalName: "Rex",
-        animalType: "Chien",
-        animalLikes: 5
-      }
+      props: { animal }
     });
 
     const likeButton = container.querySelector(".like-button") as HTMLElement;
