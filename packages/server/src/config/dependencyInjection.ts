@@ -198,6 +198,7 @@ container.register({
     // === PRESENTATION LAYER ===
     postController: asFunction((deps: Dependencies) =>
         new PostController(
+            deps.createPostUseCase,
             deps.getAllPostsUseCase,
             deps.getAllPostsByAuthorIdUseCase)
     ).singleton(),

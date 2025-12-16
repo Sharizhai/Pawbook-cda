@@ -1,6 +1,8 @@
 import {GetAllPostsByAuthorIdUseCase} from "$application/use-cases/post/GetAllPostsByAuthorIdUseCase";
 import {GetAllPostsUseCase} from "$application/use-cases/post/GetAllPostsUseCase";
 import {APIResponse} from "$utils/responseUtils.utils";
+import {Request, Response} from "express";
+import {CreatePostUseCase} from "$application/use-cases/post/CreatePostUseCase";
 
 /**
  * PostController - Couche Présentation
@@ -9,6 +11,7 @@ import {APIResponse} from "$utils/responseUtils.utils";
 
 export class PostController {
     constructor(
+        private readonly createPostUseCase: CreatePostUseCase,
         private readonly getAllPostsUseCase: GetAllPostsUseCase,
         private readonly getAllPostsByAuthorIdUseCase: GetAllPostsByAuthorIdUseCase
     ) {}
@@ -16,7 +19,7 @@ export class PostController {
     /**
      * Récupère tous les posts de la communauté
      */
-    async getAllPosts(req: any, res: any) {
+    async getAllPosts(req: Request, res: Response) {
         try {
             const page = Math.max(parseInt(req.query.page as string) || 0, 0);
             const limit = Math.min(parseInt(req.query.limit as string) || 10, 50);
@@ -37,7 +40,7 @@ export class PostController {
     /**
      * Récupère tous les posts d'un user à l'aide de son ID'
      */
-    async getPostById(req: any, res: any) {
+    async getPostById(req: Request, res: Response) {
         try {
             const id = req.params.id;
             const page = Math.max(parseInt(req.query.page as string) || 0, 0);
@@ -54,6 +57,20 @@ export class PostController {
             const statusCode = message === "User not found" ? 404 : 500;
 
             return APIResponse(res, null, message, statusCode);
+        }
+    }
+
+    async createPost(req: Request, res: Response) {
+        try {
+            const post = await this.createPostUseCase.execute(req.body);
+
+            return APIResponse(res, post.toJSON(), "Nouveau post créé avec succès, 201")
+        } catch (error) {
+            const message = error instanceof Error
+                ? error.message
+                : "Erreur lors de la création du post";
+
+            return APIResponse(res, null, message, 500);
         }
     }
 }

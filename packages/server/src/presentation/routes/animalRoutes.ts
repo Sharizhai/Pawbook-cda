@@ -12,7 +12,7 @@ export default function animalRoutesFactory(animalController: AnimalController, 
     /**
      * @route POST /api/animals/register
      * @desc Enregistre un nouvel animal
-     * @access Public
+     * @access Protected
      */
     router.post("/register", middleware.isAuthenticated, animalController.createAnimalProfile.bind(animalController));
 

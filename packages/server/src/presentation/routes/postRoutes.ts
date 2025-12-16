@@ -23,5 +23,12 @@ export default function postRoutesFactory(postController: PostController, middle
      */
     router.get("/:id", middleware.isAuthenticated, postController.getPostById.bind(postController));
 
+    /**
+     * @route POST /api/posts/create
+     * @desc Enregistre un nouveau post
+     * @access Protected
+     */
+    router.post("/create", middleware.isAuthenticated, postController.createPost.bind(postController));
+
     return router;
 }

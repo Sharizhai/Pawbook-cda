@@ -145,6 +145,7 @@ export const setupRoutes = (app: express.Application): void => {
                         posts: {
                             getAllPosts: "GET /posts",
                             getPostById: "GET /posts/:id",
+                            createPost: "POST /posts/create",
                         },
                         users: {
                             createUser: "POST /users/register",
