@@ -39,11 +39,11 @@ describe("Usecase: We must be able to get all posts with an author id", () => {
         await commentRepository.create(UnitComment.comment1);
         await commentRepository.create(UnitComment.comment2);
 
-        await postRepository.create(UnitPost.post1);
-        await postRepository.create(UnitPost.post2);
-        await postRepository.create(UnitPost.post3);
-        await postRepository.create(UnitPost.post4);
-        await postRepository.create(UnitPost.post5);
+        await postRepository.save(UnitPost.post1);
+        await postRepository.save(UnitPost.post2);
+        await postRepository.save(UnitPost.post3);
+        await postRepository.save(UnitPost.post4);
+        await postRepository.save(UnitPost.post5);
 
         await userRepository.save(UnitUser.john);
         await userRepository.save(UnitUser.jane);
