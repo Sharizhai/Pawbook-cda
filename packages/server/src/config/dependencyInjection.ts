@@ -15,6 +15,7 @@ import {PostgresUserRepository} from "$infrastructure/repositories/user/Postgres
 import {MongoUserRepository} from "$infrastructure/repositories/user/MongoUserRepository";
 
 import {InMemoryPostRepository} from "$infrastructure/repositories/post/inMemoryPostRepository";
+import {PostgresPostRepository} from "$infrastructure/repositories/post/PostgresPostRepository";
 import {MongoPostRepository} from "$infrastructure/repositories/post/MongoPostRepository";
 
 import {InMemoryCommentRepository} from "$infrastructure/repositories/comment/InMemoryCommentRepository";
@@ -108,7 +109,9 @@ const userRepositoryClass =
 
 const postRepositoryClass = env.NODE_ENV === "test"
     ? InMemoryPostRepository
-    : MongoPostRepository
+    : USE_POSTGRES
+        ? PostgresPostRepository
+        : MongoPostRepository;
 
 const commentRepositoryClass = env.NODE_ENV === "test"
     ? InMemoryCommentRepository

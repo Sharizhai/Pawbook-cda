@@ -34,7 +34,7 @@ export interface IPostRepository {
      * @param PostData - Données du post à créer
      * @returns Post créé
      */
-    create(PostData: PostData): Promise<Post>;
+    save(PostData: PostData): Promise<Post>;
 
     /**
      * Met à jour un post existant

@@ -50,7 +50,7 @@ export class InMemoryPostRepository implements IPostRepository {
         return await this.populatePosts(paginated);
     }
 
-    async create(postData: PostData): Promise<Post> {
+    async save(postData: PostData): Promise<Post> {
         const post = new Post(postData);
         this.posts.push(post);
         return Promise.resolve(post);

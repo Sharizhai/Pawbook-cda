@@ -51,7 +51,7 @@ export class MongoPostRepository implements IPostRepository {
         return docs.map((doc) => new Post(doc.toObject() as PostData));
     }
 
-    async create(postData: PostData): Promise<Post> {
+    async save(postData: PostData): Promise<Post> {
         const doc = await MongoPostModel.create(postData);
         return new Post(doc.toObject() as PostData);
     }
