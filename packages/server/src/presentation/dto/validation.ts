@@ -41,6 +41,18 @@ export const animalCreationValidation = z.object({
     description: z.string().max(150, { message: "La description ne doit pas dépasser 150 caractères" }).optional(),
 });
 
+export const postCreationValidation = z.object({
+    authorId: z.string(),
+    textContent: z.string().optional(),
+    photoContent: z.array(z.string()).optional(),
+}).refine(data => {
+    return (data.textContent && data.textContent.length > 0) ||
+        (data.photoContent && data.photoContent.length > 0);
+}, {
+    message: "Du texte ou une image est requis"
+});
+
 export type LoginDto = z.infer<typeof loginValidation>;
 export type UserCreationDto = z.infer<typeof userCreationValidation>;
 export type AnimalCreationDto = z.infer<typeof animalCreationValidation>;
+export type PostCreationDto = z.infer<typeof postCreationValidation>;

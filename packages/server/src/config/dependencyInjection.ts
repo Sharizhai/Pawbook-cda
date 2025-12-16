@@ -37,6 +37,7 @@ import {AnimalController} from "$presentation/controllers/animalController";
 
 import {GetAllPostsByAuthorIdUseCase} from "$application/use-cases/post/GetAllPostsByAuthorIdUseCase";
 import {GetAllPostsUseCase} from "$application/use-cases/post/GetAllPostsUseCase";
+import {CreatePostUseCase} from "$application/use-cases/post/CreatePostUseCase";
 
 import {CreateUserUseCase} from "$application/use-cases/user/CreateUserUseCase";
 
@@ -77,6 +78,7 @@ export interface Dependencies {
 
     getAllPostsByAuthorIdUseCase: GetAllPostsByAuthorIdUseCase
     getAllPostsUseCase: GetAllPostsUseCase;
+    createPostUseCase: CreatePostUseCase;
 
     createUserUserCase: CreateUserUseCase;
 

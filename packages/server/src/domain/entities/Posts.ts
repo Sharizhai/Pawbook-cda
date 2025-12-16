@@ -101,6 +101,17 @@ export class Post {
         return { ...this };
     }
 
+    static create(data: Omit<PostData, 'id' | 'likes' | 'comments' | 'createdAt' | 'updatedAt'>): Post {
+        return new Post({
+            ...data,
+            id: '',
+            likes: [],
+            comments: [],
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        });
+    }
+
     /**
      * Crée une nouvelle instance avec des données mises à jour
      */
