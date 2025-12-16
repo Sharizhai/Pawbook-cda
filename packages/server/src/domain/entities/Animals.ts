@@ -42,6 +42,8 @@ export class Animal {
         this.picture = data.picture;
         this.description = data.description;
         this.likes = data.likes;
+        this.createdAt = data.createdAt;
+        this.updatedAt = data.updatedAt;
     }
 
     /**

@@ -1,17 +1,23 @@
 import {AnimalFilters, IAnimalRepository} from "$domain/interfaces/animalRepository.interface";
 import {IUserRepository} from "$domain/interfaces/userRepository.interface";
+import {ILikeRepository} from "$domain/interfaces/likeRepository.interface";
 import {Animal, AnimalData} from "$domain/entities/Animals";
 
 export class InMemoryAnimalRepository implements IAnimalRepository
 {
     private animals: Animal[] = [];
     private userRepository?: IUserRepository;
+    private likeRepository?: ILikeRepository;
 
-    findAll(): Promise<Animal[]> {
+    setLikeRepository(repo: ILikeRepository): void {
+        this.likeRepository = repo;
+    }
+
+    async findAll(): Promise<Animal[]> {
         return Promise.resolve(this.animals);
     }
 
-    findById(id: string): Promise<Animal | undefined> {
+    async findById(id: string): Promise<Animal | undefined> {
         return Promise.resolve(this.animals.find(animal => animal.id === id));
     }
 
@@ -37,19 +43,19 @@ export class InMemoryAnimalRepository implements IAnimalRepository
         return animal;
     }
 
-    update(id: string, animalData: Partial<AnimalData>): Promise<Animal | null> {
+    async update(id: string, animalData: Partial<AnimalData>): Promise<Animal | null> {
         return Promise.resolve(null);
     }
 
-    delete(id: string): Promise<boolean> {
+    async delete(id: string): Promise<boolean> {
         return Promise.resolve(false);
     }
 
-    findByFilters(filters: AnimalFilters): Promise<Animal[]> {
+    async findByFilters(filters: AnimalFilters): Promise<Animal[]> {
         return Promise.resolve([]);
     }
 
-    count(): Promise<number> {
+    async count(): Promise<number> {
         return Promise.resolve(this.animals.length);
     }
 
