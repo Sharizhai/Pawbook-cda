@@ -179,6 +179,10 @@ container.register({
         new GetAllPostsUseCase(deps.postRepository)
     ).singleton(),
 
+    createPostUseCase: asFunction((deps: Dependencies) =>
+        new CreatePostUseCase(deps.postRepository, deps.userRepository)
+    ).singleton(),
+
     createUserUserCase: asFunction((deps: Dependencies) =>
         new CreateUserUseCase(deps.userRepository, deps.argon2Services)
     ).singleton(),
