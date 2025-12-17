@@ -5,12 +5,14 @@
         profilePicture, 
         firstName, 
         lastName, 
-        postCreationDate 
+        postCreationDate,
+        onNameClick
     } : { 
         profilePicture?: string, 
         firstName: string | undefined,
         lastName: string | undefined,
-        postCreationDate: Date
+        postCreationDate: Date,
+        onNameClick: () => void
     } = $props();
 
     let formattedDate = $derived(postCreationDate ? timeElapsed(new Date(postCreationDate)) : '');
@@ -19,7 +21,7 @@
     <div class="postcard-user-infos-container">
         <img src={profilePicture ? profilePicture : "/paws.png"} alt="User Avatar" class="postcard-user-avatar" />
         <div class="postcard-user-name-container">
-            <div class="postcard-user-name">{firstName} {lastName}</div>
+            <button class="postcard-user-name" onclick={onNameClick}>{firstName} {lastName}</button>
             <div class="postcard-user-post-date">{formattedDate}</div>
         </div>   
     </div>
@@ -44,9 +46,18 @@
         }
 
         &-name {
+            padding: 0;
+            border: none;
+            background-color: transparent;
             font-size: 0.9rem;
             font-weight: bold;
             color: var(--main-text-color);
+            text-decoration: underline;
+            cursor: pointer;
+
+            &:hover {
+                color: var(--main-highlight-color);
+            }
         }
 
         &-post-date {

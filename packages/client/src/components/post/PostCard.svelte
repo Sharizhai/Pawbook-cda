@@ -8,6 +8,7 @@
     import PostContent from "./PostContent.svelte";
 
     import commentIcon from "$assets/icons/posts/comment.svg?raw";
+    import {push} from "svelte-spa-router";
 
     const commentLabel = messages.post_comment();
 
@@ -33,12 +34,17 @@
         console.log("Comment text:", commentText);
     }
 
+    function onTopContainerNameButtonClick() {
+        push(`/profile/${author?.id}`);
+    }
 </script>
 
     <div class="postcard-main-container">
         <SettingsButton onClick={onSettingsButtonClick} customClass="postcard-settings-button" />
 
-        <TopContainerInfos profilePicture={author?.profilePicture || "/paws.png"} firstName={author?.firstName} lastName={author?.name} postCreationDate={new Date(post.createdAt)}/>
+        <TopContainerInfos profilePicture={author?.profilePicture || "/paws.png"}
+                           firstName={author?.firstName} lastName={author?.name}
+                           postCreationDate={new Date(post.createdAt)} onNameClick={onTopContainerNameButtonClick}/>
         <PostContent textContent={post.textContent} imageContent={post.photoContent}/>
 
         <div class="postcard-buttons-container">
