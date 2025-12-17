@@ -99,8 +99,6 @@
         </div>
 
         <div class="profile-card-container-user-infos-buttons-container">
-                <!-- TODO :
-                if profile = user profile => add followers & followed buttons -->
             {#if !isSelfProfile}
                 <Button label="Suivre" onClick={onFollowButtonClick} isCTA hadShadow/>
             {/if}
