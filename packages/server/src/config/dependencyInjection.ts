@@ -102,12 +102,11 @@ const container = createContainer<Dependencies>({
  */
 const USE_POSTGRES = process.env.USE_POSTGRES === 'true';
 
-const userRepositoryClass =
-    env.NODE_ENV === "test"
-        ? InMemoryUserRepository
-        : USE_POSTGRES
-            ? PostgresUserRepository
-            : MongoUserRepository;
+const userRepositoryClass = env.NODE_ENV === "test"
+    ? InMemoryUserRepository
+    : USE_POSTGRES
+        ? PostgresUserRepository
+        : MongoUserRepository;
 
 const postRepositoryClass = env.NODE_ENV === "test"
     ? InMemoryPostRepository
@@ -171,6 +170,7 @@ container.register({
         )
     ).singleton(),
 
+    // *** POSTS ***
     getAllPostsByAuthorIdUseCase: asFunction((deps: Dependencies) =>
         new GetAllPostsByAuthorIdUseCase(deps.postRepository, deps.userRepository)
     ).singleton(),
@@ -183,10 +183,12 @@ container.register({
         new CreatePostUseCase(deps.postRepository, deps.userRepository)
     ).singleton(),
 
+    // *** USERS ***
     createUserUserCase: asFunction((deps: Dependencies) =>
         new CreateUserUseCase(deps.userRepository, deps.argon2Services)
     ).singleton(),
 
+    // *** ANIMALS ***
     createAnimalProfileUseCase: asFunction((deps: Dependencies) =>
         new CreateAnimalProfileUseCase(deps.animalRepository, deps.userRepository)
     ).singleton(),
@@ -195,6 +197,7 @@ container.register({
         new GetAllAnimalsByOwnerIdUseCase(deps.animalRepository, deps.userRepository)
     ).singleton(),
 
+    // *** PHOTOS ***
     uploadProfilePictureUseCase: asFunction((deps: Dependencies) =>
         new UploadProfilePictureUseCase(deps.userRepository, deps.photoStorageServices)
     ).singleton(),
