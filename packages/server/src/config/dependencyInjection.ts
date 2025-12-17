@@ -149,7 +149,7 @@ console.log(`📊 Database: ${USE_POSTGRES ? 'PostgreSQL' : 'MongoDB'}`);
  */
 container.register({
     prisma: asValue(prisma),
-    // === INFRASTRUCTURE LAYER - asClass pour l'injection automatique ===
+    // === INFRASTRUCTURE LAYER ===
     userRepository: asFunction(() => new userRepositoryClass(prisma)).singleton(),
     postRepository: asFunction(() => new postRepositoryClass(prisma)).singleton(),
     commentRepository: asClass(commentRepositoryClass).singleton(),

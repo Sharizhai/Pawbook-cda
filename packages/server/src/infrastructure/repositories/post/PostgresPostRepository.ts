@@ -41,11 +41,12 @@ export class PostgresPostRepository implements IPostRepository {
     } as const;
 
     async findAll(page: number, limit: number): Promise<Post[]> {
-        const skip = (page - 1) * limit;
+        const safePage = Math.max(page, 1);
+        const skip = (safePage - 1) * limit;
 
         const posts = await this.prisma.post.findMany({
             skip,
-            take: limit + 1,
+            take: limit,
             orderBy: {
                 createdAt: 'desc'
             },
@@ -65,16 +66,16 @@ export class PostgresPostRepository implements IPostRepository {
     }
 
     async findByAuthorId(authorId: string, page: number, limit: number): Promise<Post[]> {
-        const skip = (page - 1) * limit;
-
+        const safePage = Math.max(page, 1);
+        const skip = (safePage - 1) * limit;
         const posts = await this.prisma.post.findMany({
             where: { authorId },
-            skip,
-            take: limit,
+            include: this.POST_INCLUDE,
             orderBy: {
-                createdAt: 'desc'
+                createdAt: "desc"
             },
-            include: this.POST_INCLUDE
+            skip,
+            take: limit
         });
 
         return posts.map(post => this.toDomain(post));
@@ -105,7 +106,7 @@ export class PostgresPostRepository implements IPostRepository {
     async update(id: string, postData: Partial<PostData>): Promise<Post | null> {
         try {
             // Exclut les champs de relation (gérés par Prisma automatiquement)
-            const { authorId, likes, comments, ...updateData } = postData;
+            const { authorId, author, likes, comments, ...updateData } = postData;
 
             const post = await this.prisma.post.update({
                 where: { id },
@@ -143,7 +144,15 @@ export class PostgresPostRepository implements IPostRepository {
     private toDomain(prismaPost: any): Post {
         return new Post({
             id: prismaPost.id,
-            authorId: prismaPost.author,
+            authorId: prismaPost.authorId ?? prismaPost.author?.id,
+            author: prismaPost.author
+                ? {
+                    id: prismaPost.author.id,
+                    name: prismaPost.author.name,
+                    firstName: prismaPost.author.firstName,
+                    profilePicture: prismaPost.author.profilePicture ?? null,
+                }
+                : undefined,
             textContent: prismaPost.textContent ?? undefined,
             photoContent: prismaPost.photoContent ?? [],
             likes: prismaPost.likes ?? [],

@@ -3,9 +3,17 @@
  * Represent a post in PawBook
  */
 
+import { randomUUID } from 'crypto';
+
 export interface PostData {
     id: string;
     authorId: string;
+    author?: {
+        id: string;
+        name: string;
+        firstName: string;
+        profilePicture: string | null;
+    };
     textContent?: string;
     photoContent?: string[];
     likes?: string[];
@@ -18,6 +26,12 @@ export interface PostData {
 export class Post {
     public readonly id: string;
     public readonly authorId: string;
+    public readonly author?: {
+        id: string;
+        name: string;
+        firstName: string;
+        profilePicture: string | null;
+    };
     public readonly textContent?: string;
     public readonly photoContent?: string[];
     public readonly likes?: string[];
@@ -29,6 +43,7 @@ export class Post {
     constructor(data: PostData) {
         this.id = data.id;
         this.authorId = data.authorId;
+        this.author = data.author;
         this.textContent = data.textContent;
         this.photoContent = data.photoContent ? [...data.photoContent] : [];
         this.likes = data.likes ? [...data.likes] : [];
@@ -104,7 +119,7 @@ export class Post {
     static create(data: Omit<PostData, 'id' | 'likes' | 'comments' | 'createdAt' | 'updatedAt'>): Post {
         return new Post({
             ...data,
-            id: '',
+            id: randomUUID(),
             likes: [],
             comments: [],
             createdAt: new Date(),
