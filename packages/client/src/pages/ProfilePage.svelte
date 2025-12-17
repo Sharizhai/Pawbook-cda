@@ -22,18 +22,23 @@
     const emptyPostIncentive = messages.profile_tab_posts_incentive();
     const emptyPostButtonLabel = messages.profile_tab_first_post();
     const noPostLabel = messages.profile_tab_no_post();
+    const noAnimalLabel = messages.profile_tab_no_animal();
     const emptyAnimalIncentive = messages.profile_tab_animals_incentive();
     const emptyAnimalButtonLabel = messages.profile_tab_first_animal();
     const addNewAnimalButtonLabel = messages.profile_tab_new_animal();
+    const addNewPostButtonLabel = messages.profile_tab_new_post();
 
     let activeTab = $state(ProfileTab.Publications);
 
-    let isOwnProfile = $state(false);
     let profilePosts = $state<any[]>([]);
     let profileAnimals = $state<any[]>([]);
-    let hasNoPosts = $state(true);
-    let hasNoAnimals = $state(true);
+
+    let hasNoPosts = $derived(profilePosts.length === 0);
     let hasAnimals = $derived(profileAnimals.length > 0);
+
+    let profileUserId = $state<string | undefined>(undefined);
+    let isOwnProfile = $derived(profileUserId !== undefined && profileUserId === user.information?.id);
+    let profileUser = $derived(isOwnProfile ? user.information : null);
 
     let isPostCreationDialogPanelOpen = $state(false);
     let isAnimalCreationDialogPanelOpen = $state(false);
@@ -42,14 +47,15 @@
 
     $effect(() => {
         if (params.userId && user.information) {
+            profileUserId = params.userId;
             loadProfileData();
         }
     });
 
     $effect(() => {
-        if (isAnimalCreationDialogPanelOpen === false)
-            loadProfileData()
-    })
+        if (isAnimalCreationDialogPanelOpen === false && profileUserId)
+            loadProfileData();
+    });
 
     function onHeaderTabButtonClick(tab: ProfileTab) {
         activeTab = tab;
@@ -64,29 +70,20 @@
     }
 
     async function loadProfileData() {
-        const userId = params.userId;
-
-        if (!userId) {
-            return;
-        }
-
-        isOwnProfile = userId === user.information?.id;
+        if (!profileUserId) return;
 
         try {
-            const result = await fetchPostsByAuthorId(0, 10, userId);
+            const [postsResult, animalsResult] = await Promise.all([
+                fetchPostsByAuthorId(1, 10, profileUserId),
+                fetchAnimalsByOwnerId(0, 10, profileUserId)
+            ]);
 
-            profilePosts = result.posts || [];
-            hasNoPosts = profilePosts.length === 0;
-
-            const animalsResult = await fetchAnimalsByOwnerId(0, 10, userId);
+            profilePosts = postsResult.posts || [];
             profileAnimals = animalsResult.animals || [];
-            hasNoAnimals = profileAnimals.length === 0;
         } catch (error) {
             console.error("Error loading profile:", error);
             profilePosts = [];
-            hasNoPosts = true;
             profileAnimals = [];
-            hasNoAnimals = true;
         }
     }
 </script>
@@ -94,10 +91,14 @@
         {#if activeTab === ProfileTab.Publications}
             <div class="content-container">
                 {#if hasNoPosts && isOwnProfile}
-                    <EmptyContentCTA label={emptyPostButtonLabel} incentive={emptyPostIncentive} onClick={onCreateFirstPostButtonClick}/>
+                    <EmptyContentCTA label={emptyPostButtonLabel} incentive={emptyPostIncentive} onClick={onCreateFirstPostButtonClick} />
                 {:else if hasNoPosts && !isOwnProfile}
                     <p>{noPostLabel}</p>
                 {:else}
+                    {#if isOwnProfile}
+                        <Button label={addNewPostButtonLabel} onClick={onCreateFirstPostButtonClick} isCTA />
+                    {/if}
+
                     {#each profilePosts as post (post.id)}
                         <PostCard {post}/>
                     {/each}
@@ -106,11 +107,14 @@
 
         {:else if activeTab === ProfileTab.Animals}
             <div class="content-container">
-                {#if !hasAnimals}
-                    <EmptyContentCTA label={emptyAnimalButtonLabel} incentive={emptyAnimalIncentive} onClick={onCreateFirstAnimalButtonClick}/>
-
+                {#if !hasAnimals && isOwnProfile}
+                    <EmptyContentCTA label={emptyAnimalButtonLabel} incentive={emptyAnimalIncentive} onClick={onCreateFirstAnimalButtonClick} />
+                {:else if !hasAnimals && !isOwnProfile}
+                    <p>{noAnimalLabel}</p>
                 {:else}
-                    <Button label={addNewAnimalButtonLabel} onClick={onCreateFirstAnimalButtonClick} isCTA/>
+                    {#if isOwnProfile}
+                        <Button label={addNewAnimalButtonLabel} onClick={onCreateFirstAnimalButtonClick} isCTA />
+                    {/if}
 
                     {#each profileAnimals as animal (animal.id)}
                         <AnimalCard {animal}/>
@@ -124,7 +128,11 @@
         <div class="profile-page-background"></div>
 
         <div class="profile-page-container">
-            <ProfileCard firstName={user.information?.firstName} lastName={user.information?.name} description={user.information?.profileDescription} profilePicture={user.information?.profilePicture}/>
+            {#if profileUser}
+                <ProfileCard firstName={profileUser.firstName} lastName={profileUser.name}
+                             description={profileUser.profileDescription} profilePicture={profileUser.profilePicture} />
+            {/if}
+
             <ProfileTabs onClick={onHeaderTabButtonClick} tabContent={profileTabContentSnippet} activeTab={activeTab} tabs={profileTabs} />
         </div>
         <Navbar />
@@ -184,6 +192,9 @@
         justify-content: flex-start;
         align-items: center;
         margin: 1rem 0 0 0;
-        gap: 1rem;
+
+        :global(.button-default) {
+            margin: 1rem 0 3rem 0;
+        }
     }
 </style>

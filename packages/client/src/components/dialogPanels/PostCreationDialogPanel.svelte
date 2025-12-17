@@ -8,6 +8,8 @@
     import * as messages from "$lib/paraglide/messages";
     import type {Snippet} from "svelte";
     import Thumbnail from "$components/images/Thumbnail.svelte";
+    import {createPost} from "$services/postsServices.svelte";
+    import { user, post } from "$stores/stores.svelte";
 
     const panelTitle = messages.post_creation_dialog_panel_title();
     const addPhotoLabel = messages.post_creation_dialog_panel_photo_button();
@@ -19,17 +21,45 @@
     const panelContent: Snippet[] = [contentSnippet];
     let commentInputValue: string = $state("");
     let errorMessage: string = $state("");
+    let isSubmitting: boolean = $state(false);
     const maxImagesAuthorized: number = 10;
 
     let selectedImages: Array<{id: string, file: File, preview: string}> = $state([]);
 
     let { isVisible = $bindable() } : { isVisible: boolean } = $props();
 
-    function onPublishButtonClick() {
-        if(isStringNotValid(commentInputValue)) return;
+    async function onPublishButtonClick() {
+        if (isSubmitting) return;
+        if (selectedImages.length === 0 && isStringNotValid(commentInputValue)) return;
 
-        // TODO :
-        // handle real upload
+        const authorId = user.information?.id;
+        if (!authorId) {
+            errorMessage = "Utilisateur non authentifié";
+            return;
+        }
+
+        try {
+            isSubmitting = true;
+            errorMessage = "";
+
+            const textContent = (commentInputValue ?? "").trim();
+            const photoContent = selectedImages.map(img => img.preview);
+
+            const result = await createPost(authorId, textContent, photoContent);
+            const createdPost = result?.data ?? result;
+
+            if (createdPost) {
+                post.addPostToTop(createdPost);
+
+                commentInputValue = "";
+                selectedImages = [];
+                isVisible = false;
+            }
+        } catch (e: any) {
+            errorMessage = e?.message || "Une erreur est survenue lors de la publication";
+        } finally {
+            isSubmitting = false;
+        }
     }
 
     function handleFileChange(event: Event) {
@@ -112,7 +142,11 @@
         </div>
     {/if}
 
-    <DialogPanelButton onClick={onPublishButtonClick} label={publishLabel} isCTA isDisabled={selectedImages.length === 0 && isStringNotValid(commentInputValue)} />
+    {#if errorMessage}
+        <p class="post-creation-dialog-panel-error">{errorMessage}</p>
+    {/if}
+
+    <DialogPanelButton onClick={onPublishButtonClick} label={publishLabel} isCTA isDisabled={isSubmitting || (selectedImages.length === 0 && isStringNotValid(commentInputValue))} />
 {/snippet}
 
 <DialogPanel bind:isVisible title={panelTitle} steps={panelContent} />
@@ -212,6 +246,12 @@
         &-wrapper {
             padding: 0 0 1rem 0;
         }
+    }
+
+    .post-creation-dialog-panel-error {
+        color: #ff6b6b;
+        margin: 0.5rem 0 0 0;
+        font-size: 0.95rem;
     }
 
 </style>
