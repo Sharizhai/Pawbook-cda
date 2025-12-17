@@ -151,7 +151,7 @@ container.register({
     prisma: asValue(prisma),
     // === INFRASTRUCTURE LAYER - asClass pour l'injection automatique ===
     userRepository: asFunction(() => new userRepositoryClass(prisma)).singleton(),
-    postRepository: asClass(postRepositoryClass).singleton(),
+    postRepository: asFunction(() => new postRepositoryClass(prisma)).singleton(),
     commentRepository: asClass(commentRepositoryClass).singleton(),
     likeRepository: asClass(likeRepositoryClass).singleton(),
     animalRepository: asFunction(() => new animalRepositoryClass(prisma)).singleton(),

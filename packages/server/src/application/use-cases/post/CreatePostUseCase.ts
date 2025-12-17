@@ -43,7 +43,7 @@ export class CreatePostUseCase {
 
         // 6. Mise à jour de l'utilisateur avec le nouveau post
         const updatedUser = author.updateWith({
-            animals: [...author.animals, savedPost.id]
+            posts: [...author.posts, savedPost.id]
         });
         await this.userRepository.save(updatedUser);
 
