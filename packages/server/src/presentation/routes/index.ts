@@ -63,7 +63,7 @@ export const setupRoutes = (app: express.Application): void => {
     // Routes principales
     app.use("/api/auth", authRoutesFactory(authController, { isAuthenticated }));
     app.use("/api/posts", postRoutesFactory(postController, {isAuthenticated}));
-    app.use("/api/users", userRoutesFactory(userController));
+    app.use("/api/users", userRoutesFactory(userController, {isAuthenticated}));
     app.use("/api/animals", animalRoutesFactory(animalController, {isAuthenticated}));
     app.use("/api/photos", photoRoutesFactory(photoController, {isAuthenticated}));
 
@@ -149,6 +149,7 @@ export const setupRoutes = (app: express.Application): void => {
                         },
                         users: {
                             createUser: "POST /users/register",
+                            getUserById: "GET /users/:id",
                         },
                         animals: {
                             createAnimalProfile: "POST /animals/register",

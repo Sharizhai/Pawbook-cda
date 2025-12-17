@@ -217,7 +217,9 @@ container.register({
     ).singleton(),
 
     userController: asFunction((deps: Dependencies) =>
-        new UserController(deps.createUserUserCase)
+        new UserController(
+            deps.createUserUserCase,
+            deps.getUserByIdUseCase)
     ).singleton(),
 
     photoController: asFunction((deps: Dependencies) =>

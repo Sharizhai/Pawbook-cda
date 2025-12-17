@@ -4,8 +4,9 @@ import express from "express";
 /**
  * Routes pour la gestion des utilisateurs de Pawbook
  * @param userController - Contrôleur des users
+ * @param middleware - Middleware
  */
-export default function userRoutesFactory(userController: UserController) {
+export default function userRoutesFactory(userController: UserController, middleware: {isAuthenticated: any}) {
     const router = express.Router();
 
     /**
@@ -14,6 +15,13 @@ export default function userRoutesFactory(userController: UserController) {
      * @access Public
      */
     router.post("/register", userController.createUser.bind(userController));
+
+    /**
+     * @route GET /api/users/:id
+     * @desc Trouve un utilisateur par son ID
+     * @access Protected
+     */
+    router.get("/:id", middleware.isAuthenticated , userController.getUserById.bind(userController));
 
     return router;
 }

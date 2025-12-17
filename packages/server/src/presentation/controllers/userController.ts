@@ -1,6 +1,7 @@
 import {CreateUserUseCase} from "$application/use-cases/user/CreateUserUseCase";
 import {APIResponse} from "$utils/responseUtils.utils";
 import {Request, Response} from "express";
+import {GetUserByIdUseCase} from "$application/use-cases/user/GetUserByIdUseCase";
 
 /**
  * UserController - Couche Présentation
@@ -10,6 +11,7 @@ import {Request, Response} from "express";
 export class UserController {
     constructor(
         private readonly createUserUseCase: CreateUserUseCase,
+        private readonly getUserByIdUseCase: GetUserByIdUseCase
     ) {}
 
     /**
@@ -24,6 +26,22 @@ export class UserController {
             const message = error instanceof Error
                 ? error.message
                 : "Erreur lors de la création de l'utilisateur";
+
+            const status = this.getErrorStatus(error);
+
+            return APIResponse(res, null, message, status);
+        }
+    }
+
+    async getUserById(req: Request, res: Response) {
+        try {
+            const user = await this.getUserByIdUseCase.execute(req.params.id);
+
+            return APIResponse(res, user, "Utilisateur trouvé", 200);
+        } catch (error) {
+            const message = error instanceof Error
+                ? error.message
+                : "Erreur lors de la récupération de l'utilisateur";
 
             const status = this.getErrorStatus(error);
 
