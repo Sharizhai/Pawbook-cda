@@ -12,3 +12,16 @@ export type UserInformations = {
     "createdAt": Date;
     "updatedAt": Date;
 }
+
+export type PublicUserInformations = {
+    id: string;
+    firstName: string;
+    name: string;
+    profileDescription?: string;
+    profilePicture?: string;
+    animalsCount: number;
+    postsCount: number;
+    followersCount: number;
+    followingCount: number;
+    memberSince: string;
+};

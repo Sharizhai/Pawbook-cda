@@ -22,13 +22,15 @@
         profilePicture,
         firstName,
         lastName,
-        description
+        description,
+        isSelfProfile
     } : {
         customClass?: string,
         profilePicture?: string,
         firstName: string,
         lastName: string,
-        description?: string
+        description?: string,
+        isSelfProfile: boolean
     } = $props();
 
     let isQuickActionsMenuOpen = $state(false);
@@ -99,7 +101,9 @@
         <div class="profile-card-container-user-infos-buttons-container">
                 <!-- TODO :
                 if profile = user profile => add followers & followed buttons -->
-            <Button label="Suivre" onClick={onFollowButtonClick} isCTA hadShadow/>
+            {#if !isSelfProfile}
+                <Button label="Suivre" onClick={onFollowButtonClick} isCTA hadShadow/>
+            {/if}
         </div>
     </div>
 

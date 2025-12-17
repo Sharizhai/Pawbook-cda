@@ -18,6 +18,7 @@
     import {ProfileTab} from "$types/profileTabsTypes";
     import {profileTabs} from "$config/profileTabsUI";
     import { user } from "\$stores/stores.svelte";
+    import { getUserInformations } from "$services/userServices.svelte";
 
     const emptyPostIncentive = messages.profile_tab_posts_incentive();
     const emptyPostButtonLabel = messages.profile_tab_first_post();
@@ -38,7 +39,7 @@
 
     let profileUserId = $state<string | undefined>(undefined);
     let isOwnProfile = $derived(profileUserId !== undefined && profileUserId === user.information?.id);
-    let profileUser = $derived(isOwnProfile ? user.information : null);
+    let profileUser = $state<any | null>(null);
 
     let isPostCreationDialogPanelOpen = $state(false);
     let isAnimalCreationDialogPanelOpen = $state(false);
@@ -48,6 +49,20 @@
     $effect(() => {
         if (params.userId && user.information) {
             profileUserId = params.userId;
+
+            if (isOwnProfile) {
+                profileUser = user.information;
+            } else {
+                getUserInformations(profileUserId)
+                    .then((data) => {
+                        profileUser = data;
+                    })
+                    .catch((err) => {
+                        console.error("Error fetching consulted user info:", err);
+                        profileUser = null;
+                    });
+            }
+
             loadProfileData();
         }
     });
@@ -130,7 +145,7 @@
         <div class="profile-page-container">
             {#if profileUser}
                 <ProfileCard firstName={profileUser.firstName} lastName={profileUser.name}
-                             description={profileUser.profileDescription} profilePicture={profileUser.profilePicture} />
+                             description={profileUser.profileDescription} profilePicture={profileUser.profilePicture} isSelfProfile={isOwnProfile}/>
             {/if}
 
             <ProfileTabs onClick={onHeaderTabButtonClick} tabContent={profileTabContentSnippet} activeTab={activeTab} tabs={profileTabs} />

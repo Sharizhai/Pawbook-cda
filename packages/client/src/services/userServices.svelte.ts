@@ -1,4 +1,4 @@
-import type {UserInformations} from "$types/userTypes";
+import type {PublicUserInformations, UserInformations} from "$types/userTypes";
 import {apiFetch} from "$services/backendServices.svelte";
 
 export async function fetchUserInformations(): Promise<UserInformations> {
@@ -27,4 +27,18 @@ export async function createUser(name: string, firstName:string, email: string, 
     }
 
     return response.json();
+}
+
+export async function getUserInformations(userId: string): Promise<PublicUserInformations> {
+    const response = await apiFetch(`/users/${userId}`, {
+        method: "GET",
+        checkCredentials: true,
+    });
+
+    if(!response.ok)
+        throw new Error("Unable to fetch user profile");
+
+    const responseData = await response.json();
+
+    return responseData.data || {} as PublicUserInformations;
 }
