@@ -27,6 +27,18 @@ export function createPostSlice() {
         currentPage = value;
     }
 
+    function addPostToTop(newPost: PostInformations) {
+        posts = [newPost, ...posts];
+    }
+
+    function removePost(postId: string) {
+        posts = posts.filter(p => p.id !== postId);
+    }
+
+    function updatePost(postId: string, updates: Partial<PostInformations>) {
+        posts = posts.map(post => post.id === postId ? {...post, ...updates} : post);
+    }
+
     return {
         get posts() {
             return posts;
@@ -48,5 +60,8 @@ export function createPostSlice() {
         addPosts,
         setHasMore,
         setCurrentPage,
+        addPostToTop,
+        removePost,
+        updatePost,
     }
 }
