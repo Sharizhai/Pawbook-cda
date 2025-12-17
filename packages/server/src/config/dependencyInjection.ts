@@ -40,6 +40,7 @@ import {GetAllPostsUseCase} from "$application/use-cases/post/GetAllPostsUseCase
 import {CreatePostUseCase} from "$application/use-cases/post/CreatePostUseCase";
 
 import {CreateUserUseCase} from "$application/use-cases/user/CreateUserUseCase";
+import {GetUserByIdUseCase} from "$application/use-cases/user/GetUserByIdUseCase";
 
 import {CreateAnimalProfileUseCase} from "$application/use-cases/animal/CreateAnimalProfileUseCase";
 import {GetAllAnimalsByOwnerIdUseCase} from "$application/use-cases/animal/GetAllAnimalsByOwnerIdUseCase";
@@ -81,6 +82,7 @@ export interface Dependencies {
     createPostUseCase: CreatePostUseCase;
 
     createUserUserCase: CreateUserUseCase;
+    getUserByIdUseCase: GetUserByIdUseCase
 
     createAnimalProfileUseCase: CreateAnimalProfileUseCase
     getAllAnimalsByOwnerIdUseCase: GetAllAnimalsByOwnerIdUseCase
@@ -186,6 +188,10 @@ container.register({
     // *** USERS ***
     createUserUserCase: asFunction((deps: Dependencies) =>
         new CreateUserUseCase(deps.userRepository, deps.argon2Services)
+    ).singleton(),
+
+    getUserByIdUseCase: asFunction((deps: Dependencies) =>
+        new GetUserByIdUseCase(deps.userRepository)
     ).singleton(),
 
     // *** ANIMALS ***
