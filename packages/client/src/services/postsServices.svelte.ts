@@ -35,3 +35,18 @@ export async function fetchPostsByAuthorId(page = 1, limit = 10, authorId: strin
         authorId: responseData.data?.authorId || ""
     };
 }
+
+export async function createPost(authorId: string, textContent?: string, photoContent?: string[]) {
+    const response = await apiFetch("/posts/create", {
+        method: "POST",
+        body: JSON.stringify({authorId, textContent, photoContent}),
+        checkCredentials: true,
+    })
+
+    if(!response.ok) {
+        const error = await response.json();
+        throw error;
+    }
+
+    return response.json();
+}
