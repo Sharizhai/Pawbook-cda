@@ -1,5 +1,5 @@
 import {MongoPostModel} from "$infrastructure/database/mongoPostModel.model";
-import {IPostRepository} from "$domain/interfaces/postRepository.interface";
+import {IPostRepository} from "$domain/interfaces/repositories/postRepository.interface";
 import {Post, PostData} from "$domain/entities/Posts";
 
 export class MongoPostRepository implements IPostRepository {
