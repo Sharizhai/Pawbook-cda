@@ -7,6 +7,7 @@ import {IAnimalRepository} from "$domain/interfaces/repositories/animalRepositor
 import {ILikeRepository} from "$domain/interfaces/repositories/likeRepository.interface";
 import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import {IPostRepository} from "$domain/interfaces/repositories/postRepository.interface";
+import {IFollowRepository} from "$domain/interfaces/repositories/followRepository.interface";
 import {IAuthServices} from "$domain/interfaces/authServices.interface";
 import {IJwtServices} from "$domain/interfaces/jwtServices.interface";
 
@@ -26,6 +27,8 @@ import {MongoLikeRepository} from "$infrastructure/repositories/like/MongoLikeRe
 
 import {InMemoryAnimalRepository} from "$infrastructure/repositories/animal/inMemoryAnimalRepository";
 import {PostgresAnimalRepository} from "$infrastructure/repositories/animal/PostgresAnimalRepository";
+
+import {PostgresFollowRepository} from "$infrastructure/repositories/follow/PostgresFollowRepository";
 
 import {InMemoryPhotosStorageServices} from "$infrastructure/storage/inMemoryPhotoStorageServices";
 import {CloudinaryStorageServices} from "$infrastructure/storage/cloudinaryStorageServices";
@@ -55,6 +58,8 @@ import {AuthServices} from "$application/services/authServices";
 import {env} from "$config/env";
 import {prisma} from "$config/prisma";
 import {PrismaClient} from "@prisma/client";
+import {FollowAUserUseCase} from "$application/use-cases/follow/FollowAUserUseCase";
+import {InMemoryFollowRepository} from "$infrastructure/repositories/follow/InMemoryFollowRepository";
 
 export interface Dependencies {
     prisma: PrismaClient;
@@ -71,21 +76,24 @@ export interface Dependencies {
     commentRepository: ICommentRepository;
     likeRepository: ILikeRepository;
     animalRepository: IAnimalRepository;
+    followRepository: IFollowRepository;
 
     postController: PostController;
     userController: UserController;
     photoController: PhotoController;
     animalController: AnimalController
 
-    getAllPostsByAuthorIdUseCase: GetAllPostsByAuthorIdUseCase
+    getAllPostsByAuthorIdUseCase: GetAllPostsByAuthorIdUseCase;
     getAllPostsUseCase: GetAllPostsUseCase;
     createPostUseCase: CreatePostUseCase;
 
     createUserUserCase: CreateUserUseCase;
-    getUserByIdUseCase: GetUserByIdUseCase
+    getUserByIdUseCase: GetUserByIdUseCase;
 
-    createAnimalProfileUseCase: CreateAnimalProfileUseCase
-    getAllAnimalsByOwnerIdUseCase: GetAllAnimalsByOwnerIdUseCase
+    createAnimalProfileUseCase: CreateAnimalProfileUseCase;
+    getAllAnimalsByOwnerIdUseCase: GetAllAnimalsByOwnerIdUseCase;
+
+    followAUserUseCase: FollowAUserUseCase;
 
     uploadProfilePictureUseCase: UploadProfilePictureUseCase;
 }
@@ -128,6 +136,10 @@ const animalRepositoryClass = env.NODE_ENV === "test"
     ? InMemoryAnimalRepository
     : PostgresAnimalRepository;
 
+const followRepositoryClass = env.NODE_ENV === "test"
+    ? InMemoryFollowRepository
+    : PostgresFollowRepository;
+
 const photoStorageServiceClass = (env.NODE_ENV === "test"
     ? InMemoryPhotosStorageServices
     : CloudinaryStorageServices) as Constructor<IPhotoStorageService>;
@@ -157,6 +169,7 @@ container.register({
     commentRepository: asClass(commentRepositoryClass).singleton(),
     likeRepository: asClass(likeRepositoryClass).singleton(),
     animalRepository: asFunction(() => new animalRepositoryClass(prisma)).singleton(),
+    followRepository: asFunction(() => new followRepositoryClass(prisma)).singleton(),
     argon2Services: asClass(Argon2Services).singleton(),
     photoStorageServices: asClass(photoStorageServiceClass).singleton(),
     jwtAuthService: asFunction(() =>
@@ -201,6 +214,11 @@ container.register({
 
     getAllAnimalsByOwnerIdUseCase: asFunction((deps: Dependencies) =>
         new GetAllAnimalsByOwnerIdUseCase(deps.animalRepository, deps.userRepository)
+    ).singleton(),
+
+    // *** FOLLOWS ***
+    followAUserUseCase: asFunction((deps: Dependencies) =>
+        new FollowAUserUseCase(deps.followRepository, deps.userRepository)
     ).singleton(),
 
     // *** PHOTOS ***

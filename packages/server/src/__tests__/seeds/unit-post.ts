@@ -3,8 +3,8 @@ import {DateHelper} from "$utils/dateUtils.utils";
 
 export const UnitPost = {
     post1: new Post({
-        id: "post-1",
-        authorId: "67164a84291bcc737b9a7e3a",
+        id: "550e8400-e29b-41d4-a716-446655440100",
+        authorId: "550e8400-e29b-41d4-a716-446655440000",
         textContent: "Premier post",
         photoContent: [],
         likes: [],
@@ -14,8 +14,8 @@ export const UnitPost = {
         updatedAt: new Date(),
     }),
     post2: new Post({
-        id: "post-2",
-        authorId: "67164a84291bcc737b9a7e3a",
+        id: "550e8400-e29b-41d4-a716-446655440200",
+        authorId: "550e8400-e29b-41d4-a716-446655440000",
         textContent: "Deuxième post",
         photoContent: [],
         likes: [],
@@ -25,8 +25,8 @@ export const UnitPost = {
         updatedAt: new Date(),
     }),
     post3: new Post({
-        id: "post-3",
-        authorId: "67164a84291bcc737b9a7e3a",
+        id: "550e8400-e29b-41d4-a716-446655440300",
+        authorId: "550e8400-e29b-41d4-a716-446655440000",
         textContent: "Troisième post",
         photoContent: [],
         likes: [],
@@ -36,8 +36,8 @@ export const UnitPost = {
         updatedAt: new Date(),
     }),
     post4: new Post({
-        id: "post-4",
-        authorId: "67164a84291bcc737b9a7e3a",
+        id: "550e8400-e29b-41d4-a716-446655440400",
+        authorId: "550e8400-e29b-41d4-a716-446655440000",
         textContent: "Quatrième post",
         photoContent: [],
         likes: [],
@@ -47,12 +47,12 @@ export const UnitPost = {
         updatedAt: new Date(),
     }),
     post5: new Post({
-        id: "post-5",
-        authorId: "67164a84291bcc737b9a7e3a",
+        id: "550e8400-e29b-41d4-a716-446655440500",
+        authorId: "550e8400-e29b-41d4-a716-446655440000",
         textContent: "Cinquième post",
         photoContent: [],
         likes: ["like-1", "like-2"],
-        comments: ["comment-1", "comment-2"],
+        comments: ["550e8400-e29b-41d4-a716-446655441000", "550e8400-e29b-41d4-a716-446655441100"],
         updated: false,
         createdAt: DateHelper.daysAgo(1),
         updatedAt: new Date(),

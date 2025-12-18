@@ -86,13 +86,13 @@ describe("Usecase: We must be able to get all posts", () => {
     it("should paginate posts with a specified limit", async () => {
         const page1 = await getAllPostsUseCase.execute(0, 2);
         expect(page1.posts).toHaveLength(2);
-        expect(page1.posts[0].id).toBe("post-5");
-        expect(page1.posts[1].id).toBe("post-4");
+        expect(page1.posts[0].id).toBe("550e8400-e29b-41d4-a716-446655440500");
+        expect(page1.posts[1].id).toBe("550e8400-e29b-41d4-a716-446655440400");
 
         const page2 = await getAllPostsUseCase.execute(2, 2);
         expect(page2.posts).toHaveLength(2);
-        expect(page2.posts[0].id).toBe("post-3");
-        expect(page2.posts[1].id).toBe("post-2");
+        expect(page2.posts[0].id).toBe("550e8400-e29b-41d4-a716-446655440300");
+        expect(page2.posts[1].id).toBe("550e8400-e29b-41d4-a716-446655440200");
     });
 
     it("should return hasMore: true when more posts exist", async () => {

@@ -25,7 +25,7 @@ describe("Use case: we should be able to create an animal profile", () => {
         createAnimalProfileUseCase = new CreateAnimalProfileUseCase(animalRepository, userRepository);
 
         validAnimalData = {
-            ownerId: "67164a84291bcc737b9a7e3a",
+            ownerId: "550e8400-e29b-41d4-a716-446655440000",
             name: "Puppy",
             type: "dog",
             picture: ""
@@ -36,7 +36,7 @@ describe("Use case: we should be able to create an animal profile", () => {
         const invalidData = {
             name: "",
             type: "dog",
-            ownerId: "67164a84291bcc737b9a7e3a",
+            ownerId: "550e8400-e29b-41d4-a716-446655440000",
         } as AnimalCreationDto;
 
         await expect(createAnimalProfileUseCase.execute(invalidData)).rejects.toThrow("Le nom est requis");
@@ -46,7 +46,7 @@ describe("Use case: we should be able to create an animal profile", () => {
         const invalidData = {
             name: "Pouet",
             type: "",
-            ownerId: "67164a84291bcc737b9a7e3a",
+            ownerId: "550e8400-e29b-41d4-a716-446655440000",
         } as AnimalCreationDto;
 
         await expect(createAnimalProfileUseCase.execute(invalidData)).rejects.toThrow("Le type est requis");
@@ -60,14 +60,14 @@ describe("Use case: we should be able to create an animal profile", () => {
         } as AnimalCreationDto;
 
         await expect(createAnimalProfileUseCase.execute(invalidData))
-            .rejects.toThrow("Utilisateur non trouvé");
+            .rejects.toThrow("ownerId must be a valid UUID");
     });
 
     it("Should trim and normalize animal data before saving", async () => {
         const dataWithSpaces = {
             name: " Pouet   ",
             type: "dog",
-            ownerId: "67164a84291bcc737b9a7e3a",
+            ownerId: "550e8400-e29b-41d4-a716-446655440000",
         } as AnimalCreationDto;
 
         const result = await createAnimalProfileUseCase.execute(dataWithSpaces);
@@ -81,11 +81,11 @@ describe("Use case: we should be able to create an animal profile", () => {
         const newAnimalData = {
             name: "Kitty",
             type: "cat",
-            ownerId: "67164a84291bcc737b9a7e3a",
+            ownerId: "550e8400-e29b-41d4-a716-446655440000",
         } as AnimalCreationDto;
 
         const createdAnimal = await createAnimalProfileUseCase.execute(newAnimalData);
-        const updatedUser = await userRepository.findById("67164a84291bcc737b9a7e3a");
+        const updatedUser = await userRepository.findById("550e8400-e29b-41d4-a716-446655440000");
 
         expect(updatedUser).toBeDefined();
         expect(updatedUser!.animals).toHaveLength(initialAnimalsCount + 2);
@@ -98,6 +98,6 @@ describe("Use case: we should be able to create an animal profile", () => {
         expect(animal).toBeDefined();
         expect(animal.name).toBe("Puppy");
         expect(animal.type).toBe("dog");
-        expect(animal.ownerId).toBe("67164a84291bcc737b9a7e3a");
+        expect(animal.ownerId).toBe("550e8400-e29b-41d4-a716-446655440000");
     });
 })

@@ -3,13 +3,13 @@ import {DateHelper} from "$utils/dateUtils.utils";
 
 export const UnitUser = {
     john: new User({
-        id: "67164a84291bcc737b9a7e3a",
+        id: "550e8400-e29b-41d4-a716-446655440000",
         name: "Doe",
         firstName: "John",
         email: "john.doe@johndoe.com",
         password: "$argon2id$v=19$m=1024,t=4,p=2$Zsd3m9/6awmtUbyNBP92jQ$nvJo/KhXqQvV7SZLgCSc+UmPSU3rSqjmSxrL8fZ7HnA",
         role: "USER",
-        posts: ["6717d2f6ef8e529324d93121"],
+        posts: ["550e8400-e29b-41d4-a716-446655440100"],
         animals: [],
         follows: ["671c1864e01d7d5e4dfedd23"],
         followers: ["674239db1a72b373742596b6"],
@@ -20,7 +20,7 @@ export const UnitUser = {
         refreshToken: "",
     }),
     jane: new User({
-        id: "67164a84291bcc737b9a7e3b",
+        id: "550e8400-e29b-41d4-a716-446655440001",
         name: "Doe",
         firstName: "Jane",
         email: "jane.doe@janedoe.com",
@@ -37,7 +37,7 @@ export const UnitUser = {
         refreshToken: "",
     }),
     loly: new User({
-        id: "67164a84291bcc737b9a7e3c",
+        id: "550e8400-e29b-41d4-a716-446655440002",
         name: "Doe",
         firstName: "Loly",
         email: "loly.doe@lolydoe.com",
@@ -54,7 +54,7 @@ export const UnitUser = {
         refreshToken: "",
     }),
     modette: new User({
-        id: "67164a84291bcc737b9a7e3d",
+        id: "550e8400-e29b-41d4-a716-446655440003",
         name: "Doe",
         firstName: "Modette",
         email: "modette.doe@modettedoe.com",

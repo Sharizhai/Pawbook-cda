@@ -32,7 +32,7 @@ export const userCreationValidation = z.object({
 });
 
 export const animalCreationValidation = z.object({
-    ownerId: z.string(),
+    ownerId: z.string().uuid("ownerId must be a valid UUID"),
     name: z.string().min(2, { message: "Le nom est requis" }),
     type: z.string().min(2, { message: "Le type est requis" }),
     race: z.string().optional(),
@@ -42,7 +42,7 @@ export const animalCreationValidation = z.object({
 });
 
 export const postCreationValidation = z.object({
-    authorId: z.string(),
+    authorId: z.string().uuid("authorId must be a valid UUID"),
     textContent: z.string().optional(),
     photoContent: z.array(z.string()).optional(),
 }).refine(data => {
@@ -52,7 +52,22 @@ export const postCreationValidation = z.object({
     message: "Du texte ou une image est requis"
 });
 
+export const followCreationValidation = z.object({
+    followerId: z.string().uuid("followerId must be a valid UUID"),
+    followingId: z.string().uuid("followingId must be a valid UUID"),
+}).refine(
+    (data) => data.followerId !== data.followingId, {
+        message:"Vous ne pouvez pas vous suivre vous-même",
+    });
+
+export const followDeletionValidation = z.object({
+    followerId: z.string().uuid("followerId must be a valid UUID"),
+    followingId: z.string().uuid("followingId must be a valid UUID"),
+});
+
 export type LoginDto = z.infer<typeof loginValidation>;
 export type UserCreationDto = z.infer<typeof userCreationValidation>;
 export type AnimalCreationDto = z.infer<typeof animalCreationValidation>;
 export type PostCreationDto = z.infer<typeof postCreationValidation>;
+export type FollowCreationDto = z.infer<typeof followCreationValidation>;
+export type FollowDeletionDto = z.infer<typeof followDeletionValidation>;

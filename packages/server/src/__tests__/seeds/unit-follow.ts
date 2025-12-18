@@ -4,8 +4,8 @@ import {Follow} from "$domain/entities/Follows";
 export const UnitFollow = {
     johnModette: new Follow({
         id: "67164a84291bcc737b9a7e2a",
-        followerId: "67164a84291bcc737b9a7e3a",
-        followingId: "67164a84291bcc737b9a7e3d",
+        followerId: "550e8400-e29b-41d4-a716-446655440000",
+        followingId: "550e8400-e29b-41d4-a716-446655440003",
         createdAt: DateHelper.daysAgo(10),
 })
 };

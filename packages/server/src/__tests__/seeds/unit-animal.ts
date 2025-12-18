@@ -3,8 +3,8 @@ import {DateHelper} from "$utils/dateUtils.utils";
 
 export const UnitAnimal = {
     puppy: new Animal({
-        id: "67164a84291bcc737b9a7e4a",
-        ownerId: "67164a84291bcc737b9a7e3a",
+        id: "550e8400-e29b-41d4-a716-446655440010",
+        ownerId: "550e8400-e29b-41d4-a716-446655440000",
         name: "Puppy",
         type: "Dog",
         race: "Labrador",
@@ -16,8 +16,8 @@ export const UnitAnimal = {
         updatedAt: new Date(),
     }),
     carpette: new Animal({
-        id: "67164a84291bcc737b9a7e4b",
-        ownerId: "67164a84291bcc737b9a7e3a",
+        id: "550e8400-e29b-41d4-a716-446655440020",
+        ownerId: "550e8400-e29b-41d4-a716-446655440000",
         name: "Carpette",
         type: "Fish",
         race: "Koi",
@@ -29,8 +29,8 @@ export const UnitAnimal = {
         updatedAt: new Date(),
     }),
     noona: new Animal({
-        id: "67164a84291bcc737b9a7e4c",
-        ownerId: "67164a84291bcc737b9a7e3a",
+        id: "550e8400-e29b-41d4-a716-446655440030",
+        ownerId: "550e8400-e29b-41d4-a716-446655440000",
         name: "Noona",
         type: "Cat",
         race: "Européen",
@@ -42,8 +42,8 @@ export const UnitAnimal = {
         updatedAt: new Date(),
     }),
     hubert: new Animal({
-        id: "67164a84291bcc737b9a7e4d",
-        ownerId: "67164a84291bcc737b9a7e3a",
+        id: "550e8400-e29b-41d4-a716-446655440040",
+        ownerId: "550e8400-e29b-41d4-a716-446655440000",
         name: "Hubert",
         type: "Hamster",
         race: "",
@@ -55,8 +55,8 @@ export const UnitAnimal = {
         updatedAt: new Date(),
     }),
     ham: new Animal({
-        id: "67164a84291bcc737b9a7e4e",
-        ownerId: "67164a84291bcc737b9a7e3a",
+        id: "550e8400-e29b-41d4-a716-446655440050",
+        ownerId: "550e8400-e29b-41d4-a716-446655440000",
         name: "Ham",
         type: "Pig",
         race: "",
