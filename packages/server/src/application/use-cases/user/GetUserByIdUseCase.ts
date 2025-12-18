@@ -1,4 +1,4 @@
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import {User} from "$domain/entities/Users";
 
 export class GetUserByIdUseCase {

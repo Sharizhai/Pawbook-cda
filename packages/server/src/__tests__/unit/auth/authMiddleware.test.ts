@@ -1,4 +1,4 @@
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import {makeAuthMiddleware} from "$presentation/middlewares/authMiddleware";
 import {IAuthServices} from "$domain/interfaces/authServices.interface";
 import {IJwtServices} from "$domain/interfaces/jwtServices.interface";

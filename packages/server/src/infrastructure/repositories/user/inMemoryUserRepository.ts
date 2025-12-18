@@ -1,4 +1,4 @@
-import {IUserRepository, UserFilters} from "$domain/interfaces/userRepository.interface";
+import {IUserRepository, UserFilters} from "$domain/interfaces/repositories/userRepository.interface";
 import {User, UserData} from "$domain/entities/Users";
 
 export class InMemoryUserRepository implements IUserRepository {

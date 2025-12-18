@@ -1,4 +1,4 @@
-import {ILikeRepository} from "$domain/interfaces/likeRepository.interface";
+import {ILikeRepository} from "$domain/interfaces/repositories/likeRepository.interface";
 import {Like, LikeData} from "$domain/entities/Likes";
 
 export class InMemoryLikeRepository implements ILikeRepository {

@@ -2,10 +2,10 @@ import {beforeAll, describe, expect, it} from "vitest";
 
 import {GetAllPostsByAuthorIdUseCase} from "$application/use-cases/post/GetAllPostsByAuthorIdUseCase";
 import {InMemoryPostRepository} from "$infrastructure/repositories/post/inMemoryPostRepository";
-import {ICommentRepository} from "$domain/interfaces/commentRepository.interface";
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
-import {IPostRepository} from "$domain/interfaces/postRepository.interface";
-import {ILikeRepository} from "$domain/interfaces/likeRepository.interface";
+import {ICommentRepository} from "$domain/interfaces/repositories/commentRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
+import {IPostRepository} from "$domain/interfaces/repositories/postRepository.interface";
+import {ILikeRepository} from "$domain/interfaces/repositories/likeRepository.interface";
 
 import container from "$config/dependencyInjection";
 import {Container} from "$types/container";

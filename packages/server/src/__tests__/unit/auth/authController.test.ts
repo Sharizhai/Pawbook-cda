@@ -1,4 +1,4 @@
-import { IUserRepository } from "$domain/interfaces/userRepository.interface";
+import { IUserRepository } from "$domain/interfaces/repositories/userRepository.interface";
 import { AuthController } from "$presentation/controllers/authController";
 import { IAuthServices } from "$domain/interfaces/authServices.interface";
 import { describe, it, expect, beforeAll, beforeEach } from "vitest";

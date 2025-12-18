@@ -1,7 +1,7 @@
 import {beforeAll, describe, it, expect, beforeEach, vi} from "vitest";
 import {UploadProfilePictureUseCase} from "$application/use-cases/pictures/uploadProfilePictureUseCase";
 import {IPhotoStorageService} from "$domain/interfaces/photoStorageServices.interface";
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import container from "$config/dependencyInjection";
 import {UnitUser} from "../../seeds/unit-user";
 import {Container} from "$types/container";

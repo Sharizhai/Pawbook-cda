@@ -1,4 +1,4 @@
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import {beforeAll, describe, it, expect} from "vitest";
 import container from "$config/dependencyInjection";
 import {UnitUser} from "../../seeds/unit-user";

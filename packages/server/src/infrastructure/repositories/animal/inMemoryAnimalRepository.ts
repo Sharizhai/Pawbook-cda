@@ -1,6 +1,6 @@
-import {AnimalFilters, IAnimalRepository} from "$domain/interfaces/animalRepository.interface";
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
-import {ILikeRepository} from "$domain/interfaces/likeRepository.interface";
+import {AnimalFilters, IAnimalRepository} from "$domain/interfaces/repositories/animalRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
+import {ILikeRepository} from "$domain/interfaces/repositories/likeRepository.interface";
 import {Animal, AnimalData} from "$domain/entities/Animals";
 
 export class InMemoryAnimalRepository implements IAnimalRepository

@@ -1,5 +1,5 @@
 import {MongoCommentModel} from "$infrastructure/database/mongoCommentModel.model";
-import {ICommentRepository} from "$domain/interfaces/commentRepository.interface";
+import {ICommentRepository} from "$domain/interfaces/repositories/commentRepository.interface";
 import {Comment, CommentData} from "$domain/entities/Comments";
 
 export class MongoCommentRepository implements ICommentRepository {

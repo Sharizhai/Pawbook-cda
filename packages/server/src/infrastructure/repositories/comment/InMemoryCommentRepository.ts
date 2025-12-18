@@ -1,6 +1,6 @@
-import {ICommentRepository} from "$domain/interfaces/commentRepository.interface";
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
-import {IPostRepository} from "$domain/interfaces/postRepository.interface";
+import {ICommentRepository} from "$domain/interfaces/repositories/commentRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
+import {IPostRepository} from "$domain/interfaces/repositories/postRepository.interface";
 import {Comment, CommentData} from "$domain/entities/Comments";
 
 export class InMemoryCommentRepository implements ICommentRepository {

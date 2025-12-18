@@ -1,5 +1,5 @@
-import {IPostRepository} from "$domain/interfaces/postRepository.interface";
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
+import {IPostRepository} from "$domain/interfaces/repositories/postRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import {Post} from "$domain/entities/Posts";
 
 export class GetAllPostsByAuthorIdUseCase {

@@ -1,5 +1,5 @@
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
-import {IPostRepository} from "$domain/interfaces/postRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
+import {IPostRepository} from "$domain/interfaces/repositories/postRepository.interface";
 import container from "$config/dependencyInjection";
 import {UnitUser} from "../../seeds/unit-user";
 import {beforeAll, describe, it, expect} from "vitest";

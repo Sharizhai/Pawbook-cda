@@ -1,5 +1,5 @@
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
-import {IPostRepository} from "$domain/interfaces/postRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
+import {IPostRepository} from "$domain/interfaces/repositories/postRepository.interface";
 import {PostCreationDto, postCreationValidation} from "$presentation/dto/validation";
 import {Post} from "$domain/entities/Posts";
 

@@ -1,5 +1,5 @@
-import {IAnimalRepository} from "$domain/interfaces/animalRepository.interface";
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
+import {IAnimalRepository} from "$domain/interfaces/repositories/animalRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import {AnimalCreationDto, animalCreationValidation} from "$presentation/dto/validation";
 import {Animal} from "$domain/entities/Animals";
 

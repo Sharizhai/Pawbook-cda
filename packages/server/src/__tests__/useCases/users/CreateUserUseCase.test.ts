@@ -1,6 +1,6 @@
 import {CreateUserUseCase} from "$application/use-cases/user/CreateUserUseCase";
 import {IPasswordServices} from "$domain/interfaces/passwordServices.interface";
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import {UserCreationDto} from "$presentation/dto/validation";
 import {beforeAll, describe, it, expect} from "vitest";
 import container from "$config/dependencyInjection";

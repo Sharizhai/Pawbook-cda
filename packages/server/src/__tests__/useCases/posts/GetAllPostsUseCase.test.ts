@@ -1,14 +1,14 @@
-import {IPostRepository} from "$domain/interfaces/postRepository.interface";
+import {IPostRepository} from "$domain/interfaces/repositories/postRepository.interface";
 import {describe, it, expect, beforeAll} from "vitest";
 import container from "$config/dependencyInjection";
 import {UnitPost} from "../../seeds/unit-post";
 import {Container} from "$types/container";
 import {GetAllPostsUseCase} from "$application/use-cases/post/GetAllPostsUseCase";
 import {UnitUser} from "../../seeds/unit-user";
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import {InMemoryPostRepository} from "$infrastructure/repositories/post/inMemoryPostRepository";
-import {ILikeRepository} from "$domain/interfaces/likeRepository.interface";
-import {ICommentRepository} from "$domain/interfaces/commentRepository.interface";
+import {ILikeRepository} from "$domain/interfaces/repositories/likeRepository.interface";
+import {ICommentRepository} from "$domain/interfaces/repositories/commentRepository.interface";
 import {UnitComment} from "../../seeds/unit-comment";
 
 describe("Usecase: We must be able to get all posts", () => {

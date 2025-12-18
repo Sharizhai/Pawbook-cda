@@ -1,5 +1,5 @@
 import {MongoLikeModel} from "$infrastructure/database/mongoLikeModel.model";
-import {ILikeRepository} from "$domain/interfaces/likeRepository.interface";
+import {ILikeRepository} from "$domain/interfaces/repositories/likeRepository.interface";
 import {Like, LikeData} from "$domain/entities/Likes";
 
 export class MongoLikeRepository implements ILikeRepository {

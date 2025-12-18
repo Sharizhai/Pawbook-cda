@@ -1,5 +1,5 @@
 import {Animal, AnimalData} from "$domain/entities/Animals";
-import {UserFilters} from "$domain/interfaces/userRepository.interface";
+import {UserFilters} from "$domain/interfaces/repositories/userRepository.interface";
 import {User} from "$domain/entities/Users";
 
 /**

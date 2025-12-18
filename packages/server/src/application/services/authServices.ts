@@ -1,5 +1,5 @@
 import {IPasswordServices} from "$domain/interfaces/passwordServices.interface";
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import {IAuthServices} from "$domain/interfaces/authServices.interface";
 import {ITokenPayload} from "$domain/interfaces/tokenPayload.interface";
 import {IJwtServices} from "$domain/interfaces/jwtServices.interface";

@@ -1,12 +1,12 @@
 import {asClass, asFunction, asValue, Constructor, createContainer} from "awilix";
 
 import {IPhotoStorageService} from "$domain/interfaces/photoStorageServices.interface";
-import {ICommentRepository} from "$domain/interfaces/commentRepository.interface";
+import {ICommentRepository} from "$domain/interfaces/repositories/commentRepository.interface";
 import {IPasswordServices} from "$domain/interfaces/passwordServices.interface";
-import {IAnimalRepository} from "$domain/interfaces/animalRepository.interface";
-import {ILikeRepository} from "$domain/interfaces/likeRepository.interface";
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
-import {IPostRepository} from "$domain/interfaces/postRepository.interface";
+import {IAnimalRepository} from "$domain/interfaces/repositories/animalRepository.interface";
+import {ILikeRepository} from "$domain/interfaces/repositories/likeRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
+import {IPostRepository} from "$domain/interfaces/repositories/postRepository.interface";
 import {IAuthServices} from "$domain/interfaces/authServices.interface";
 import {IJwtServices} from "$domain/interfaces/jwtServices.interface";
 

@@ -1,5 +1,5 @@
 import {IPhotoStorageService} from "$domain/interfaces/photoStorageServices.interface";
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import multer from "multer";
 
 export class UploadProfilePictureUseCase {

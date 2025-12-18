@@ -4,7 +4,7 @@ import {AuthController} from "$presentation/controllers/authController";
 import {makeAuthMiddleware} from "$presentation/middlewares/authMiddleware";
 import authRoutesFactory from "$presentation/routes/authRoutes";
 import container from "$config/dependencyInjection";
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import postRoutesFactory from "$presentation/routes/postRoutes";
 import {PostController} from "$presentation/controllers/postController";
 import {UserController} from "$presentation/controllers/userController";

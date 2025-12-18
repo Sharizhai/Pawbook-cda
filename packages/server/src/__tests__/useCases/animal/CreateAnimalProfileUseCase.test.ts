@@ -1,6 +1,6 @@
 import {CreateAnimalProfileUseCase} from "$application/use-cases/animal/CreateAnimalProfileUseCase";
-import {IAnimalRepository} from "$domain/interfaces/animalRepository.interface";
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
+import {IAnimalRepository} from "$domain/interfaces/repositories/animalRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import {AnimalCreationDto} from "$presentation/dto/validation";
 import {beforeAll, describe, expect, it} from "vitest";
 import container from "$config/dependencyInjection";

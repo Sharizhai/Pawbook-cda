@@ -1,7 +1,7 @@
 import {beforeAll, describe, expect, it} from "vitest";
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
-import {IAnimalRepository} from "$domain/interfaces/animalRepository.interface";
-import {ILikeRepository} from "$domain/interfaces/likeRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
+import {IAnimalRepository} from "$domain/interfaces/repositories/animalRepository.interface";
+import {ILikeRepository} from "$domain/interfaces/repositories/likeRepository.interface";
 import {Container} from "$types/container";
 import container from "$config/dependencyInjection";
 import {InMemoryAnimalRepository} from "$infrastructure/repositories/animal/inMemoryAnimalRepository";

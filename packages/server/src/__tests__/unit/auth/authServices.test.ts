@@ -1,5 +1,5 @@
 import {InMemoryUserRepository} from "$infrastructure/repositories/user/inMemoryUserRepository";
-import {IUserRepository} from "$domain/interfaces/userRepository.interface";
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import {IAuthServices} from "$domain/interfaces/authServices.interface";
 import {describe, it, expect, beforeAll} from "vitest";
 import {LoginDto} from "$presentation/dto/validation";
