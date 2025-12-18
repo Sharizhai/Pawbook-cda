@@ -13,6 +13,8 @@ import {PhotoController} from "$presentation/controllers/photoController";
 import photoRoutesFactory from "$presentation/routes/photoRoutes";
 import {AnimalController} from "$presentation/controllers/animalController";
 import animalRoutesFactory from "$presentation/routes/animalRoutes";
+import {FollowController} from "$presentation/controllers/followController";
+import followRoutesFactory from "$presentation/routes/followRoutes";
 
 /**
  * Interface pour les statistiques de santé de l"API
@@ -38,6 +40,7 @@ interface ApiInfo {
         users: string;
         posts: string;
         animals: string;
+        follows: string;
         photos: string;
     };
     documentation?: string;
@@ -58,6 +61,7 @@ export const setupRoutes = (app: express.Application): void => {
     const postController = container.resolve<PostController>("postController");
     const userController = container.resolve<UserController>("userController");
     const animalController = container.resolve<AnimalController>("animalController");
+    const followController = container.resolve<FollowController>("followController")
     const photoController = container.resolve<PhotoController>("photoController");
 
     // Routes principales
@@ -65,6 +69,7 @@ export const setupRoutes = (app: express.Application): void => {
     app.use("/api/posts", postRoutesFactory(postController, {isAuthenticated}));
     app.use("/api/users", userRoutesFactory(userController, {isAuthenticated}));
     app.use("/api/animals", animalRoutesFactory(animalController, {isAuthenticated}));
+    app.use("/api/follows", followRoutesFactory(followController, {isAuthenticated}));
     app.use("/api/photos", photoRoutesFactory(photoController, {isAuthenticated}));
 
     // Route de base pour vérifier que l"API fonctionne
@@ -78,6 +83,7 @@ export const setupRoutes = (app: express.Application): void => {
                 users: "/api/users",
                 posts: "/api/posts",
                 animals: "/api/animals",
+                follows: "/api/follows",
                 photos: "/api/photos",
             },
             documentation:
@@ -154,6 +160,9 @@ export const setupRoutes = (app: express.Application): void => {
                         animals: {
                             createAnimalProfile: "POST /animals/register",
                             getAllAnimalsByOwnerId: "GET /animals/:id",
+                        },
+                        follows: {
+                            createFollow: "POST /follows/register",
                         },
                         photos: {
                             uploadProfilePicture: "POST /photos/:id/profile-picture",

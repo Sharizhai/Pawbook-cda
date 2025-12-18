@@ -28,6 +28,7 @@ import {MongoLikeRepository} from "$infrastructure/repositories/like/MongoLikeRe
 import {InMemoryAnimalRepository} from "$infrastructure/repositories/animal/inMemoryAnimalRepository";
 import {PostgresAnimalRepository} from "$infrastructure/repositories/animal/PostgresAnimalRepository";
 
+import {InMemoryFollowRepository} from "$infrastructure/repositories/follow/InMemoryFollowRepository";
 import {PostgresFollowRepository} from "$infrastructure/repositories/follow/PostgresFollowRepository";
 
 import {InMemoryPhotosStorageServices} from "$infrastructure/storage/inMemoryPhotoStorageServices";
@@ -37,6 +38,7 @@ import {PostController} from "$presentation/controllers/postController";
 import {UserController} from "$presentation/controllers/userController";
 import {PhotoController} from "$presentation/controllers/photoController";
 import {AnimalController} from "$presentation/controllers/animalController";
+import {FollowController} from "$presentation/controllers/followController";
 
 import {GetAllPostsByAuthorIdUseCase} from "$application/use-cases/post/GetAllPostsByAuthorIdUseCase";
 import {GetAllPostsUseCase} from "$application/use-cases/post/GetAllPostsUseCase";
@@ -48,6 +50,8 @@ import {GetUserByIdUseCase} from "$application/use-cases/user/GetUserByIdUseCase
 import {CreateAnimalProfileUseCase} from "$application/use-cases/animal/CreateAnimalProfileUseCase";
 import {GetAllAnimalsByOwnerIdUseCase} from "$application/use-cases/animal/GetAllAnimalsByOwnerIdUseCase";
 
+import {FollowAUserUseCase} from "$application/use-cases/follow/FollowAUserUseCase";
+
 import {UploadProfilePictureUseCase} from "$application/use-cases/pictures/uploadProfilePictureUseCase";
 
 import {JwtAuthService} from "$infrastructure/auth/jwtAuthServices";
@@ -58,8 +62,6 @@ import {AuthServices} from "$application/services/authServices";
 import {env} from "$config/env";
 import {prisma} from "$config/prisma";
 import {PrismaClient} from "@prisma/client";
-import {FollowAUserUseCase} from "$application/use-cases/follow/FollowAUserUseCase";
-import {InMemoryFollowRepository} from "$infrastructure/repositories/follow/InMemoryFollowRepository";
 
 export interface Dependencies {
     prisma: PrismaClient;
@@ -81,7 +83,8 @@ export interface Dependencies {
     postController: PostController;
     userController: UserController;
     photoController: PhotoController;
-    animalController: AnimalController
+    animalController: AnimalController;
+    followController: FollowController;
 
     getAllPostsByAuthorIdUseCase: GetAllPostsByAuthorIdUseCase;
     getAllPostsUseCase: GetAllPostsUseCase;
