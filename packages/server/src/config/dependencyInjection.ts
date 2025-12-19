@@ -226,6 +226,10 @@ container.register({
         new FollowAUserUseCase(deps.followRepository, deps.userRepository)
     ).singleton(),
 
+    unfollowAUserUseCase: asFunction((deps: Dependencies) =>
+        new UnfollowAUserUseCase(deps.followRepository, deps.userRepository)
+    ).singleton(),
+
     // *** PHOTOS ***
     uploadProfilePictureUseCase: asFunction((deps: Dependencies) =>
         new UploadProfilePictureUseCase(deps.userRepository, deps.photoStorageServices)

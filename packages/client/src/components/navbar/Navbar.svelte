@@ -1,11 +1,9 @@
 <script lang="ts">
     import PostCreationDialogPanel from "$components/dialogPanels/PostCreationDialogPanel.svelte";
-    import {fetchUserInformations} from "$services/userServices.svelte";
     import * as messages from "$lib/paraglide/messages";
     import NavbarButton from "./NavbarButton.svelte";
-    import {user} from "\$stores/stores.svelte";
+    import {user} from "$stores/stores.svelte";
     import { push } from "svelte-spa-router";
-    import {onMount} from "svelte";
     import logo from "/logo.png";
 
     import notificationIcon from "$assets/icons/navbar/notification.svg?raw";
@@ -23,14 +21,6 @@
     const addLabel = messages.navbar_add();
 
     let isPostCreationDialogPanelOpen = false;
-
-    onMount(() => {
-        loadData();
-    })
-
-    async function loadData() {
-        user.information = await fetchUserInformations();
-    }
 
     function onHomeButtonClick() {
         push("/feed");

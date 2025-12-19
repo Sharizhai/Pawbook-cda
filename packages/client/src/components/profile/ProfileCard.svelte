@@ -1,20 +1,19 @@
 <script lang="ts">
     import QuickActionsMenu from "$components/generic/quickActionsMenu/QuickActionsMenu.svelte";
     import type {QuickActionsMenuActionProperties} from "$types/quickActionsMenuTypes";
+    import {createFollow, deleteFollow} from "$services/followServices.svelte";
     import SettingsButton from "$components/generic/SettingsButton.svelte";
+    import type {PublicUserInformations} from "$types/userTypes";
     import {authLogout} from "$services/authServices.svelte";
     import Button from "$components/generic/Button.svelte";
     import * as messages from "$lib/paraglide/messages";
+    import {user, follow} from "$stores/stores.svelte";
+    import {push} from "svelte-spa-router";
 
     import deleteIcon from "$assets/icons/delete.svg?raw";
     import logoutIcon from "$assets/icons/logout.svg?raw";
     import editIcon from "$assets/icons/edit.svg?raw";
     import gcuIcon from "$assets/icons/gcu.svg?raw";
-    import {push} from "svelte-spa-router";
-    import {createFollow} from "$services/followServices.svelte";
-    import type {PublicUserInformations} from "$types/userTypes";
-    import {user} from "\$stores/stores.svelte";
-    import {follow} from "$stores/stores.svelte";
 
     const updateProfileLabel = messages.quick_action_profile_update();
     const gcuLabel = messages.home_gcu();
@@ -31,7 +30,7 @@
         isSelfProfile: boolean
     } = $props();
 
-    const followButtonLabel = $derived(follow.isFollowing(profileUser.id) ? messages.profile_card_follow() : messages.profile_card_unfollow())
+    const followButtonLabel = $derived(follow.isFollowing(profileUser.id) ? messages.profile_card_unfollow() : messages.profile_card_follow())
 
     let isQuickActionsMenuOpen = $state(false);
 
@@ -60,7 +59,7 @@
     ])
 
     async function onFollowButtonClick() {
-        await createFollow(profileUser.id, user.information.id);
+        follow.isFollowing(profileUser.id) ? await deleteFollow(profileUser.id) : await createFollow(user.information.id, profileUser.id);
     }
 
     function onSettingsButtonClick() {

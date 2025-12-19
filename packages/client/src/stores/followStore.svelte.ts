@@ -6,9 +6,6 @@ export function createFollowSlice() {
     let followers: FollowInformations[] = $state([]);
     let following: FollowInformations[] = $state([]);
 
-    let followerCount = $derived(followers.length);
-    let followingCount = $derived(following.length);
-
     let isSelfFollow = $derived(information.followerId === information.followingId);
 
     let isReciprocal = $derived(
@@ -17,12 +14,35 @@ export function createFollowSlice() {
     );
 
     function isFollowing(followingUserId: string): boolean {
+        if (!followingUserId) return false;
         return following.some(f => f.followingId === followingUserId);
+    }
+
+    function setFollowing(newFollowing: FollowInformations[]) {
+        following = newFollowing;
+    }
+
+    function setFollowers(newFollowers: FollowInformations[]) {
+        followers = newFollowers;
+    }
+
+    function addFollowing(follow: FollowInformations) {
+        following = [...following, follow];
+    }
+
+    function removeFollowing(followingUserId: string) {
+        following = following.filter(f => f.followingId !== followingUserId);
     }
 
     return {
         get information() {
             return information;
+        },
+        get following() {
+            return following;
+        },
+        get followers() {
+            return followers;
         },
         get isSelfFollow() {
             return isSelfFollow;
@@ -32,5 +52,9 @@ export function createFollowSlice() {
         },
 
         isFollowing,
+        setFollowing,
+        setFollowers,
+        addFollowing,
+        removeFollowing,
     }
 }
