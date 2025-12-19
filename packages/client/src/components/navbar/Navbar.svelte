@@ -2,16 +2,18 @@
     import PostCreationDialogPanel from "$components/dialogPanels/PostCreationDialogPanel.svelte";
     import * as messages from "$lib/paraglide/messages";
     import NavbarButton from "./NavbarButton.svelte";
-    import {user} from "$stores/stores.svelte";
+    import {user, follow} from "$stores/stores.svelte";
     import { push } from "svelte-spa-router";
     import logo from "/logo.png";
 
     import notificationIcon from "$assets/icons/navbar/notification.svg?raw";
+    import {fetchUserInformations} from "$services/userServices.svelte";
     import profileIcon from "$assets/icons/navbar/profile.svg?raw";
     import searchIcon from "$assets/icons/navbar/search.svg?raw";
     import menuIcon from "$assets/icons/navbar/menu.svg?raw";
     import homeIcon from "$assets/icons/navbar/home.svg?raw";
     import addIcon from "$assets/icons/navbar/add.svg?raw";
+    import {onMount} from "svelte";
 
     const notificationLabel = messages.navbar_notifications();
     const profileLabel = messages.navbar_profile();
@@ -21,6 +23,30 @@
     const addLabel = messages.navbar_add();
 
     let isPostCreationDialogPanelOpen = false;
+
+    onMount(() => {
+        loadData();
+    })
+
+    async function loadData() {
+        if (user.accessToken) {
+                try {
+                    const userData = await fetchUserInformations();
+                    user.information = userData;
+
+                    if (userData.follows) {
+                        follow.setFollowing(userData.follows.map(id => ({
+                            id: "",
+                            followerId: userData.id,
+                            followingId: id,
+                            createdAt: new Date().toISOString()
+                        })));
+                    }
+                } catch (error) {
+                    console.error("Failed to load initial user data", error);
+                }
+            }
+    }
 
     function onHomeButtonClick() {
         push("/feed");
