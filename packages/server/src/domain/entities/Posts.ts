@@ -1,5 +1,5 @@
 /**
- * Post Entity - Couche Domaine
+ * Post's Entity - Couche Domaine
  * Represent a post in PawBook
  */
 
@@ -95,10 +95,12 @@ export class Post {
         return { ...this };
     }
 
-    static create(data: Omit<PostData, 'id' | 'likes' | 'comments' | 'createdAt' | 'updatedAt'>): Post {
+    static create(data: Omit<PostData, 'id' | 'reportCount' | 'moderationStatus' | 'createdAt' | 'updatedAt'>): Post {
         return new Post({
             ...data,
             id: randomUUID(),
+            reportCount: 0,
+            moderationStatus: "NONE",
             createdAt: new Date(),
             updatedAt: new Date(),
         });
