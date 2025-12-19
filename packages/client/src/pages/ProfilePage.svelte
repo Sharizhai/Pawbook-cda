@@ -144,8 +144,7 @@
 
         <div class="profile-page-container">
             {#if profileUser}
-                <ProfileCard firstName={profileUser.firstName} lastName={profileUser.name}
-                             description={profileUser.profileDescription} profilePicture={profileUser.profilePicture} isSelfProfile={isOwnProfile}/>
+                <ProfileCard profileUser={profileUser} isSelfProfile={isOwnProfile}/>
             {/if}
 
             <ProfileTabs onClick={onHeaderTabButtonClick} tabContent={profileTabContentSnippet} activeTab={activeTab} tabs={profileTabs} />

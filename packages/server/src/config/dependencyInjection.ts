@@ -252,6 +252,10 @@ container.register({
             deps.createAnimalProfileUseCase,
             deps.getAllAnimalsByOwnerIdUseCase)
     ).singleton(),
+
+    followController: asFunction((deps: Dependencies) =>
+        new FollowController(deps.followAUserUseCase)
+    ).singleton(),
 });
 
 export default container;

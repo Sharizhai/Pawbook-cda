@@ -11,6 +11,10 @@
     import editIcon from "$assets/icons/edit.svg?raw";
     import gcuIcon from "$assets/icons/gcu.svg?raw";
     import {push} from "svelte-spa-router";
+    import {createFollow} from "$services/followServices.svelte";
+    import type {PublicUserInformations} from "$types/userTypes";
+    import {user} from "\$stores/stores.svelte";
+    import {follow} from "$stores/stores.svelte";
 
     const updateProfileLabel = messages.quick_action_profile_update();
     const gcuLabel = messages.home_gcu();
@@ -19,19 +23,15 @@
 
     let {
         customClass,
-        profilePicture,
-        firstName,
-        lastName,
-        description,
+        profileUser,
         isSelfProfile
     } : {
         customClass?: string,
-        profilePicture?: string,
-        firstName: string,
-        lastName: string,
-        description?: string,
+        profileUser: PublicUserInformations,
         isSelfProfile: boolean
     } = $props();
+
+    const followButtonLabel = $derived(follow.isFollowing(profileUser.id) ? messages.profile_card_follow() : messages.profile_card_unfollow())
 
     let isQuickActionsMenuOpen = $state(false);
 
@@ -59,8 +59,8 @@
         }
     ])
 
-    function onFollowButtonClick() {
-
+    async function onFollowButtonClick() {
+        await createFollow(profileUser.id, user.information.id);
     }
 
     function onSettingsButtonClick() {
@@ -89,18 +89,18 @@
         <SettingsButton onClick={onSettingsButtonClick} customClass="profile-card-settings-button" />
         <div class="profile-card-container-user-infos">
             <div class="profile-card-container-user-infos-avatar-container">
-                <img src={profilePicture ? profilePicture : "/paws.png"} alt="User Avatar" class="profile-card-container-user-infos-avatar" />
+                <img src={profileUser.profilePicture ? profileUser.profilePicture : "/paws.png"} alt="User Avatar" class="profile-card-container-user-infos-avatar" />
             </div>
 
             <div class="profile-card-container-user-infos-container">
-                <div class="profile-card-container-user-infos-container-name">{firstName} {lastName}</div>
-                <div class="profile-card-container-user-infos-container-description">{description}</div>
+                <div class="profile-card-container-user-infos-container-name">{profileUser.firstName} {profileUser.name}</div>
+                <div class="profile-card-container-user-infos-container-description">{profileUser.profileDescription}</div>
             </div>
         </div>
 
         <div class="profile-card-container-user-infos-buttons-container">
             {#if !isSelfProfile}
-                <Button label="Suivre" onClick={onFollowButtonClick} isCTA hadShadow/>
+                <Button label={followButtonLabel} onClick={onFollowButtonClick} isCTA hadShadow/>
             {/if}
         </div>
     </div>
