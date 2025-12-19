@@ -1,25 +1,65 @@
 <script lang="ts">
-    import CommentInput from "./CommentInput.svelte";
+    import QuickActionsMenu from "$components/generic/quickActionsMenu/QuickActionsMenu.svelte";
+    import type {QuickActionsMenuActionProperties} from "$types/quickActionsMenuTypes";
     import SettingsButton from "$components/generic/SettingsButton.svelte";
     import LikeButton from "$components/post/LikeButton.svelte";
     import TopContainerInfos from "./TopContainerInfos.svelte";
     import type {PostInformations} from "$types/postTypes";
     import * as messages from "$lib/paraglide/messages";
+    import CommentInput from "./CommentInput.svelte";
     import PostContent from "./PostContent.svelte";
-
-    import commentIcon from "$assets/icons/posts/comment.svg?raw";
+    import {user} from "\$stores/stores.svelte";
     import {push} from "svelte-spa-router";
 
+    import commentIcon from "$assets/icons/posts/comment.svg?raw";
+    import reportIcon from "$assets/icons//posts/report.svg?raw";
+    import deleteIcon from "$assets/icons/delete.svg?raw";
+    import editIcon from "$assets/icons/edit.svg?raw";
+
     const commentLabel = messages.post_comment();
+    const updatePostLabel = messages.post_card_settings_update();
+    const deletePostLabel = messages.post_card_settings_delete();
+    const reportPostLabel = messages.post_card_settings_report();
 
     let { post } : { post : PostInformations } = $props();
 
     const author = $derived(typeof post.authorId === 'object' ? post.authorId : null);
+    const isOwnPost = $derived(
+        typeof post.authorId === 'object'
+            ? post.authorId.id === user.information.id
+            : post.authorId === user.information.id
+    );
 
     let isCommentInputVisible = $state(false);
+    let isQuickActionsMenuVisible = $state(false);
+
+    let selfSettingsQuickActionsMenuActionProperties: QuickActionsMenuActionProperties[] = $derived([
+        {
+            icon: editIcon,
+            label: updatePostLabel,
+            onClick: onQuickActionUpdatePostButtonClick
+        },
+        {
+            icon: deleteIcon,
+            label: deletePostLabel,
+            onClick: onQuickActionDeletePostButtonClick,
+            isWarningAction: true
+        }
+    ])
+
+    let otherSettingsQuickActionsMenuActionProperties: QuickActionsMenuActionProperties[] = $derived([
+        {
+            icon: reportIcon,
+            label: reportPostLabel,
+            onClick: onQuickActionReportPostButtonClick,
+            isWarningAction: true
+        }
+    ])
+
+    let quickActionsMenuToDisplay: QuickActionsMenuActionProperties[] = $derived(isOwnPost ? selfSettingsQuickActionsMenuActionProperties : otherSettingsQuickActionsMenuActionProperties);
 
     function onSettingsButtonClick() {
-        console.log("Settings button clicked!");
+        isQuickActionsMenuVisible = !isQuickActionsMenuVisible;
     }
 
     function onLikeButtonClick() {
@@ -36,6 +76,18 @@
 
     function onTopContainerNameButtonClick() {
         push(`/profile/${author?.id}`);
+    }
+
+    function onQuickActionUpdatePostButtonClick() {
+
+    }
+
+    function onQuickActionDeletePostButtonClick() {
+
+    }
+
+    function onQuickActionReportPostButtonClick() {
+
     }
 </script>
 
@@ -58,6 +110,7 @@
         </div>
 
         <CommentInput bind:isVisible={isCommentInputVisible} onClick={onSendCommentButtonClick}/>
+        <QuickActionsMenu isVisible={isQuickActionsMenuVisible} actions={quickActionsMenuToDisplay} top={"0.5rem"} right={"3rem"} />
     </div>
 
 <style lang="scss">

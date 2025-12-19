@@ -74,5 +74,9 @@
     "quick_action_profile_delete": "Supprimer mon compte",
 
     "profile_card_follow": "Suivre",
-    "profile_card_unfollow": "Ne plus suivre"
+    "profile_card_unfollow": "Ne plus suivre",
+
+    "post_card_settings_update": "Modifier ma publication",
+    "post_card_settings_delete": "Supprimer ma publication",
+    "post_card_settings_report": "Signaler cette publication"
 }

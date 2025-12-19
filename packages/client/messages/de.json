@@ -74,5 +74,9 @@
     "quick_action_profile_delete": "Mein Konto löschen",
 
     "profile_card_follow": "Folgen",
-    "profile_card_unfollow": "Entfolgen"
+    "profile_card_unfollow": "Entfolgen",
+
+    "post_card_settings_update": "Meinen Beitrag aktualisieren",
+    "post_card_settings_delete": "Löschen Sie meinen Beitrag",
+    "post_card_settings_report": "Diesen Beitrag melden"
 }

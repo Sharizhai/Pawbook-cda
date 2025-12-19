@@ -74,5 +74,9 @@
     "quick_action_profile_delete": "Delete my account",
 
     "profile_card_follow": "Follow",
-    "profile_card_unfollow": "Unfollow"
+    "profile_card_unfollow": "Unfollow",
+
+    "post_card_settings_update": "Update my post",
+    "post_card_settings_delete": "Delete my post",
+    "post_card_settings_report": "Report this post"
 }
