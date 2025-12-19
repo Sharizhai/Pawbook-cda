@@ -68,11 +68,16 @@ describe("PostCard Component", () => {
 
   it("devrait appeler onSettingsButtonClick lors du clic sur le bouton de paramètres", async () => {
     const { container } = renderPostCard();
-    
+
     const settingsButton = container.querySelector(".postcard-settings-button") as HTMLElement;
+    let quickActionsMenu = container.querySelector(".quick-actions-menu");
+    expect(quickActionsMenu).toBeFalsy();
+
     await fireEvent.click(settingsButton);
-    
-    expect(console.log).toHaveBeenCalledWith("Settings button clicked!");
+    quickActionsMenu = container.querySelector(".quick-actions-menu");
+    expect(quickActionsMenu).toBeTruthy();
+
+    await fireEvent.click(settingsButton);
   });
 
   it("Should toggle like correctly and call onLikeButtonClick", async () => {
@@ -88,7 +93,7 @@ describe("PostCard Component", () => {
     expect(console.log).toHaveBeenCalledWith("Like button clicked!");
   });
 
-  it("Should toggle CommentInpu visibility", async () => {
+  it("Should toggle CommentInput visibility", async () => {
     const { container } = renderPostCard();
     
     const initialCommentInputVisible = container.querySelector(".comment-input-container") !== null;
