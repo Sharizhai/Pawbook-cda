@@ -51,6 +51,7 @@ import {CreateAnimalProfileUseCase} from "$application/use-cases/animal/CreateAn
 import {GetAllAnimalsByOwnerIdUseCase} from "$application/use-cases/animal/GetAllAnimalsByOwnerIdUseCase";
 
 import {FollowAUserUseCase} from "$application/use-cases/follow/FollowAUserUseCase";
+import {UnfollowAUserUseCase} from "$application/use-cases/follow/UnfollowAUserUseCase";
 
 import {UploadProfilePictureUseCase} from "$application/use-cases/pictures/uploadProfilePictureUseCase";
 
@@ -97,6 +98,7 @@ export interface Dependencies {
     getAllAnimalsByOwnerIdUseCase: GetAllAnimalsByOwnerIdUseCase;
 
     followAUserUseCase: FollowAUserUseCase;
+    unfollowAUserUseCase: UnfollowAUserUseCase;
 
     uploadProfilePictureUseCase: UploadProfilePictureUseCase;
 }

@@ -1,12 +1,12 @@
 import {IFollowRepository} from "$domain/interfaces/repositories/followRepository.interface";
 import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
+import {FollowAUserUseCase} from "$application/use-cases/follow/FollowAUserUseCase";
 import {FollowCreationDto} from "$presentation/dto/validation";
 import {beforeAll, describe, it, expect} from "vitest";
 import container from "$config/dependencyInjection";
 import {UnitFollow} from "../../seeds/unit-follow";
 import {UnitUser} from "../../seeds/unit-user";
 import {Container} from "$types/container";
-import {FollowAUserUseCase} from "$application/use-cases/follow/FollowAUserUseCase";
 
 describe("Use case: We should be able to follow an other user", () => {
     let userRepository: IUserRepository;
@@ -33,7 +33,7 @@ describe("Use case: We should be able to follow an other user", () => {
             followingId: "nonExistantFollowingId"
         } as FollowCreationDto;
 
-        await expect(followAUserUseCase.execute(nonExistantFollowingIdData)).rejects.toThrow("followingId must be a valid UUI");
+        await expect(followAUserUseCase.execute(nonExistantFollowingIdData)).rejects.toThrow("followingId must be a valid UUID");
     });
 
     it("Should throw an error if no user with this follower id is found", async () => {
@@ -42,7 +42,7 @@ describe("Use case: We should be able to follow an other user", () => {
             followingId: "550e8400-e29b-41d4-a716-446655440001"
         } as FollowCreationDto;
 
-        await expect(followAUserUseCase.execute(nonExistantFollowerIdData)).rejects.toThrow("followerId must be a valid UUI");
+        await expect(followAUserUseCase.execute(nonExistantFollowerIdData)).rejects.toThrow("followerId must be a valid UUID");
     });
 
     it("Should throw an error if user tries to follow himself", async () => {
@@ -55,11 +55,6 @@ describe("Use case: We should be able to follow an other user", () => {
     });
 
     it("Should throw an error if user already follows target", async () => {
-        const userAlreadyFollowsTargetData = {
-            followerId: "550e8400-e29b-41d4-a716-446655440000",
-            followingId: "550e8400-e29b-41d4-a716-446655440003"
-        } as FollowCreationDto;
-
         await expect(followAUserUseCase.execute(UnitFollow.johnModette)).rejects.toThrow("Vous suivez déjà cet utilisateur");
     });
 
