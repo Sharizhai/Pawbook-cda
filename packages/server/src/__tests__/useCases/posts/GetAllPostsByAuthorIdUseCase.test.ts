@@ -2,42 +2,30 @@ import {beforeAll, describe, expect, it} from "vitest";
 
 import {GetAllPostsByAuthorIdUseCase} from "$application/use-cases/post/GetAllPostsByAuthorIdUseCase";
 import {InMemoryPostRepository} from "$infrastructure/repositories/post/inMemoryPostRepository";
-import {ICommentRepository} from "$domain/interfaces/repositories/commentRepository.interface";
 import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import {IPostRepository} from "$domain/interfaces/repositories/postRepository.interface";
-import {ILikeRepository} from "$domain/interfaces/repositories/likeRepository.interface";
 
 import container from "$config/dependencyInjection";
 import {Container} from "$types/container";
 
-import {UnitComment} from "../../seeds/unit-comment";
 import {UnitPost} from "../../seeds/unit-post";
 import {UnitUser} from "../../seeds/unit-user";
 
 describe("Usecase: We must be able to get all posts with an author id", () => {
     let userRepository: IUserRepository;
     let postRepository: IPostRepository;
-    let likeRepository: ILikeRepository;
-    let commentRepository: ICommentRepository;
     let getAllPostsByAuthorIdUseCase: GetAllPostsByAuthorIdUseCase;
 
     beforeAll( async () => {
         const c: Container = container;
         userRepository = c.resolve<IUserRepository>("userRepository");
         postRepository = c.resolve<IPostRepository>("postRepository");
-        likeRepository = c.resolve<ILikeRepository>("likeRepository");
-        commentRepository = c.resolve<ICommentRepository>("commentRepository");
 
         if (postRepository instanceof InMemoryPostRepository) {
             postRepository.setUserRepository(userRepository);
-            postRepository.setLikeRepository(likeRepository);
-            postRepository.setCommentRepository(commentRepository);
         }
 
         getAllPostsByAuthorIdUseCase = new GetAllPostsByAuthorIdUseCase(postRepository, userRepository);
-
-        await commentRepository.create(UnitComment.comment1);
-        await commentRepository.create(UnitComment.comment2);
 
         await postRepository.save(UnitPost.post1);
         await postRepository.save(UnitPost.post2);
@@ -90,10 +78,13 @@ describe("Usecase: We must be able to get all posts with an author id", () => {
 
         const returnedPost: any = posts.posts[0];
         expect(returnedPost.authorId).toBeDefined();
-        expect(returnedPost.authorId.id).toBe(UnitUser.john.id);
-        expect(returnedPost.authorId.name).toBe(UnitUser.john.name);
-        expect(returnedPost.authorId.firstName).toBe(UnitUser.john.firstName);
-        expect(returnedPost.authorId.profilePicture).toBe(UnitUser.john.profilePicture);
+        expect(returnedPost.authorId).toBe(UnitUser.john.id);
+
+        expect(returnedPost.author).toBeDefined();
+        expect(returnedPost.author.id).toBe(UnitUser.john.id);
+        expect(returnedPost.author.name).toBe(UnitUser.john.name);
+        expect(returnedPost.author.firstName).toBe(UnitUser.john.firstName);
+        expect(returnedPost.author.profilePicture).toBe(UnitUser.john.profilePicture);
     });
 
     it("sShould return hasMore: true when more posts exist", async () => {
@@ -108,40 +99,5 @@ describe("Usecase: We must be able to get all posts with an author id", () => {
 
         expect(result.hasMore).toBe(false);
         expect(result.posts).toHaveLength(4);
-    });
-
-    it("Should include likesCount and commentsCount for each post", async () => {
-        const posts = await getAllPostsByAuthorIdUseCase.execute(0, 2, UnitUser.john.id);
-
-        expect(posts.posts).toHaveLength(2);
-        const returnedPost = posts.posts[0];
-        expect(returnedPost.likes?.length).toBe(2);
-        expect(returnedPost.comments?.length).toBe(2);
-    });
-
-    it("Should return populated comments with textContent and populated author data (id, profilePicture, name & firstName)", async () => {
-        const posts = await getAllPostsByAuthorIdUseCase.execute(0, 10, UnitUser.john.id);
-
-        expect(posts.posts).toHaveLength(5);
-        const returnedPost = posts.posts[0];
-
-        expect(returnedPost.comments).toHaveLength(2);
-
-        const firstComment: any = returnedPost.comments[0];
-        expect(firstComment.textContent).toBe("Super post !");
-        expect(firstComment.authorId).toBeDefined();
-        expect(firstComment.authorId.id).toBe(UnitUser.john.id);
-        expect(firstComment.authorId.name).toBe(UnitUser.john.name);
-        expect(firstComment.authorId.firstName).toBe(UnitUser.john.firstName);
-        expect(firstComment.authorId.profilePicture).toBe(UnitUser.john.profilePicture);
-        expect(firstComment.authorId.email).toBeUndefined();
-
-        const secondComment: any = returnedPost.comments[1];
-        expect(secondComment.textContent).toBe("Je suis d'accord");
-        expect(secondComment.authorId).toBeDefined();
-        expect(secondComment.authorId.id).toBe(UnitUser.jane.id);
-        expect(secondComment.authorId.name).toBe(UnitUser.jane.name);
-        expect(secondComment.authorId.firstName).toBe(UnitUser.jane.firstName);
-        expect(secondComment.authorId.profilePicture).toBe(UnitUser.jane.profilePicture);
     });
 });

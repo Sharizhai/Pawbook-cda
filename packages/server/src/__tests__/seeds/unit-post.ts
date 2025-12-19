@@ -1,5 +1,5 @@
-import {Post} from "$domain/entities/Posts";
 import {DateHelper} from "$utils/dateUtils.utils";
+import {Post} from "$domain/entities/Posts";
 
 export const UnitPost = {
     post1: new Post({
@@ -7,8 +7,8 @@ export const UnitPost = {
         authorId: "550e8400-e29b-41d4-a716-446655440000",
         textContent: "Premier post",
         photoContent: [],
-        likes: [],
-        comments: ["Super post !", "Je suis d'accord"],
+        reportCount: 0,
+        moderationStatus: "NONE",
         updated: false,
         createdAt: DateHelper.daysAgo(15),
         updatedAt: new Date(),
@@ -18,8 +18,8 @@ export const UnitPost = {
         authorId: "550e8400-e29b-41d4-a716-446655440000",
         textContent: "Deuxième post",
         photoContent: [],
-        likes: [],
-        comments: [],
+        reportCount: 0,
+        moderationStatus: "NONE",
         updated: false,
         createdAt: DateHelper.daysAgo(13),
         updatedAt: new Date(),
@@ -29,8 +29,8 @@ export const UnitPost = {
         authorId: "550e8400-e29b-41d4-a716-446655440000",
         textContent: "Troisième post",
         photoContent: [],
-        likes: [],
-        comments: [],
+        reportCount: 0,
+        moderationStatus: "NONE",
         updated: false,
         createdAt: DateHelper.daysAgo(10),
         updatedAt: new Date(),
@@ -40,8 +40,8 @@ export const UnitPost = {
         authorId: "550e8400-e29b-41d4-a716-446655440000",
         textContent: "Quatrième post",
         photoContent: [],
-        likes: [],
-        comments: [],
+        reportCount: 0,
+        moderationStatus: "NONE",
         updated: false,
         createdAt: DateHelper.daysAgo(5),
         updatedAt: new Date(),
@@ -51,8 +51,8 @@ export const UnitPost = {
         authorId: "550e8400-e29b-41d4-a716-446655440000",
         textContent: "Cinquième post",
         photoContent: [],
-        likes: ["like-1", "like-2"],
-        comments: ["550e8400-e29b-41d4-a716-446655441000", "550e8400-e29b-41d4-a716-446655441100"],
+        reportCount: 0,
+        moderationStatus: "NONE",
         updated: false,
         createdAt: DateHelper.daysAgo(1),
         updatedAt: new Date(),

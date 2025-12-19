@@ -13,30 +13,6 @@ export class PostgresPostRepository implements IPostRepository {
                 firstName: true,
                 profilePicture: true
             }
-        },
-        likes: {
-            include: {
-                author: {
-                    select: {
-                        id: true,
-                        name: true,
-                        firstName: true,
-                        profilePicture: true
-                    }
-                }
-            }
-        },
-        comments: {
-            include: {
-                author: {
-                    select: {
-                        id: true,
-                        name: true,
-                        firstName: true,
-                        profilePicture: true
-                    }
-                }
-            }
         }
     } as const;
 
@@ -106,7 +82,7 @@ export class PostgresPostRepository implements IPostRepository {
     async update(id: string, postData: Partial<PostData>): Promise<Post | null> {
         try {
             // Exclut les champs de relation (gérés par Prisma automatiquement)
-            const { authorId, author, likes, comments, ...updateData } = postData;
+            const { authorId, author, ...updateData } = postData;
 
             const post = await this.prisma.post.update({
                 where: { id },
@@ -155,8 +131,8 @@ export class PostgresPostRepository implements IPostRepository {
                 : undefined,
             textContent: prismaPost.textContent ?? undefined,
             photoContent: prismaPost.photoContent ?? [],
-            likes: prismaPost.likes ?? [],
-            comments: prismaPost.comments ?? [],
+            reportCount: prismaPost.reportCount,
+            moderationStatus: prismaPost.moderationStatus,
             createdAt: prismaPost.createdAt,
             updatedAt: prismaPost.updatedAt
         });

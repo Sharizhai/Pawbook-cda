@@ -103,6 +103,9 @@ export class PostController {
         }
     }
 
+    /**
+     * Crée un nouveau post
+     */
     async createPost(req: Request, res: Response) {
         try {
             const post: any = await this.createPostUseCase.execute(req.body);

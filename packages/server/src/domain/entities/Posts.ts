@@ -16,8 +16,8 @@ export interface PostData {
     };
     textContent?: string;
     photoContent?: string[];
-    likes?: string[];
-    comments?: string[];
+    reportCount: number;
+    moderationStatus: "NONE" | "PENDING" | "APPROVED" | "REJECTED";
     updated?: boolean;
     createdAt: Date;
     updatedAt: Date;
@@ -34,8 +34,8 @@ export class Post {
     };
     public readonly textContent?: string;
     public readonly photoContent?: string[];
-    public readonly likes?: string[];
-    public readonly comments?: string[];
+    public readonly reportCount: number;
+    public readonly moderationStatus: "NONE" | "PENDING" | "APPROVED" | "REJECTED";
     public readonly updated?: boolean;
     public readonly createdAt: Date;
     public readonly updatedAt: Date;
@@ -46,8 +46,8 @@ export class Post {
         this.author = data.author;
         this.textContent = data.textContent;
         this.photoContent = data.photoContent ? [...data.photoContent] : [];
-        this.likes = data.likes ? [...data.likes] : [];
-        this.comments = data.comments ? [...data.comments] : [];
+        this.reportCount = data.reportCount;
+        this.moderationStatus = data.moderationStatus;
         this.updated = data.updated;
         this.createdAt = data.createdAt;
         this.updatedAt = data.updatedAt;
@@ -58,27 +58,6 @@ export class Post {
      */
     isAuthor(userId: string): boolean {
         return this.authorId === userId;
-    }
-
-    /**
-     * Retourne le nombre de likes
-     */
-    getLikesCount(): number {
-        return this.likes.length;
-    }
-
-    /**
-     * Retourne le nombre de commentaires
-     */
-    getCommentsCount(): number {
-        return this.comments.length;
-    }
-
-    /**
-     * Vérifie si un utilisateur a liké ce post
-     */
-    isLikedBy(userId: string): boolean {
-        return this.likes.includes(userId);
     }
 
     /**
@@ -120,8 +99,6 @@ export class Post {
         return new Post({
             ...data,
             id: randomUUID(),
-            likes: [],
-            comments: [],
             createdAt: new Date(),
             updatedAt: new Date(),
         });
@@ -136,23 +113,6 @@ export class Post {
             ...updates,
             updated: true,
             updatedAt: new Date()
-        });
-    }
-
-    /**
-     * Crée une instance Post depuis un document MongoDB
-     */
-    static fromMongoDocument(doc: any): Post {
-        return new Post({
-            id: doc._id.toString(),
-            authorId: doc.authorId.toString(),
-            textContent: doc.textContent || '',
-            photoContent: doc.photoContent || [],
-            likes: doc.likes?.map((like: any) => like.toString()) || [],
-            comments: doc.comments?.map((comment: any) => comment.toString()) || [],
-            updated: doc.updated || false,
-            createdAt: doc.createdAt,
-            updatedAt: doc.updatedAt
         });
     }
 

@@ -1,25 +1,13 @@
 import {IPostRepository} from "$domain/interfaces/repositories/postRepository.interface";
 import {Post, PostData} from "$domain/entities/Posts";
 import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
-import {ILikeRepository} from "$domain/interfaces/repositories/likeRepository.interface";
-import {ICommentRepository} from "$domain/interfaces/repositories/commentRepository.interface";
 
 export class InMemoryPostRepository implements IPostRepository {
     private posts: Post[] = [];
     private userRepository?: IUserRepository;
-    private likeRepository?: ILikeRepository;
-    private commentRepository?: ICommentRepository;
 
     setUserRepository(repo: IUserRepository): void {
         this.userRepository = repo;
-    }
-
-    setLikeRepository(repo: ILikeRepository): void {
-        this.likeRepository = repo;
-    }
-
-    setCommentRepository(repo: ICommentRepository): void {
-        this.commentRepository = repo;
     }
 
     async findAll(page: number, limit: number): Promise<Post[]> {
@@ -80,76 +68,31 @@ export class InMemoryPostRepository implements IPostRepository {
     }
 
     private async populatePosts(posts: Post[]): Promise<Post[]> {
-        if (!this.userRepository || !this.likeRepository || !this.commentRepository) {
+        if (!this.userRepository) {
             return posts;
         }
 
-        return Promise.all(posts.map(async (post) => {
-            const postData: any = { ...post };
+        return Promise.all(
+            posts.map(async (post) => {
+                let author;
 
-            if (typeof post.authorId === 'string') {
-                const author = await this.userRepository!.findById(post.authorId);
-                if (author) {
-                    postData.authorId = {
-                        id: author.id,
-                        name: author.name,
-                        firstName: author.firstName,
-                        profilePicture: author.profilePicture
-                    };
+                if (post.authorId) {
+                    const user = await this.userRepository!.findById(post.authorId);
+                    if (user) {
+                        author = {
+                            id: user.id,
+                            name: user.name,
+                            firstName: user.firstName,
+                            profilePicture: user.profilePicture
+                        };
+                    }
                 }
-            }
 
-            if (Array.isArray(post.likes)) {
-                postData.likes = await Promise.all(
-                    post.likes.map(async (likeId) => {
-                        if (typeof likeId === 'string') {
-                            const like = await this.likeRepository!.findById(likeId);
-                            if (like) {
-                                const likeAuthor = await this.userRepository!.findById(
-                                    typeof like.authorId === 'string' ? like.authorId : (like.authorId as any)?.id
-                                );
-                                return {
-                                    ...like,
-                                    authorId: likeAuthor ? {
-                                        id: likeAuthor.id,
-                                        name: likeAuthor.name,
-                                        firstName: likeAuthor.firstName,
-                                        profilePicture: likeAuthor.profilePicture
-                                    } : like.authorId
-                                };
-                            }
-                        }
-                        return likeId;
-                    })
-                );
-            }
-
-            if (Array.isArray(post.comments)) {
-                postData.comments = await Promise.all(
-                    post.comments.map(async (commentId) => {
-                        if (typeof commentId === 'string') {
-                            const comment = await this.commentRepository!.findById(commentId);
-                            if (comment) {
-                                const commentAuthor = await this.userRepository!.findById(
-                                    typeof comment.authorId === 'string' ? comment.authorId : (comment.authorId as any)?.id
-                                );
-                                return {
-                                    ...comment,
-                                    authorId: commentAuthor ? {
-                                        id: commentAuthor.id,
-                                        name: commentAuthor.name,
-                                        firstName: commentAuthor.firstName,
-                                        profilePicture: commentAuthor.profilePicture
-                                    } : comment.authorId
-                                };
-                            }
-                        }
-                        return commentId;
-                    })
-                );
-            }
-
-            return new Post(postData as PostData);
-        }));
+                return new Post({
+                    ...post,
+                    author
+                });
+            })
+        );
     }
 }
