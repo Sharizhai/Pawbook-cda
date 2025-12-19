@@ -256,7 +256,9 @@ container.register({
     ).singleton(),
 
     followController: asFunction((deps: Dependencies) =>
-        new FollowController(deps.followAUserUseCase)
+        new FollowController(
+            deps.followAUserUseCase,
+            deps.unfollowAUserUseCase)
     ).singleton(),
 });
 

@@ -163,6 +163,7 @@ export const setupRoutes = (app: express.Application): void => {
                         },
                         follows: {
                             createFollow: "POST /follows/register",
+                            deleteFollow: "DELETE /follows/:id",
                         },
                         photos: {
                             uploadProfilePicture: "POST /photos/:id/profile-picture",

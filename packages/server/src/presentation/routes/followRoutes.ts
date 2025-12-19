@@ -16,5 +16,12 @@ export default function followRoutesFactory(followController: FollowController, 
      */
     router.post("/register", middleware.isAuthenticated, followController.createFollow.bind(followController));
 
+    /**
+     * @route DELETE /api/follows/delete
+     * @desc Supprime une relation de follow entre deux utilisateurs
+     * @access Protected
+     */
+    router.delete("/:followingId", middleware.isAuthenticated, followController.deleteFollow.bind(followController));
+
     return router;
 }

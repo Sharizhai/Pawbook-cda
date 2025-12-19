@@ -1,6 +1,7 @@
+import {UnfollowAUserUseCase} from "$application/use-cases/follow/UnfollowAUserUseCase";
 import {FollowAUserUseCase} from "$application/use-cases/follow/FollowAUserUseCase";
-import {Request, Response} from "express";
 import {APIResponse} from "$utils/responseUtils.utils";
+import {Request, Response} from "express";
 
 /**
  * FollowController - Couche Présentation
@@ -9,7 +10,8 @@ import {APIResponse} from "$utils/responseUtils.utils";
 
 export class FollowController {
     constructor(
-        private readonly followAUserUseCase: FollowAUserUseCase
+        private readonly followAUserUseCase: FollowAUserUseCase,
+        private readonly unfollowAUserUseCase: UnfollowAUserUseCase
     ) {}
 
     /**
@@ -27,11 +29,30 @@ export class FollowController {
                 createdAt: follow.createdAt,
             }
 
-            return APIResponse(res, payload, "Nouveau follow créé avec succès, 201")
+            return APIResponse(res, payload, "Nouveau follow créé avec succès", 201);
         } catch (error) {
             const message = error instanceof Error
                 ? error.message
                 : "Erreur lors de la création du follow";
+
+            return APIResponse(res, null, message, 500);
+        }
+    }
+
+    async deleteFollow(req: Request, res: Response) {
+        try {
+            const unfollowData = {
+                followerId: req.user.id,
+                followingId: req.params.followingId,
+            }
+
+            const unfollow = await this.unfollowAUserUseCase.execute(unfollowData);
+
+            return APIResponse(res, unfollow, "Follow supprimé avec succès", 200);
+        } catch (error) {
+            const message = error instanceof Error
+                ? error.message
+                : "Erreur lors de la suppression du follow";
 
             return APIResponse(res, null, message, 500);
         }
