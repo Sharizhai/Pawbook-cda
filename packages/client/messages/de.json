@@ -71,5 +71,8 @@
     "logout": "Abmelden",
 
     "quick_action_profile_update": "Mein Profil aktualisieren",
-    "quick_action_profile_delete": "Mein Konto löschen"
+    "quick_action_profile_delete": "Mein Konto löschen",
+
+    "profile_card_follow": "Folgen",
+    "profile_card_unfollow": "Entfolgen"
 }

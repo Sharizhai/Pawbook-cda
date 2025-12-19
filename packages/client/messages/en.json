@@ -71,5 +71,8 @@
     "logout": "Log out",
 
     "quick_action_profile_update": "Update my profile",
-    "quick_action_profile_delete": "Delete my account"
+    "quick_action_profile_delete": "Delete my account",
+
+    "profile_card_follow": "Follow",
+    "profile_card_unfollow": "Unfollow"
 }
