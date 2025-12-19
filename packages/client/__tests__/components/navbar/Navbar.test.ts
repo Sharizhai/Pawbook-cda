@@ -3,6 +3,7 @@ import { render, fireEvent } from "@testing-library/svelte";
 import "@testing-library/jest-dom";
 import Navbar from "$components/navbar/Navbar.svelte";
 import * as messages from "$lib/paraglide/messages";
+import {push} from "svelte-spa-router";
 
 const panelTitle = messages.post_creation_dialog_panel_title();
 
@@ -17,7 +18,20 @@ vi.mock("$services/userServices.svelte", () => ({
     })
 }));
 
-import { push } from "svelte-spa-router";
+vi.mock("$stores/stores.svelte", () => {
+    const user = {
+        information: {
+            id: "test-user",
+            username: "testuser",
+        },
+        accessToken: "",
+        isAdmin: false,
+        setAccessToken: vi.fn(),
+        clearInformations: vi.fn(),
+    };
+
+    return { user };
+});
 
 beforeEach(() => {
     vi.clearAllMocks();
