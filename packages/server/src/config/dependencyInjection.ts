@@ -43,6 +43,7 @@ import {UserController} from "$presentation/controllers/userController";
 import {PhotoController} from "$presentation/controllers/photoController";
 import {AnimalController} from "$presentation/controllers/animalController";
 import {FollowController} from "$presentation/controllers/followController";
+import {PostReportController} from "$presentation/controllers/postReportController";
 
 import {GetAllPostsByAuthorIdUseCase} from "$application/use-cases/post/GetAllPostsByAuthorIdUseCase";
 import {GetAllPostsUseCase} from "$application/use-cases/post/GetAllPostsUseCase";
@@ -93,6 +94,7 @@ export interface Dependencies {
     photoController: PhotoController;
     animalController: AnimalController;
     followController: FollowController;
+    postReportController: PostReportController;
 
     getAllPostsByAuthorIdUseCase: GetAllPostsByAuthorIdUseCase;
     getAllPostsUseCase: GetAllPostsUseCase;
@@ -283,6 +285,10 @@ container.register({
             deps.followAUserUseCase,
             deps.unfollowAUserUseCase)
     ).singleton(),
+
+    postReportController: asFunction((deps: Dependencies) =>
+        new PostReportController(deps.createAPostReportUseCase)
+    ),
 });
 
 export default container;

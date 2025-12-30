@@ -15,6 +15,8 @@ import {AnimalController} from "$presentation/controllers/animalController";
 import animalRoutesFactory from "$presentation/routes/animalRoutes";
 import {FollowController} from "$presentation/controllers/followController";
 import followRoutesFactory from "$presentation/routes/followRoutes";
+import {PostReportController} from "$presentation/controllers/postReportController";
+import postReportRoutesFactory from "$presentation/routes/postReportRoutes";
 
 /**
  * Interface pour les statistiques de santé de l"API
@@ -41,6 +43,7 @@ interface ApiInfo {
         posts: string;
         animals: string;
         follows: string;
+        postReports: string;
         photos: string;
     };
     documentation?: string;
@@ -61,7 +64,8 @@ export const setupRoutes = (app: express.Application): void => {
     const postController = container.resolve<PostController>("postController");
     const userController = container.resolve<UserController>("userController");
     const animalController = container.resolve<AnimalController>("animalController");
-    const followController = container.resolve<FollowController>("followController")
+    const followController = container.resolve<FollowController>("followController");
+    const postReportController = container.resolve<PostReportController>("postReportController");
     const photoController = container.resolve<PhotoController>("photoController");
 
     // Routes principales
@@ -70,6 +74,7 @@ export const setupRoutes = (app: express.Application): void => {
     app.use("/api/users", userRoutesFactory(userController, {isAuthenticated}));
     app.use("/api/animals", animalRoutesFactory(animalController, {isAuthenticated}));
     app.use("/api/follows", followRoutesFactory(followController, {isAuthenticated}));
+    app.use("/api/post-reports", postReportRoutesFactory(postReportController, {isAuthenticated}));
     app.use("/api/photos", photoRoutesFactory(photoController, {isAuthenticated}));
 
     // Route de base pour vérifier que l"API fonctionne
@@ -84,6 +89,7 @@ export const setupRoutes = (app: express.Application): void => {
                 posts: "/api/posts",
                 animals: "/api/animals",
                 follows: "/api/follows",
+                postReports: "/api/post-reports",
                 photos: "/api/photos",
             },
             documentation:
@@ -164,6 +170,9 @@ export const setupRoutes = (app: express.Application): void => {
                         follows: {
                             createFollow: "POST /follows/register",
                             deleteFollow: "DELETE /follows/:id",
+                        },
+                        postReports: {
+                            createPostReport: "POST /post-reports/register",
                         },
                         photos: {
                             uploadProfilePicture: "POST /photos/:id/profile-picture",
