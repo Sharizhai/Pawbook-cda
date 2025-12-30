@@ -8,6 +8,7 @@ import {ILikeRepository} from "$domain/interfaces/repositories/likeRepository.in
 import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import {IPostRepository} from "$domain/interfaces/repositories/postRepository.interface";
 import {IFollowRepository} from "$domain/interfaces/repositories/followRepository.interface";
+import {IPostReportRepository} from "$domain/interfaces/repositories/reports/postReportRepository.interface";
 import {IAuthServices} from "$domain/interfaces/authServices.interface";
 import {IJwtServices} from "$domain/interfaces/jwtServices.interface";
 
@@ -31,6 +32,9 @@ import {PostgresAnimalRepository} from "$infrastructure/repositories/animal/Post
 import {InMemoryFollowRepository} from "$infrastructure/repositories/follow/InMemoryFollowRepository";
 import {PostgresFollowRepository} from "$infrastructure/repositories/follow/PostgresFollowRepository";
 
+import {InMemoryPostReportRepository} from "$infrastructure/repositories/postReport/inMemoryPostReportRepository";
+import {PostgresPostReportRepository} from "$infrastructure/repositories/postReport/PostgresPostReportRepository";
+
 import {InMemoryPhotosStorageServices} from "$infrastructure/storage/inMemoryPhotoStorageServices";
 import {CloudinaryStorageServices} from "$infrastructure/storage/cloudinaryStorageServices";
 
@@ -52,6 +56,8 @@ import {GetAllAnimalsByOwnerIdUseCase} from "$application/use-cases/animal/GetAl
 
 import {FollowAUserUseCase} from "$application/use-cases/follow/FollowAUserUseCase";
 import {UnfollowAUserUseCase} from "$application/use-cases/follow/UnfollowAUserUseCase";
+
+import {CreateAPostReportUseCase} from "$application/use-cases/report/CreateAPostReportUseCase";
 
 import {UploadProfilePictureUseCase} from "$application/use-cases/pictures/uploadProfilePictureUseCase";
 
@@ -80,6 +86,7 @@ export interface Dependencies {
     likeRepository: ILikeRepository;
     animalRepository: IAnimalRepository;
     followRepository: IFollowRepository;
+    postReportRepository: IPostReportRepository;
 
     postController: PostController;
     userController: UserController;
@@ -99,6 +106,8 @@ export interface Dependencies {
 
     followAUserUseCase: FollowAUserUseCase;
     unfollowAUserUseCase: UnfollowAUserUseCase;
+
+    createAPostReportUseCase: CreateAPostReportUseCase;
 
     uploadProfilePictureUseCase: UploadProfilePictureUseCase;
 }
@@ -145,6 +154,10 @@ const followRepositoryClass = env.NODE_ENV === "test"
     ? InMemoryFollowRepository
     : PostgresFollowRepository;
 
+const postReportRepositoryClass = env.NODE_ENV === "test"
+    ? InMemoryPostReportRepository
+    : PostgresPostReportRepository;
+
 const photoStorageServiceClass = (env.NODE_ENV === "test"
     ? InMemoryPhotosStorageServices
     : CloudinaryStorageServices) as Constructor<IPhotoStorageService>;
@@ -175,6 +188,7 @@ container.register({
     likeRepository: asClass(likeRepositoryClass).singleton(),
     animalRepository: asFunction(() => new animalRepositoryClass(prisma)).singleton(),
     followRepository: asFunction(() => new followRepositoryClass(prisma)).singleton(),
+    postReportRepository: asFunction(() => new postReportRepositoryClass(prisma)).singleton(),
     argon2Services: asClass(Argon2Services).singleton(),
     photoStorageServices: asClass(photoStorageServiceClass).singleton(),
     jwtAuthService: asFunction(() =>
@@ -228,6 +242,11 @@ container.register({
 
     unfollowAUserUseCase: asFunction((deps: Dependencies) =>
         new UnfollowAUserUseCase(deps.followRepository, deps.userRepository)
+    ).singleton(),
+
+    // *** REPORTS ***
+    createAPostReportUseCase: asFunction((deps: Dependencies) =>
+        new CreateAPostReportUseCase(deps.postReportRepository, deps.postRepository, deps.userRepository)
     ).singleton(),
 
     // *** PHOTOS ***

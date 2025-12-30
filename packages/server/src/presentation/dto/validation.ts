@@ -7,6 +7,20 @@ import {type} from "node:os";
 //Faire un vrai système de blacklistage (par e-mail, IP...)
 const blacklistedEmails = ["shrek@swamp.de", "donkey@swamp.de"];
 
+const ReportReasonEnum = z.enum([
+    "SPAM",
+    "HARASSMENT",
+    "HATE_SPEECH",
+    "VIOLENCE",
+    "INAPPROPRIATE",
+    "SEXUAL_CONTENT",
+    "FALSE_INFORMATION",
+    "COPYRIGHT",
+    "ANIMAL_ABUSE",
+    "SELF_HARM",
+    "OTHER"
+]);
+
 export const loginValidation = z.object({
     email: z.string().email({ message: "Adresse e-mail invalide" }).refine((email): boolean => {
         return !blacklistedEmails.includes(email)
@@ -65,9 +79,17 @@ export const followDeletionValidation = z.object({
     followingId: z.string().uuid("followingId must be a valid UUID"),
 });
 
+export const postReportCreationValidation = z.object({
+    postId: z.string().uuid("postId must be a valid UUID"),
+    reporterId: z.string().uuid("reporterId must be a valid UUID"),
+    reason: z.string().min(1, "Report reason not found").pipe(ReportReasonEnum),
+    description: z.string().max(500, { message: "Report description is too long" }).optional(),
+});
+
 export type LoginDto = z.infer<typeof loginValidation>;
 export type UserCreationDto = z.infer<typeof userCreationValidation>;
 export type AnimalCreationDto = z.infer<typeof animalCreationValidation>;
 export type PostCreationDto = z.infer<typeof postCreationValidation>;
 export type FollowCreationDto = z.infer<typeof followCreationValidation>;
 export type FollowDeletionDto = z.infer<typeof followDeletionValidation>;
+export type PostReportCreationDto = z.infer<typeof postReportCreationValidation>;
