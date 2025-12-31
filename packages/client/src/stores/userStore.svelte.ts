@@ -5,7 +5,8 @@ export function createUserSlice() {
     let information: UserInformations = $state({} as UserInformations);
     let accessToken: string = $state(localStorage.getItem("accessToken") ?? "");
 
-    let isAdmin: boolean = $derived(user.information.role === "admin");
+    let isAdmin: boolean = $derived(user.information.role === "ADMIN");
+    let isModerator: boolean = $derived(user.information.role === "MODERATOR");
 
     function setAccessToken(token: string) {
         accessToken = token;
@@ -23,6 +24,9 @@ export function createUserSlice() {
         },
         get isAdmin() {
             return isAdmin;
+        },
+        get isModerator() {
+            return isModerator;
         },
         get accessToken() {
             return accessToken;
