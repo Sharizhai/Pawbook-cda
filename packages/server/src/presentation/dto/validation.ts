@@ -59,6 +59,7 @@ export const postCreationValidation = z.object({
     authorId: z.string().uuid("authorId must be a valid UUID"),
     textContent: z.string().optional(),
     photoContent: z.array(z.string()).optional(),
+    moderationStatus: z.enum(["NONE", "PENDING", "APPROVED", "REJECTED"]).default("NONE"),
 }).refine(data => {
     return (data.textContent && data.textContent.length > 0) ||
         (data.photoContent && data.photoContent.length > 0);
