@@ -78,5 +78,21 @@
 
     "post_card_settings_update": "Meinen Beitrag aktualisieren",
     "post_card_settings_delete": "Löschen Sie meinen Beitrag",
-    "post_card_settings_report": "Diesen Beitrag melden"
+    "post_card_settings_report": "Diesen Beitrag melden",
+
+    "report_dialog_panel_post_title": "Einen Beitrag melden",
+    "report_dialog_panel_post_reason": "Grund für die Meldung",
+    "report_dialog_panel_post_comment": "Kommentar",
+    "report_dialog_panel_post_submit": "Bericht",
+    "report_dialog_panel_post_reason_spam": "Spam",
+    "report_dialog_panel_post_reason_harassment": "Belästigung",
+    "report_dialog_panel_post_reason_hate_speech": "Hassrede",
+    "report_dialog_panel_post_reason_violence": "Gewalt",
+    "report_dialog_panel_post_reason_inappropriate": "Unangemessener Inhalt",
+    "report_dialog_panel_post_reason_sexual_content": "Sexuelle Inhalte",
+    "report_dialog_panel_post_reason_false_information": "Falsche Informationen",
+    "report_dialog_panel_post_reason_copyright": "Urheberrecht",
+    "report_dialog_panel_post_reason_animal_abuse": "Tierquälerei",
+    "report_dialog_panel_post_reason_self_harm": "Selbstverletzung",
+    "report_dialog_panel_post_reason_other": "Sonstiges"
 }

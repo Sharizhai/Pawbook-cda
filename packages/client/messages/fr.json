@@ -78,5 +78,21 @@
 
     "post_card_settings_update": "Modifier ma publication",
     "post_card_settings_delete": "Supprimer ma publication",
-    "post_card_settings_report": "Signaler cette publication"
+    "post_card_settings_report": "Signaler cette publication",
+
+    "report_dialog_panel_post_title": "Signaler une publication",
+    "report_dialog_panel_post_reason": "Motif du signalement",
+    "report_dialog_panel_post_comment": "Commentaire",
+    "report_dialog_panel_post_submit": "Signaler",
+    "report_dialog_panel_post_reason_spam": "Spam",
+    "report_dialog_panel_post_reason_harassment": "Harcelement",
+    "report_dialog_panel_post_reason_hate_speech": "Incitation à la haine",
+    "report_dialog_panel_post_reason_violence": "Violence",
+    "report_dialog_panel_post_reason_inappropriate": "Contenu inapproprié",
+    "report_dialog_panel_post_reason_sexual_content": "Contenu sexuellement explicite",
+    "report_dialog_panel_post_reason_false_information": "Fausse information",
+    "report_dialog_panel_post_reason_copyright": "Copyright",
+    "report_dialog_panel_post_reason_animal_abuse": "Maltraitance animale",
+    "report_dialog_panel_post_reason_self_harm": "Automutilation",
+    "report_dialog_panel_post_reason_other": "Autre"
 }

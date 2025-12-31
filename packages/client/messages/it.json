@@ -78,5 +78,21 @@
 
     "post_card_settings_update": "Aggiorna il mio post",
     "post_card_settings_delete": "Elimina il mio post",
-    "post_card_settings_report": "Segnala questo post"
+    "post_card_settings_report": "Segnala questo post",
+
+    "report_dialog_panel_post_title": "Segnala un post",
+    "report_dialog_panel_post_reason": "Motivo della segnalazione",
+    "report_dialog_panel_post_comment": "Commento",
+    "report_dialog_panel_post_submit": "Segnalare",
+    "report_dialog_panel_post_reason_spam": "Spam",
+    "report_dialog_panel_post_reason_harassment": "Molestie",
+    "report_dialog_panel_post_reason_hate_speech": "Discorsi di incitamento all'odio",
+    "report_dialog_panel_post_reason_violence": "Violenza",
+    "report_dialog_panel_post_reason_inappropriate": "Contenuti inappropriati",
+    "report_dialog_panel_post_reason_sexual_content": "Contenuti sessuali",
+    "report_dialog_panel_post_reason_false_information": "Informazioni false",
+    "report_dialog_panel_post_reason_copyright": "Copyright",
+    "report_dialog_panel_post_reason_animal_abuse": "Maltrattamento degli animali",
+    "report_dialog_panel_post_reason_self_harm": "Autolesionismo",
+    "report_dialog_panel_post_reason_other": "Altro"
 }

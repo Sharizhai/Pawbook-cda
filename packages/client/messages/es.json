@@ -78,5 +78,21 @@
 
     "post_card_settings_update": "Actualizar mi publicación",
     "post_card_settings_delete": "Eliminar mi publicación",
-    "post_card_settings_report": "Denunciar esta publicación"
+    "post_card_settings_report": "Denunciar esta publicación",
+
+    "report_dialog_panel_post_title": "Denunciar una publicación",
+    "report_dialog_panel_post_reason": "Motivo de la denuncia",
+    "report_dialog_panel_post_comment": "Comentario",
+    "report_dialog_panel_post_submit": "Denunciar",
+    "report_dialog_panel_post_reason_spam": "Spam",
+    "report_dialog_panel_post_reason_harassment": "Acoso",
+    "report_dialog_panel_post_reason_hate_speech": "Discurso de odio",
+    "report_dialog_panel_post_reason_violence": "Violencia",
+    "report_dialog_panel_post_reason_inappropriate": "Contenido inapropiado",
+    "report_dialog_panel_post_reason_sexual_content": "Contenido sexual",
+    "report_dialog_panel_post_reason_false_information": "Información falsa",
+    "report_dialog_panel_post_reason_copyright": "Derechos de autor",
+    "report_dialog_panel_post_reason_animal_abuse": "Maltrato animal",
+    "report_dialog_panel_post_reason_self_harm": "Autolesiones",
+    "report_dialog_panel_post_reason_other": "Otros"
 }

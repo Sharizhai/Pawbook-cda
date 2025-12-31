@@ -1,6 +1,7 @@
 <script lang="ts">
     import QuickActionsMenu from "$components/generic/quickActionsMenu/QuickActionsMenu.svelte";
     import type {QuickActionsMenuActionProperties} from "$types/quickActionsMenuTypes";
+    import ReportDialogPanel from "$components/dialogPanels/ReportDialogPanel.svelte";
     import SettingsButton from "$components/generic/SettingsButton.svelte";
     import LikeButton from "$components/post/LikeButton.svelte";
     import TopContainerInfos from "./TopContainerInfos.svelte";
@@ -10,6 +11,8 @@
     import PostContent from "./PostContent.svelte";
     import {user} from "\$stores/stores.svelte";
     import {push} from "svelte-spa-router";
+    import {createPostReport} from "$services/postReportsServices.svelte";
+    import {PostReportReason} from "$types/postReportTypes";
 
     import commentIcon from "$assets/icons/posts/comment.svg?raw";
     import reportIcon from "$assets/icons//posts/report.svg?raw";
@@ -32,6 +35,7 @@
 
     let isCommentInputVisible = $state(false);
     let isQuickActionsMenuVisible = $state(false);
+    let isReportDialogPanelVisible = $state(false);
 
     let selfSettingsQuickActionsMenuActionProperties: QuickActionsMenuActionProperties[] = $derived([
         {
@@ -87,7 +91,17 @@
     }
 
     function onQuickActionReportPostButtonClick() {
+        isQuickActionsMenuVisible = false;
+        isReportDialogPanelVisible = true;
+    }
 
+    async function onSubmitReportDialogPanelButtonClick(reason: PostReportReason, description?: string) {
+        try {
+            await createPostReport(post.id, user.information.id, reason, description);
+            isReportDialogPanelVisible = false;
+        } catch (error) {
+            console.error("Error submitting report:", error);
+        }
     }
 </script>
 
@@ -112,6 +126,8 @@
         <CommentInput bind:isVisible={isCommentInputVisible} onClick={onSendCommentButtonClick}/>
         <QuickActionsMenu isVisible={isQuickActionsMenuVisible} actions={quickActionsMenuToDisplay} top={"0.5rem"} right={"3rem"} />
     </div>
+
+<ReportDialogPanel bind:isVisible={isReportDialogPanelVisible} onReportClick={onSubmitReportDialogPanelButtonClick}/>
 
 <style lang="scss">
     .postcard-main-container {
