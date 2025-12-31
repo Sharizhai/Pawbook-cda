@@ -1,20 +1,22 @@
 <script lang="ts">
     import PostCreationDialogPanel from "$components/dialogPanels/PostCreationDialogPanel.svelte";
+    import {fetchUserInformations} from "$services/userServices.svelte";
     import * as messages from "$lib/paraglide/messages";
-    import NavbarButton from "./NavbarButton.svelte";
     import {user, follow} from "$stores/stores.svelte";
+    import NavbarButton from "./NavbarButton.svelte";
     import { push } from "svelte-spa-router";
+    import {onMount} from "svelte";
     import logo from "/logo.png";
 
+    import administrationIcon from "$assets/icons/navbar/administration.svg?raw";
     import notificationIcon from "$assets/icons/navbar/notification.svg?raw";
-    import {fetchUserInformations} from "$services/userServices.svelte";
     import profileIcon from "$assets/icons/navbar/profile.svg?raw";
     import searchIcon from "$assets/icons/navbar/search.svg?raw";
     import menuIcon from "$assets/icons/navbar/menu.svg?raw";
     import homeIcon from "$assets/icons/navbar/home.svg?raw";
     import addIcon from "$assets/icons/navbar/add.svg?raw";
-    import {onMount} from "svelte";
 
+    const administrationLabel = messages.navbar_administration();
     const notificationLabel = messages.navbar_notifications();
     const profileLabel = messages.navbar_profile();
     const searchLabel = messages.navbar_search();
@@ -76,6 +78,10 @@
         // Handle menu button click
         console.log("Menu button clicked");
     }
+
+    function onAdministrationButtonClick () {
+        push("/administration");
+    }
 </script>
 
     <nav id="navbar-container">
@@ -94,6 +100,9 @@
         </div>
 
         <div class="navbar-more-container">
+            {#if user.isAdmin || user.isModerator}
+                <NavbarButton label={administrationLabel} icon={administrationIcon} onClick={onAdministrationButtonClick}/>
+            {/if}
             <NavbarButton label={menuLabel} icon={menuIcon} onClick={onMenuButtonClick}/>
         </div>
     </nav>

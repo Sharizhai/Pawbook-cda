@@ -36,8 +36,8 @@
     <h1 class="home-title">Pawbook</h1>
     <p class="home-catchphrase">{catchphraseLabel}</p>
 
-    <Button label={inscriptionLabel} onClick={onInscriptionButtonClick} customClass="extra-margin" isCTA/>
-    <Button label={connectionLabel} onClick={onConnectionButtonClick} />
+    <Button label={inscriptionLabel} onClick={onInscriptionButtonClick} customClass="extra-margin" isCTA hadShadow/>
+    <Button label={connectionLabel} onClick={onConnectionButtonClick} hadShadow/>
     <footer class="home-footer">
       <a href="/gcu" use:link class="home-footer-link">{gcuLabel}</a>
       <p class="home-footer-content">© Pawbook 2024 - 2025</p>
@@ -52,7 +52,6 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        overflow: hidden;
       }
 
       &-background {

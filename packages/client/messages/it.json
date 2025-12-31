@@ -44,6 +44,10 @@
     "navbar_notifications": "Notifiche",
     "navbar_profile": "Profilo",
     "navbar_menu": "Menu",
+    "navbar_administration": "Amministrazione",
+    "navbar_moderation": "Moderazione",
+    "navbar_stats": "Statistiche",
+    "navbar_users": "Utenti",
 
     "post_comment": "Commento",
 
