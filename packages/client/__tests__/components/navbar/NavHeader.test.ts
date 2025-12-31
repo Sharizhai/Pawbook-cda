@@ -1,7 +1,16 @@
-import { test, expect, vi } from "vitest";
+import { test, expect, vi, beforeEach } from "vitest";
 import { render, fireEvent } from "@testing-library/svelte";
 import "@testing-library/jest-dom";
 import NavHeader from "$components/navbar/NavHeader.svelte";
+
+beforeEach(() => {
+    delete (window as any).location;
+    window.location = {
+        href: 'http://localhost/#/',
+        hash: '#/',
+        pathname: '/',
+    } as Location;
+});
 
 test("Should render the logo", () => {
     const { container } = render(NavHeader);
@@ -29,4 +38,17 @@ test("onClick should run properly", async () => {
     await fireEvent.click(menuButton);
 
     expect(logSpy).toHaveBeenCalledWith("Menu button clicked");
+});
+
+test("Should render logo as button on administration page", () => {
+    window.location = {
+        href: 'http://localhost/#/administration',
+        hash: '#/administration',
+        pathname: '/administration',
+    } as Location;
+
+    const { container } = render(NavHeader);
+    const logoButton = container.querySelector(".feed-header-logo-button");
+
+    expect(logoButton).toBeInTheDocument();
 });
