@@ -40,7 +40,7 @@ export const userCreationValidation = z.object({
         .regex(/[!@$#^&(),.?":|<>{}]/, { message: "Le mot de passe doit contenir au moins un caractère spécial" })
         .regex(/[A-Z]/, { message: "Le mot de passe doit contenir au moins une majuscule" })
         .regex(/[a-z]/, { message: "Le mot de passe doit contenir au moins une minuscule" }),
-    role: z.enum(["USER", "ADMIN"]).default("USER"),
+    role: z.enum(["USER", "ADMIN", "MODERATOR"]).default("USER"),
     profilePicture: z.string().optional(),
     profileDescription: z.string().max(150, { message: "La description ne doit pas dépasser 150 caractères" }).optional(),
 });
