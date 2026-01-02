@@ -59,6 +59,9 @@ export const setupRoutes = (app: express.Application): void => {
     // Configuration du middleware d"authentification
     const { isAuthenticated } = makeAuthMiddleware(authServices, userRepository);
 
+    //Configuration du middleware permettant de s'assurer que l'user est admin ou modérateur
+    const { isAdminOrModerator } = makeAuthMiddleware(authServices, userRepository);
+
     // Contrôleurs
     const authController = new AuthController(authServices);
     const postController = container.resolve<PostController>("postController");
@@ -74,7 +77,7 @@ export const setupRoutes = (app: express.Application): void => {
     app.use("/api/users", userRoutesFactory(userController, {isAuthenticated}));
     app.use("/api/animals", animalRoutesFactory(animalController, {isAuthenticated}));
     app.use("/api/follows", followRoutesFactory(followController, {isAuthenticated}));
-    app.use("/api/post-reports", postReportRoutesFactory(postReportController, {isAuthenticated}));
+    app.use("/api/post-reports", postReportRoutesFactory(postReportController, {isAuthenticated, isAdminOrModerator}));
     app.use("/api/photos", photoRoutesFactory(photoController, {isAuthenticated}));
 
     // Route de base pour vérifier que l"API fonctionne
@@ -173,6 +176,7 @@ export const setupRoutes = (app: express.Application): void => {
                         },
                         postReports: {
                             createPostReport: "POST /post-reports/register",
+                            getAllPostReports: "GET /post-reports",
                         },
                         photos: {
                             uploadProfilePicture: "POST /photos/:id/profile-picture",

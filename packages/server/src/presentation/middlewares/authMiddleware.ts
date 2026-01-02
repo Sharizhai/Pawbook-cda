@@ -71,6 +71,39 @@ export const makeAuthMiddleware = (authService: IAuthServices, userRepository: I
     };
 
     /**
+     * Check if the user is an moderator
+     */
+    const isModerator = (req: Request, res: Response, next: NextFunction): void => {
+        if (!req.user) {
+            APIResponse(res, null, "Unauthorized", 401);
+            return;
+        }
+
+        if (!req.user.isModerator()) {
+            APIResponse(res, null, "Forbidden", 403);
+        }
+
+        next();
+    }
+
+    /**
+     * Check if the user is an admin or moderator
+     */
+    const isAdminOrModerator = (req: Request, res: Response, next: NextFunction): void => {
+        if (!req.user) {
+            APIResponse(res, null, "Unauthorized", 401);
+            return;
+        }
+
+        if (!req.user.isAdmin() && !req.user.isModerator()) {
+            APIResponse(res, null, "Forbidden - Admin or Moderator access required", 403);
+            return;
+        }
+
+        next();
+    };
+
+    /**
      * Check if the current member can modify the data of another member
      * (either it is his own data, or he is admin or moderator)
      *
@@ -92,5 +125,5 @@ export const makeAuthMiddleware = (authService: IAuthServices, userRepository: I
         next();
     };
 
-    return { isAuthenticated, isAdmin, canModifyUser };
+    return { isAuthenticated, isAdmin, isModerator, isAdminOrModerator, canModifyUser };
 };

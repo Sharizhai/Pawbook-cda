@@ -1,6 +1,8 @@
 import {CreateAPostReportUseCase} from "$application/use-cases/report/CreateAPostReportUseCase";
+import {GetAllPostReportsUseCase} from "$application/use-cases/report/GetAllPostReportsUseCase";
 import {APIResponse} from "$utils/responseUtils.utils";
 import {Request, Response} from "express";
+import {an} from "vitest/dist/chunks/reporters.d.Rsi0PyxX";
 
 /**
  * PostReportController - Couche Présentation
@@ -10,6 +12,7 @@ import {Request, Response} from "express";
 export class PostReportController {
     constructor(
         private readonly createAPostReportUseCase: CreateAPostReportUseCase,
+        private readonly getAllPostReportsUseCase: GetAllPostReportsUseCase
     ) {}
 
     /**
@@ -52,6 +55,57 @@ export class PostReportController {
             const message = error instanceof Error
                 ? error.message
                 : "Erreur lors de la création du signalement";
+
+            return APIResponse(res, null, message, 500);
+        }
+    }
+
+    /**
+     * Récupère tous les signalements de post
+     */
+
+    async getAllPostReports(req: Request, res: Response) {
+        try {
+            const page = Math.max(parseInt(req.query.page as string) || 1, 1);
+            const limit = Math.min(parseInt(req.query.limit as string) || 10, 50);
+
+            const result = await this.getAllPostReportsUseCase.execute(page, limit);
+
+            const mapped = {
+                hasMore: result.hasMore,
+                postReports: result.postReports.map((p: any) => ({
+                    id: p.id,
+                    postId: p.postId,
+                    reporterId: p.reporterId,
+                    reason: p.reason,
+                    description: p.description,
+                    createdAt: p.createdAt,
+                    ...(p.post && {
+                        post: {
+                            id: p.post.id,
+                            authorId: p.post.authorId,
+                            textContent: p.post.textContent,
+                            photoContent: p.post.photoContent,
+                            reportCount: p.post.reportCount,
+                            moderationStatus: p.post.moderationStatus,
+                            ...(p.post.author && {
+                                author: {
+                                    id: p.post.author.id,
+                                    name: p.post.author.name,
+                                    firstName: p.post.author.firstName,
+                                    profilePicture: p.post.author.profilePicture,
+                                }
+                            })
+                        }
+                    })
+                }))
+            }
+
+            return APIResponse(res, mapped, "Signalements de posts récupérés avec succès");
+        } catch (error) {
+            const message = error instanceof Error
+                ? error.message
+                : "Erreur lors de la récupération des posts";
 
             return APIResponse(res, null, message, 500);
         }

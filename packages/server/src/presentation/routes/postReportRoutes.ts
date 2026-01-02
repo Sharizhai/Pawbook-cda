@@ -7,7 +7,7 @@ import express from "express";
  * @param middleware - Middleware
  */
 
-export default function postReportRoutesFactory(postReportController: PostReportController, middleware: {isAuthenticated: any}) {
+export default function postReportRoutesFactory(postReportController: PostReportController, middleware: {isAuthenticated: any, isAdminOrModerator: any;}) {
     const router = express.Router();
 
     /**
@@ -16,6 +16,13 @@ export default function postReportRoutesFactory(postReportController: PostReport
      * @access Protected
      */
     router.post("/register", middleware.isAuthenticated, postReportController.createPostReport.bind(postReportController));
+
+    /**
+     * @route GET /api/post-reports
+     * @desc Récupère tous les signalements de post
+     * @access Protected
+     */
+    router.get("/", middleware.isAuthenticated, middleware.isAdminOrModerator, postReportController.getAllPostReports.bind(postReportController));
 
     return router;
 }

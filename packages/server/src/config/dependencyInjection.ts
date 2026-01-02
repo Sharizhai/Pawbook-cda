@@ -292,7 +292,9 @@ container.register({
     ).singleton(),
 
     postReportController: asFunction((deps: Dependencies) =>
-        new PostReportController(deps.createAPostReportUseCase)
+        new PostReportController(
+            deps.createAPostReportUseCase,
+            deps.getAllPostReportsUseCase)
     ),
 });
 
