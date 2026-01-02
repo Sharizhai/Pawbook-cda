@@ -59,6 +59,7 @@ import {FollowAUserUseCase} from "$application/use-cases/follow/FollowAUserUseCa
 import {UnfollowAUserUseCase} from "$application/use-cases/follow/UnfollowAUserUseCase";
 
 import {CreateAPostReportUseCase} from "$application/use-cases/report/CreateAPostReportUseCase";
+import {GetAllPostReportsUseCase} from "$application/use-cases/report/GetAllPostReportsUseCase";
 
 import {UploadProfilePictureUseCase} from "$application/use-cases/pictures/uploadProfilePictureUseCase";
 
@@ -110,6 +111,7 @@ export interface Dependencies {
     unfollowAUserUseCase: UnfollowAUserUseCase;
 
     createAPostReportUseCase: CreateAPostReportUseCase;
+    getAllPostReportsUseCase: GetAllPostReportsUseCase;
 
     uploadProfilePictureUseCase: UploadProfilePictureUseCase;
 }
@@ -249,6 +251,9 @@ container.register({
     // *** REPORTS ***
     createAPostReportUseCase: asFunction((deps: Dependencies) =>
         new CreateAPostReportUseCase(deps.postReportRepository, deps.postRepository, deps.userRepository)
+    ).singleton(),
+    getAllPostReportsUseCase: asFunction((deps: Dependencies) =>
+        new GetAllPostReportsUseCase(deps.postReportRepository)
     ).singleton(),
 
     // *** PHOTOS ***

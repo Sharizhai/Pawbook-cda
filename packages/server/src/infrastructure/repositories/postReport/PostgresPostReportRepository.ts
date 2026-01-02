@@ -28,15 +28,20 @@ export class PostgresPostReportRepository implements IPostReportRepository {
         const safePage = Math.max(page, 1);
         const skip = (safePage - 1) * limit;
 
-        const posts = await this.prisma.postReport.findMany({
-            skip,
-            take: limit,
-            orderBy: {
-                createdAt: 'desc'
-            }
-        });
+        const reports = await this.prisma.$queryRaw<any[]>`
+            SELECT * FROM "PostReport"
+            ORDER BY
+                CASE
+                    WHEN reason IN ('HATE_SPEECH', 'VIOLENCE', 'SEXUAL_CONTENT', 'ANIMAL_ABUSE', 'SELF_HARM')
+                        THEN 0
+                    ELSE 1
+                    END,
+                "createdAt" ASC
+                LIMIT ${limit}
+            OFFSET ${skip}
+        `;
 
-        return posts.map(post => this.toDomain(post));
+        return reports.map(report => this.toDomain(report));
     }
 
     async findById(id: string): Promise<PostReport | null> {

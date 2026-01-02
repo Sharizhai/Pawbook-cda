@@ -2,6 +2,7 @@ import {IPostReportRepository} from "$domain/interfaces/repositories/reports/pos
 import {IPostRepository} from "$domain/interfaces/repositories/postRepository.interface";
 import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import {PostReport, PostReportData} from "$domain/entities/PostReports";
+import {Post} from "$domain/entities/Posts";
 
 export class InMemoryPostReportRepository implements IPostReportRepository {
     private postReports: PostReport[] = [];
@@ -17,13 +18,19 @@ export class InMemoryPostReportRepository implements IPostReportRepository {
     }
 
     async findAll(page: number, limit: number): Promise<PostReport[]> {
-        const sorted = [...this.postReports].sort((a, b) =>
-            b.createdAt.getTime() - a.createdAt.getTime()
-        );
+        const sorted = [...this.postReports].sort((a, b) => {
+            const aSensitive = a.isSensitiveContent();
+            const bSensitive = b.isSensitiveContent();
+
+            if (aSensitive && !bSensitive) return -1;
+            if (!aSensitive && bSensitive) return 1;
+
+            return a.createdAt.getTime() - b.createdAt.getTime();
+        });
 
         const paginated = sorted.slice(page, page + limit);
 
-        return paginated;
+        return await this.populatePosts(paginated);
     }
 
     async findById(id: string): Promise<PostReport | null> {
@@ -97,5 +104,37 @@ export class InMemoryPostReportRepository implements IPostReportRepository {
     async clear(): Promise<void> {
         this.postReports.length = 0;
         return Promise.resolve();
+    }
+
+    private async populatePosts(postReports: PostReport[]): Promise<PostReport[]> {
+        if (!this.postRepository) {
+            return postReports;
+        }
+
+        return Promise.all(
+            postReports.map(async (postReport) => {
+                let populatedPost;
+
+                if (postReport.postId) {
+                    const post: Post = await this.postRepository!.findById(postReport.postId);
+                    if (post) {
+                        populatedPost = {
+                            id: post.id,
+                            authorId: post.authorId,
+                            textContent: post.textContent,
+                            photoContent: post.photoContent,
+                            reportCount: post.reportCount,
+                            moderationStatus: post.moderationStatus,
+                            author: post.author
+                        };
+                    }
+                }
+
+                return new PostReport({
+                    ...postReport,
+                    post: populatedPost
+                });
+            })
+        );
     }
 }
