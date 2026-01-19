@@ -98,5 +98,14 @@
     "report_dialog_panel_post_reason_copyright": "Urheberrecht",
     "report_dialog_panel_post_reason_animal_abuse": "Tierquälerei",
     "report_dialog_panel_post_reason_self_harm": "Selbstverletzung",
-    "report_dialog_panel_post_reason_other": "Sonstiges"
+    "report_dialog_panel_post_reason_other": "Sonstiges",
+
+    "post_moderation_table_post_id": "Beitrags-ID",
+    "post_moderation_table_post_text_content": "Textinhalt des Beitrags",
+    "post_moderation_table_post_photo_content": "Fotoinhalt des Beitrags",
+    "post_moderation_table_post_author": "Autor des Beitrags",
+    "post_moderation_table_post_reporter": "Meldender Benutzer",
+    "post_moderation_table_report_reason": "Meldegrund",
+    "post_moderation_table_report_comment": "Kommentar zur Meldung",
+    "post_moderation_table_actions": "Aktionen"
 }

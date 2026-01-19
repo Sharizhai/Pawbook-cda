@@ -6,7 +6,17 @@
     import AdminNavbar from "$components/navbar/AdminNavbar.svelte";
     import NavHeader from "$components/navbar/NavHeader.svelte";
     import PostModerationTable from "$components/moderation/PostModerationTable.svelte";
+    import { onMount } from "svelte";
+    import { fetchAllPostReports } from "$services/reports/postReportsServices.svelte";
+    import { postReport } from "$stores/stores.svelte";
 
+    onMount(async () => {
+        const { postReports, hasMore } = await fetchAllPostReports();
+        postReport.setPostReports(postReports);
+        postReport.setHasMore(hasMore);
+
+        console.log(postReports);
+    });
 </script>
 
 <main id="administration-page">
@@ -14,7 +24,7 @@
     <NavHeader />
 
     <div class="administration-page-container">
-        <PostModerationTable />
+        <PostModerationTable postReports={postReport.postReports} />
     </div>
 
     <AdminNavbar />

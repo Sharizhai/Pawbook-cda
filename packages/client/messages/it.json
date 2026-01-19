@@ -98,5 +98,14 @@
     "report_dialog_panel_post_reason_copyright": "Copyright",
     "report_dialog_panel_post_reason_animal_abuse": "Maltrattamento degli animali",
     "report_dialog_panel_post_reason_self_harm": "Autolesionismo",
-    "report_dialog_panel_post_reason_other": "Altro"
+    "report_dialog_panel_post_reason_other": "Altro",
+
+    "post_moderation_table_post_id": "ID del post",
+    "post_moderation_table_post_text_content": "Contenuto testuale del post",
+    "post_moderation_table_post_photo_content": "Contenuto fotografico del post",
+    "post_moderation_table_post_author": "Autore del post",
+    "post_moderation_table_post_reporter": "Segnalatore del post",
+    "post_moderation_table_report_reason": "Motivo della segnalazione",
+    "post_moderation_table_report_comment": "Commento della segnalazione",
+    "post_moderation_table_actions": "Azioni"
 }

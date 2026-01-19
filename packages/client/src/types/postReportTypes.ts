@@ -14,20 +14,28 @@ export enum PostReportReason {
 
 export type PostReportInformations = {
     id: string;
-    postId: {
+    postId: string;
+    reporterId: string;
+    reporter?: {
         id: string;
-        authorId: {
-            id: string;
-            name: string;
-            firstName: string;
-            profilePicture: string;
-        } | string;
+        name: string;
+        firstName: string;
+        profilePicture: string | null;
+    };
+    post?: {
+        id: string;
+        authorId: string;
         textContent?: string;
         photoContent?: string[];
         reportCount: number;
-        moderationStatus: string;
-    } | string;
-    reporterId: string;
+        moderationStatus: "NONE" | "PENDING" | "APPROVED" | "REJECTED";
+        author?: {
+            id: string;
+            name: string;
+            firstName: string;
+            profilePicture: string | null;
+        };
+    };
     reason: PostReportReason;
     description?: string;
     createdAt: string;
