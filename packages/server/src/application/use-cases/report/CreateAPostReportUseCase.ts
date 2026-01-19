@@ -42,6 +42,12 @@ export class CreateAPostReportUseCase {
         const postReport = PostReport.create({
             postId: validData.postId,
             reporterId: validData.reporterId,
+            reporter: {
+                id: reporter.id,
+                name: reporter.name,
+                firstName: reporter.firstName,
+                profilePicture: reporter.profilePicture ?? null,
+            },
             reason: validData.reason,
             description: validData.description,
         });

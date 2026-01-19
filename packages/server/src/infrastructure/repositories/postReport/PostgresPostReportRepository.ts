@@ -6,12 +6,22 @@ export class PostgresPostReportRepository implements IPostReportRepository {
     constructor(private prisma: PrismaClient) {}
 
     private readonly POST_REPORT_INCLUDE = {
+        reporter: {
+            select: {
+                id: true,
+                name: true,
+                firstName: true,
+                profilePicture: true
+            }
+        },
         post: {
             select: {
                 id: true,
                 authorId: true,
                 textContent: true,
                 photoContent: true,
+                reportCount: true,
+                moderationStatus: true,
                 author: {
                     select: {
                         id: true,
@@ -28,20 +38,33 @@ export class PostgresPostReportRepository implements IPostReportRepository {
         const safePage = Math.max(page, 1);
         const skip = (safePage - 1) * limit;
 
-        const reports = await this.prisma.$queryRaw<any[]>`
-            SELECT * FROM "PostReport"
-            ORDER BY
-                CASE
-                    WHEN reason IN ('HATE_SPEECH', 'VIOLENCE', 'SEXUAL_CONTENT', 'ANIMAL_ABUSE', 'SELF_HARM')
-                        THEN 0
-                    ELSE 1
-                    END,
-                "createdAt" ASC
-                LIMIT ${limit}
-            OFFSET ${skip}
-        `;
+        const reports = await this.prisma.postReport.findMany({
+            include: this.POST_REPORT_INCLUDE,
+            skip,
+            take: limit,
+            orderBy: [
+                {
+                    reason: 'asc'
+                },
+                {
+                    createdAt: 'asc'
+                }
+            ]
+        });
 
-        return reports.map(report => this.toDomain(report));
+        const priorityReasons = ['HATE_SPEECH', 'VIOLENCE', 'SEXUAL_CONTENT', 'ANIMAL_ABUSE', 'SELF_HARM'];
+        const sorted = reports.sort((a, b) => {
+            const aPriority = priorityReasons.includes(a.reason) ? 0 : 1;
+            const bPriority = priorityReasons.includes(b.reason) ? 0 : 1;
+            
+            if (aPriority !== bPriority) {
+                return aPriority - bPriority;
+            }
+            
+            return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+        });
+
+        return sorted.map(report => this.toDomain(report));
     }
 
     async findById(id: string): Promise<PostReport | null> {
@@ -119,7 +142,7 @@ export class PostgresPostReportRepository implements IPostReportRepository {
     async update(id: string, postReportData: Partial<PostReportData>): Promise<PostReport | null> {
         try {
             // Exclut les champs de relation et les champs non modifiables
-            const { postId, reporterId, post, createdAt, ...updateData } = postReportData;
+            const { postId, reporterId, reporter, post, createdAt, ...updateData } = postReportData;
 
             const updatedReport = await this.prisma.postReport.update({
                 where: { id },
@@ -138,6 +161,12 @@ export class PostgresPostReportRepository implements IPostReportRepository {
             id: prismaReportPost.id,
             postId: prismaReportPost.postId,
             reporterId: prismaReportPost.reporterId,
+            reporter: prismaReportPost.reporter ? {
+                id: prismaReportPost.reporter.id,
+                name: prismaReportPost.reporter.name,
+                firstName: prismaReportPost.reporter.firstName,
+                profilePicture: prismaReportPost.reporter.profilePicture ?? null,
+            } : undefined,
             post: prismaReportPost.post ? {
                 id: prismaReportPost.post.id,
                 authorId: prismaReportPost.post.authorId,

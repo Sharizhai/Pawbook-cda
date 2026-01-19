@@ -29,6 +29,14 @@ export class PostReportController {
                 reason: postReport.reason,
                 description: postReport.description,
                 createdAt: postReport.createdAt,
+                ...(postReport.reporter && {
+                    reporter: {
+                        id: postReport.reporter.id,
+                        name: postReport.reporter.name,
+                        firstName: postReport.reporter.firstName,
+                        profilePicture: postReport.reporter.profilePicture,
+                    }
+                }),
                 ...(postReport.post && {
                     post: {
                         id: postReport.post.id,
@@ -80,6 +88,14 @@ export class PostReportController {
                     reason: p.reason,
                     description: p.description,
                     createdAt: p.createdAt,
+                    ...(p.reporter && {
+                        reporter: {
+                            id: p.reporter.id,
+                            name: p.reporter.name,
+                            firstName: p.reporter.firstName,
+                            profilePicture: p.reporter.profilePicture,
+                        }
+                    }),
                     ...(p.post && {
                         post: {
                             id: p.post.id,

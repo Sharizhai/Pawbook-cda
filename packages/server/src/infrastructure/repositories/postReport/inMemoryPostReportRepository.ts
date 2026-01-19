@@ -107,13 +107,14 @@ export class InMemoryPostReportRepository implements IPostReportRepository {
     }
 
     private async populatePosts(postReports: PostReport[]): Promise<PostReport[]> {
-        if (!this.postRepository) {
+        if (!this.postRepository || !this.userRepository) {
             return postReports;
         }
 
         return Promise.all(
             postReports.map(async (postReport) => {
                 let populatedPost;
+                let populatedReporter;
 
                 if (postReport.postId) {
                     const post: Post = await this.postRepository!.findById(postReport.postId);
@@ -130,9 +131,22 @@ export class InMemoryPostReportRepository implements IPostReportRepository {
                     }
                 }
 
+                if (postReport.reporterId) {
+                    const reporter = await this.userRepository!.findById(postReport.reporterId);
+                    if (reporter) {
+                        populatedReporter = {
+                            id: reporter.id,
+                            name: reporter.name,
+                            firstName: reporter.firstName,
+                            profilePicture: reporter.profilePicture ?? null
+                        };
+                    }
+                }
+
                 return new PostReport({
                     ...postReport,
-                    post: populatedPost
+                    post: populatedPost,
+                    reporter: populatedReporter
                 });
             })
         );

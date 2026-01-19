@@ -29,6 +29,7 @@ describe("Use case: We must be able to get all post reports", () => {
 
         if (postReportRepository instanceof InMemoryPostReportRepository) {
             postReportRepository.setPostRepository(postRepository);
+            postReportRepository.setUserRepository(userRepository);
         }
 
         getAllPostReportsUseCase = new GetAllPostReportsUseCase(postReportRepository);

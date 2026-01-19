@@ -8,6 +8,12 @@ export interface PostReportData {
     id: string;
     postId: string;
     reporterId: string;
+    reporter?: {
+        id: string;
+        name: string;
+        firstName: string;
+        profilePicture: string | null;
+    };
     post?: {
         id: string;
         authorId: string;
@@ -32,6 +38,12 @@ export class PostReport {
     public readonly id: string;
     public readonly postId: string;
     public readonly reporterId: string;
+    public readonly reporter?: {
+        id: string;
+        name: string;
+        firstName: string;
+        profilePicture: string | null;
+    };
     public readonly post?: {
         id: string;
         authorId: string;
@@ -55,6 +67,7 @@ export class PostReport {
         this.id = data.id;
         this.postId = data.postId;
         this.reporterId = data.reporterId;
+        this.reporter = data.reporter;
         this.post = data.post;
         this.reason = data.reason;
         this.description = data.description;
