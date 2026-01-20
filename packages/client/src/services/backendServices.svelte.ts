@@ -22,7 +22,7 @@ export async function apiFetch(
         headers.append('Authorization', `Bearer ${accessToken}`);
     }
 
-    if (!headers.has('Content-Type'))
+    if (!headers.has('Content-Type') && !(init?.body instanceof FormData))
         headers.append('Content-Type', 'application/json');
 
     try {

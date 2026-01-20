@@ -1,13 +1,13 @@
-import { backendURL } from "$services/backendServices.svelte";
+import { apiFetch } from "$services/backendServices.svelte";
 
 export async function uploadProfilePicture(userId: string, file: File) {
     const formData = new FormData();
     formData.append("photo", file);
 
-    const response = await fetch(`${backendURL}/photos/${userId}/profile-picture`, {
+    const response = await apiFetch(`/photos/${userId}/profile-picture`, {
         method: "POST",
         body: formData,
-        credentials: "include",
+        checkCredentials: true,
     });
 
     if (!response.ok) {
