@@ -72,9 +72,9 @@
                 align-items: center;
                 justify-content: space-between;
                 width: 100%;
-                height: 2.125rem;
+                height: 2.5rem;
                 border-radius: 0.3125rem;
-                background-color: white;
+                background-color: rgba(255, 255, 255, 0.5);
                 font-size: 1rem;
                 color: var(--main-text-color);
                 padding: 0 0.9rem;

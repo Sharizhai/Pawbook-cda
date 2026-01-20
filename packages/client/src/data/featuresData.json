@@ -1,0 +1,22 @@
+[
+  {
+    "icon": "camera",
+    "title": "Partagez vos moments",
+    "description": "Publiez les photos et vidéos de vos compagnons à quatre pattes avec une communauté qui comprend votre amour pour les animaux."
+  },
+  {
+    "icon": "users",
+    "title": "Connectez-vous",
+    "description": "Suivez d'autres propriétaires d'animaux, échangez des conseils et créez des liens avec des passionnés près de chez vous."
+  },
+  {
+    "icon": "messages",
+    "title": "Échangez et apprenez",
+    "description": "Posez vos questions, partagez vos expériences et découvrez les meilleurs conseils pour prendre soin de vos animaux."
+  },
+  {
+    "icon": "celebration",
+    "title": "Célébrez ensemble",
+    "description": "Anniversaires, adoptions, premières fois... Partagez tous les moments importants de la vie de vos compagnons."
+  }
+]

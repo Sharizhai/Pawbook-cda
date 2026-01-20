@@ -9,7 +9,7 @@
   import ForgottenPasswordPage from "$pages/ForgottenPasswordPage.svelte";
   import AccountCreationPage from "$pages/AccountCreationPage.svelte";
   import AdministrationPage from "$pages/AdministrationPage.svelte";
-  // import LandingPage from "$pages/LandingPage.svelte";
+  import LandingPage from "$pages/LandingPage.svelte";
   import ProfilePage from "$pages/ProfilePage.svelte";
   import LoginPage from "$pages/LoginPage.svelte";
   import HomePage from "$pages/HomePage.svelte";
@@ -17,8 +17,8 @@
   import GcuPage from "$pages/GCUPage.svelte";
 
   const routes = {
-    "/": HomePage,
-      //"/": LandingPage,
+    // "/": HomePage,
+      "/": LandingPage,
     "/gcu": GcuPage,
     "/login": LoginPage,
     "/signup": AccountCreationPage,
