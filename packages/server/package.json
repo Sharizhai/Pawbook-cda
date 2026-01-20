@@ -6,6 +6,7 @@
     "dev": "npx ts-node-dev --respawn --transpile-only --ignore-watch node_modules -r tsconfig-paths/register src/server.ts",
     "prebuild": "node convert-to-relative.js",
     "build": "tsc -p tsconfig.json",
+    "build:production": "prisma generate && tsc -p tsconfig.json && prisma migrate deploy",
     "postbuild": "node restore-aliases.js",
     "postinstall": "prisma generate",
     "start": "node dist/server.js",
