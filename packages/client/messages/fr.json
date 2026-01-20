@@ -107,5 +107,9 @@
     "post_moderation_table_post_reporter": "Signalant",
     "post_moderation_table_report_reason": "Motif du signalement",
     "post_moderation_table_report_comment": "Commentaire",
-    "post_moderation_table_actions": "Actions"
+    "post_moderation_table_actions": "Actions",
+
+    "landing_page_hero_cta_button": "Rejoindre Pawbook",
+    "landing_page_hero_title": "Partage la vie de tes animaux, un moment à la fois",
+    "landing_page_hero_subtitle": "Parce que chaque instant mérite d’être partagé et conservé."
 }
