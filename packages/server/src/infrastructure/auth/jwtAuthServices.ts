@@ -6,10 +6,14 @@ export class JwtAuthService implements IJwtServices {
     constructor(
         private readonly secret: Secret,
         private readonly expiresIn: SignOptions['expiresIn'],
+        private readonly refreshSecret: Secret,
+        private readonly refreshExpiresIn: SignOptions['expiresIn'],
         private readonly jwtLib = jwt
     ) {
         if (!secret) throw new Error("JWT_SECRET is required");
         if (!expiresIn) throw new Error("JWT_EXPIRATION_SECRET is required");
+        if (!refreshSecret) throw new Error("REFRESH_TOKEN_SECRET is required");
+        if (!refreshExpiresIn) throw new Error("REFRESH_TOKEN_EXPIRATION_SECRET is required");
     }
 
     /**
@@ -20,6 +24,17 @@ export class JwtAuthService implements IJwtServices {
 
         return this.jwtLib.sign({...payload, jti: crypto.randomUUID()}, this.secret, {
             expiresIn: this.expiresIn as jwt.SignOptions['expiresIn'],
+        });
+    }
+
+    /**
+     * Génère un refresh token JWT avec une durée de vie plus longue
+     */
+    generateRefreshToken(payload: ITokenPayload): string {
+        if (!payload) throw new Error("Payload is required");
+
+        return this.jwtLib.sign({...payload, jti: crypto.randomUUID()}, this.refreshSecret, {
+            expiresIn: this.refreshExpiresIn as jwt.SignOptions['expiresIn'],
         });
     }
 

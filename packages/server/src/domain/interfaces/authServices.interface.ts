@@ -5,10 +5,10 @@ export interface IAuthServices {
     /**
      * Authentifie un utilisateur avec ses identifiants
      * @param credentials validation zod
-     * @returns Token JWT si l'authentification réussit
+     * @returns Objet contenant le token d'accès et le refresh token
      * @throws Error si les identifiants sont invalides
      */
-    login(credentials: LoginDto): Promise<string>;
+    login(credentials: LoginDto): Promise<{ token: string; refreshToken: string }>;
 
     /**
      * Vérifie et décode un token JWT
@@ -31,7 +31,7 @@ export interface IAuthServices {
      * @returns Nouveau token d'accès
      * @throws Error si le refresh token est invalide
      */
-    refreshToken?(refreshToken: string): Promise<string>;
+    refreshToken(refreshToken: string): Promise<string>;
 
     /**
      * Vérifie si un token est valide sans lever d'exception

@@ -32,7 +32,8 @@ describe("Auth middleware", () => {
             password: "Password!123"
         };
 
-        validTestToken = await authServices.login(validCredentials);
+        const loginResult = await authServices.login(validCredentials);
+        validTestToken = loginResult.token;
     });
 
     interface MockResponse {

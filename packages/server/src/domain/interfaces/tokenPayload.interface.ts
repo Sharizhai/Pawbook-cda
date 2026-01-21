@@ -5,3 +5,7 @@ export interface ITokenPayload {
     name: string;
     role: string;
 }
+
+export interface IRefreshTokenPayload {
+    id: string;
+}

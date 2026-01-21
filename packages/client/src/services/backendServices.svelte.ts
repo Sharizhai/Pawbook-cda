@@ -1,5 +1,5 @@
 import type { APIFetchRequestInit } from '$types/backendTypes';
-import { authLogout } from '$services/authServices.svelte.js';
+import {authLogout, authRefresh} from '$services/authServices.svelte.js';
 import { isTokenExpired } from '$utils/tokenUtils';
 import { user } from '$stores/stores.svelte';
 
@@ -43,8 +43,14 @@ export async function apiFetch(
 
 export async function validateUserCredentials(): Promise<boolean> {
     const accessToken = $state.snapshot(user.accessToken);
+    const refreshToken = $state.snapshot(user.refreshToken);
 
     if (accessToken && !isTokenExpired(accessToken)) return true;
+
+    if (refreshToken && !isTokenExpired(refreshToken)) {
+        await authRefresh(refreshToken);
+        return !user.isAccessTokenExpired;
+    }
 
     return false;
 }

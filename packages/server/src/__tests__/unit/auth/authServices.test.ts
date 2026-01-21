@@ -25,7 +25,8 @@ describe("Authentication Services", () => {
             password: "Password!123"
         };
 
-        validTestToken = await authServices.login(validCredentials);
+        const loginResult = await authServices.login(validCredentials);
+        validTestToken = loginResult.token;
     })
 
     describe("1/ Login", () => {

@@ -196,7 +196,12 @@ container.register({
     argon2Services: asClass(Argon2Services).singleton(),
     photoStorageServices: asClass(photoStorageServiceClass).singleton(),
     jwtAuthService: asFunction(() =>
-        new JwtAuthService(env.JWT_SECRET, env.JWT_EXPIRATION_SECRET as any)
+        new JwtAuthService(
+            env.JWT_SECRET,
+            env.JWT_EXPIRATION_SECRET as any,
+            env.REFRESH_TOKEN_SECRET,
+            env.REFRESH_TOKEN_EXPIRATION_SECRET as any
+        )
     ).singleton(),
 
     // === APPLICATION LAYER - asFunction pour les interfaces complexes ===

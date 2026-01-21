@@ -1,4 +1,4 @@
-import {ITokenPayload} from "$domain/interfaces/tokenPayload.interface";
+import {IRefreshTokenPayload, ITokenPayload} from "$domain/interfaces/tokenPayload.interface";
 
 export interface IJwtServices {
     /**
@@ -7,6 +7,13 @@ export interface IJwtServices {
      * @returns Token JWT signé
      */
     generateToken(payload: ITokenPayload): string;
+
+    /**
+     * Génère un refresh token JWT avec une durée de vie plus longue
+     * @param payload - Données à encoder dans le token
+     * @returns Refresh token JWT signé
+     */
+    generateRefreshToken(payload: IRefreshTokenPayload): string;
 
     /**
      * Vérifie et décode un token JWT

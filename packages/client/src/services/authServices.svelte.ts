@@ -21,7 +21,24 @@ export async function authLogin(email: string, password: string) {
     }
 
     user.setAccessToken(result.data.token);
+    user.setRefreshToken(result.data.refreshToken);
     return true;
+}
+
+export async function authRefresh(refreshToken: string) {
+    const response = await apiFetch("/auth/refresh", {
+        method: "POST",
+        body: JSON.stringify({ refreshToken }),
+        checkCredentials: false,
+    });
+
+    if(!response.ok) return;
+
+    const result = await response.json();
+
+    if(!result.data.token) return;
+
+    user.setAccessToken(result.data.token);
 }
 
 export async function authLogout() {
@@ -31,5 +48,6 @@ export async function authLogout() {
     })
 
     user.setAccessToken("");
+    user.setRefreshToken("");
     user.clearInformations();
 }

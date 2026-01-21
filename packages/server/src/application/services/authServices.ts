@@ -13,7 +13,7 @@ export class AuthServices implements IAuthServices {
         private readonly jwtAuthService: IJwtServices,
     ) {}
 
-    async login(credentials: LoginDto): Promise<string> {
+    async login(credentials: LoginDto): Promise<{ token: string, refreshToken: string }> {
         if (!credentials.email || !credentials.password) {
             throw new Error("E-mail et mot de passe requis");
         }
@@ -34,15 +34,22 @@ export class AuthServices implements IAuthServices {
             throw new Error("Mot de passe invalide");
         }
 
-        const token = this.jwtAuthService.generateToken({
+        const payload = {
             id: user.id,
             email: user.email,
             firstName: user.firstName,
             name: user.name,
             role: user.role,
-        });
+        };
 
-        return token;
+        const refreshPayload = {
+            id: user.id,
+        };
+
+        const token = this.jwtAuthService.generateToken(payload);
+        const refreshToken = this.jwtAuthService.generateRefreshToken(refreshPayload);
+
+        return { token, refreshToken };
     }
 
     async logout(token: string): Promise<void> {
@@ -51,6 +58,34 @@ export class AuthServices implements IAuthServices {
 
         } catch (error) {
 
+        }
+    }
+
+    async refreshToken(refreshToken: string): Promise<string> {
+        try {
+            const payload = this.jwtAuthService.verifyToken(refreshToken);
+
+            if (!payload || !payload.id) {
+                throw new Error("Refresh token invalide");
+            }
+
+            const user = await this.userRepository.findById(payload.id);
+
+            if (!user) {
+                throw new Error("Utilisateur non trouvé");
+            }
+
+            const newToken = this.jwtAuthService.generateToken({
+                id: user.id,
+                email: user.email,
+                firstName: user.firstName,
+                name: user.name,
+                role: user.role,
+            });
+
+            return newToken;
+        } catch (error) {
+            throw new Error("Impossible de rafraîchir le token");
         }
     }
 

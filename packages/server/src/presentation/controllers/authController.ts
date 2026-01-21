@@ -20,16 +20,23 @@ export class AuthController {
                 return;
             }
 
-            const token = await this.authService.login(validateData);
+            const { token, refreshToken } = await this.authService.login(validateData);
 
             res.cookie("accessToken", token, {
                 httpOnly: true,
                 sameSite: "lax",
                 secure: process.env.NODE_ENV === "production",
-                maxAge: 24 * 60 * 60 * 1000, // 24h en ms
+                maxAge: 30 * 60 * 1000, // 30 minutes en ms
             });
 
-            APIResponse(res, { token }, "Connexion réussie", 200);
+            res.cookie("refreshToken", refreshToken, {
+                httpOnly: true,
+                sameSite: "lax",
+                secure: process.env.NODE_ENV === "production",
+                maxAge: 2 * 24 * 60 * 60 * 1000, // 2 jours en ms
+            });
+
+            APIResponse(res, { token, refreshToken }, "Connexion réussie", 200);
         } catch (error) {
             console.error('[AuthController] Login error:', error);
             APIResponse(res, null, 'Identifiants invalides', 401);
@@ -59,6 +66,35 @@ export class AuthController {
         } catch (error) {
             console.error('[AuthController] Logout error:', error);
             APIResponse(res, null, 'Erreur lors de la déconnexion', 500);
+        }
+    };
+
+    /**
+     * Rafraîchit le token d'accès avec un refresh token
+     * @route POST /api/auth/refresh
+     */
+    refresh = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { refreshToken } = req.body;
+
+            if (!refreshToken) {
+                APIResponse(res, null, 'Refresh token requis', 400);
+                return;
+            }
+
+            const newToken = await this.authService.refreshToken(refreshToken);
+
+            res.cookie("accessToken", newToken, {
+                httpOnly: true,
+                sameSite: "lax",
+                secure: process.env.NODE_ENV === "production",
+                maxAge: 30 * 60 * 1000, // 30 minutes en ms
+            });
+
+            APIResponse(res, { token: newToken }, "Token rafraîchi avec succès", 200);
+        } catch (error) {
+            console.error('[AuthController] Refresh error:', error);
+            APIResponse(res, null, 'Refresh token invalide', 401);
         }
     };
 

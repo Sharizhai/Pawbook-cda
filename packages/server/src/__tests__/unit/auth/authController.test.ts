@@ -21,6 +21,7 @@ const createMockRes = (): Partial<Response> => {
         jsonData: null,
         cookieData: null,
         cookieOptions: null,
+        cookies: [],
         clearedCookie: null,
         clearedCookieOptions: null,
         headers: {},
@@ -33,6 +34,7 @@ const createMockRes = (): Partial<Response> => {
             return this;
         },
         cookie: function(name: string, value: string, options?: any) {
+            this.cookies.push({ name, value, options });
             this.cookieData = { name, value };
             this.cookieOptions = options;
             return this;
@@ -72,7 +74,8 @@ describe("AuthController", () => {
             password: "Password!123"
         };
 
-        validTestToken = await authServices.login(validCredentials);
+        const loginResult = await authServices.login(validCredentials);
+        validTestToken = loginResult.token;
     });
 
     beforeEach(() => {
@@ -139,7 +142,7 @@ describe("AuthController", () => {
             });
         });
 
-        it("should return 200 with token when credentials are valid", async () => {
+        it("should return 200 with token and refreshToken when credentials are valid", async () => {
             mockReq.body = {
                 email: UnitUser.john.email,
                 password: "Password!123"
@@ -148,18 +151,36 @@ describe("AuthController", () => {
             await authController.login(mockReq as Request, mockRes as Response);
 
             expect(mockRes.statusCode).toBe(200);
-            expect(mockRes.cookieData.name).toBe('accessToken');
-            expect(mockRes.cookieData.value).toBeDefined();
-            expect(mockRes.cookieOptions).toEqual({
+            expect(mockRes.cookies).toHaveLength(2);
+
+            const accessTokenCookie = mockRes.cookies.find((c: any) => c.name === 'accessToken');
+            const refreshTokenCookie = mockRes.cookies.find((c: any) => c.name === 'refreshToken');
+
+            expect(accessTokenCookie).toBeDefined();
+            expect(accessTokenCookie.value).toBeDefined();
+            expect(accessTokenCookie.options).toEqual({
                 httpOnly: true,
                 sameSite: 'lax',
                 secure: process.env.NODE_ENV === 'production',
-                maxAge: 24 * 60 * 60 * 1000,
+                maxAge: 30 * 60 * 1000,
             });
+
+            expect(refreshTokenCookie).toBeDefined();
+            expect(refreshTokenCookie.value).toBeDefined();
+            expect(refreshTokenCookie.options).toEqual({
+                httpOnly: true,
+                sameSite: 'lax',
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 2 * 24 * 60 * 60 * 1000,
+            });
+
             expect(mockRes.jsonData).toEqual({
                 success: true,
                 message: 'Connexion réussie',
-                data: { token: mockRes.cookieData.value },
+                data: {
+                    token: accessTokenCookie.value,
+                    refreshToken: refreshTokenCookie.value
+                },
             });
         });
     });

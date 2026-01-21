@@ -18,11 +18,18 @@ export default function authRoutesFactory(authController: AuthController, middle
     router.post("/login", (req, res) => authController.login(req, res));
 
     /**
-     * @route POST /api/auth/login
-     * @desc Authenticates a user and returns a JWT token
+     * @route POST /api/auth/logout
+     * @desc Logs out a user
      * @access Public
      */
     router.post("/logout", (req, res) => authController.logout(req, res));
+
+    /**
+     * @route POST /api/auth/refresh
+     * @desc Refreshes the access token using a refresh token
+     * @access Public
+     */
+    router.post("/refresh", (req, res) => authController.refresh(req, res));
 
     /**
      * @route GET /api/auth/me
