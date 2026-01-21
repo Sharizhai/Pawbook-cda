@@ -4,7 +4,7 @@ import {connectDB} from "$config/database";
 import cookieParser from "cookie-parser";
 import { env } from "$config/env";
 import express from "express";
-import helmet from 'helmet';
+import helmet from "helmet";
 import cors from "cors";
 
 const {PORT, NODE_ENV} = env;
@@ -12,16 +12,16 @@ const {PORT, NODE_ENV} = env;
 const app = express();
 
 app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'none'"],
-      frameAncestors: ["'none'"]
-    }
-  },
-  hsts: process.env.NODE_ENV === 'production' ? {
-    maxAge: 31536000,
-    includeSubDomains: true
-  } : false
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'none'"],
+            frameAncestors: ["'none'"]
+        }
+    },
+    hsts: process.env.NODE_ENV === 'production' ? {
+        maxAge: 31536000,
+        includeSubDomains: true
+    } : false
 }));
 
 app.use(cors({
