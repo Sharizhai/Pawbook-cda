@@ -4,42 +4,25 @@ import {connectDB} from "$config/database";
 import cookieParser from "cookie-parser";
 import { env } from "$config/env";
 import express from "express";
-import helmet from 'helmet';
+import helmet from "helmet";
 import cors from "cors";
 
 const {PORT, NODE_ENV} = env;
 
 const app = express();
 
-app.use(
-    helmet({
-      contentSecurityPolicy: {
+app.use(helmet({
+    contentSecurityPolicy: {
         directives: {
-          defaultSrc: ["'self'"],
-          scriptSrc: ["'self'"],
-          styleSrc: ["'self'", "'unsafe-inline'"],
-          imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
-          connectSrc: [
-            "'self'",
-            process.env.ORIGIN as string,
-          ],
-          fontSrc: ["'self'", "data:"],
-          objectSrc: ["'none'"],
-          frameAncestors: ["'none'"],
-          baseUri: ["'self'"],
-          formAction: ["'self'"],
-        },
-      },
-      hsts: NODE_ENV === "production"
-          ? {
-            maxAge: 31536000,
-            includeSubDomains: true,
-            preload: true,
-          }
-          : false,
-      referrerPolicy: { policy: "strict-origin-when-cross-origin" },
-    })
-);
+            defaultSrc: ["'none'"],
+            frameAncestors: ["'none'"]
+        }
+    },
+    hsts: process.env.NODE_ENV === 'production' ? {
+        maxAge: 31536000,
+        includeSubDomains: true
+    } : false
+}));
 
 app.use(cors({
   origin: process.env.ORIGIN,
