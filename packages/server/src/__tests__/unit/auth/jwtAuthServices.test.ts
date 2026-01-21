@@ -105,6 +105,82 @@ describe("JwtAuthService (via DI)", () => {
         });
     });
 
+    describe("generateRefreshToken", () => {
+        it("should throw with null/undefined payload", () => {
+            expect(() => jwtAuthService.generateRefreshToken(null as any)).toThrow();
+            expect(() => jwtAuthService.generateRefreshToken(undefined as any)).toThrow();
+        });
+
+        it("should generate a valid refresh token with proper payload", () => {
+            const refreshPayload = { id: validPayload.id };
+            const token = jwtAuthService.generateRefreshToken(refreshPayload);
+
+            expect(token).toBeDefined();
+            expect(typeof token).toBe("string");
+            expect(token.split(".")).toHaveLength(3);
+        });
+
+        it("should generate different refresh tokens for the same payload", () => {
+            const refreshPayload = { id: validPayload.id };
+            const token1 = jwtAuthService.generateRefreshToken(refreshPayload);
+            const token2 = jwtAuthService.generateRefreshToken(refreshPayload);
+
+            expect(token1).not.toBe(token2);
+        });
+    });
+
+    describe("verifyRefreshToken", () => {
+        it("should fail with empty token", () => {
+            expect(() => jwtAuthService.verifyRefreshToken("")).toThrow();
+        });
+
+        it("should fail with malformed token", () => {
+            const malformedTokens = [
+                "not-a-jwt-token",
+                "invalid.jwt",
+                "too.many.parts.here.invalid",
+            ];
+
+            malformedTokens.forEach((invalidToken) => {
+                expect(() => jwtAuthService.verifyRefreshToken(invalidToken)).toThrow();
+            });
+        });
+
+        it("should fail with expired refresh token", () => {
+            const expiredToken = jwt.sign(
+                { id: validPayload.id },
+                process.env.REFRESH_TOKEN_SECRET || "test-refresh-secret",
+                { expiresIn: "-1h" }
+            );
+
+            expect(() => jwtAuthService.verifyRefreshToken(expiredToken)).toThrow();
+        });
+
+        it("should fail with token signed with wrong secret", () => {
+            const wrongSecretToken = jwt.sign(
+                { id: validPayload.id },
+                "wrong-secret"
+            );
+
+            expect(() => jwtAuthService.verifyRefreshToken(wrongSecretToken)).toThrow();
+        });
+
+        it("should fail when verifying refresh token with access token secret", () => {
+            const refreshPayload = { id: validPayload.id };
+            const refreshToken = jwtAuthService.generateRefreshToken(refreshPayload);
+
+            expect(() => jwtAuthService.verifyToken(refreshToken)).toThrow();
+        });
+
+        it("should successfully verify a valid refresh token", () => {
+            const refreshPayload = { id: validPayload.id };
+            const refreshToken = jwtAuthService.generateRefreshToken(refreshPayload);
+            const decoded = jwtAuthService.verifyRefreshToken(refreshToken);
+
+            expect(decoded.id).toBe(validPayload.id);
+        });
+    });
+
     describe("extractTokenFromHeader", () => {
         it("should return null for empty or invalid headers", () => {
             const invalidHeaders = ["", "Basic token", "Bearer", "Bearer "];

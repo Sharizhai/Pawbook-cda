@@ -53,6 +53,20 @@ export class JwtAuthService implements IJwtServices {
     }
 
     /**
+     * Vérifie et décode un refresh token JWT
+     */
+    verifyRefreshToken(token: string): ITokenPayload {
+        try {
+            const decoded = jwt.verify(token, this.refreshSecret) as ITokenPayload;
+            return decoded;
+        } catch (error) {
+            if (error instanceof Error) throw new Error(`Invalid refresh token: ${error.message}`);
+
+            throw new Error("Invalid refresh token: Unknown error");
+        }
+    }
+
+    /**
      * Extrait le token d'un header Authorization
      */
     extractTokenFromHeader(authHeader: string): string | null {

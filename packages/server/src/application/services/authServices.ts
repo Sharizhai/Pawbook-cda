@@ -63,7 +63,7 @@ export class AuthServices implements IAuthServices {
 
     async refreshToken(refreshToken: string): Promise<string> {
         try {
-            const payload = this.jwtAuthService.verifyToken(refreshToken);
+            const payload = this.jwtAuthService.verifyRefreshToken(refreshToken);
 
             if (!payload || !payload.id) {
                 throw new Error("Refresh token invalide");

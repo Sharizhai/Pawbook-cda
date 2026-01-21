@@ -24,6 +24,14 @@ export interface IJwtServices {
     verifyToken(token: string): ITokenPayload;
 
     /**
+     * Vérifie et décode un refresh token JWT
+     * @param token - Refresh token JWT à vérifier
+     * @returns Payload décodé
+     * @throws Error si le token est invalide
+     */
+    verifyRefreshToken(token: string): IRefreshTokenPayload;
+
+    /**
      * Extrait le token d'un header Authorization
      * @param authHeader - Header Authorization (format: "Bearer <token>")
      * @returns Token extrait ou null si format invalide
