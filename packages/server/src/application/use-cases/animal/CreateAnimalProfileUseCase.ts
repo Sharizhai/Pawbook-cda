@@ -47,13 +47,7 @@ export class CreateAnimalProfileUseCase {
         // 5. Sauvegarde de l'animal
         const savedAnimal = await this.animalRepository.save(animal);
 
-        // 6. Mise à jour de l'utilisateur avec le nouvel animal
-        const updatedUser = owner.updateWith({
-            animals: [...owner.animals, savedAnimal.id]
-        });
-        await this.userRepository.save(updatedUser);
-
-        // 7. Retour de l'animal créé
+        // 6. Retour de l'animal créé
         return savedAnimal;
     }
 }
