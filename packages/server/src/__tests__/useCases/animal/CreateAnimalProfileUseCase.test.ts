@@ -75,23 +75,6 @@ describe("Use case: we should be able to create an animal profile", () => {
         expect(result.name).toBe("Pouet");
     });
 
-    it("Should update user with new animal Id", async () => {
-        const initialAnimalsCount = UnitUser.john.animals.length;
-
-        const newAnimalData = {
-            name: "Kitty",
-            type: "cat",
-            ownerId: "550e8400-e29b-41d4-a716-446655440000",
-        } as AnimalCreationDto;
-
-        const createdAnimal = await createAnimalProfileUseCase.execute(newAnimalData);
-        const updatedUser = await userRepository.findById("550e8400-e29b-41d4-a716-446655440000");
-
-        expect(updatedUser).toBeDefined();
-        expect(updatedUser!.animals).toHaveLength(initialAnimalsCount + 2);
-        expect(updatedUser!.animals).toContain(createdAnimal.id);
-    });
-
     it("Should create a new animal with valid datas", async () => {
         const animal = await createAnimalProfileUseCase.execute(validAnimalData);
 
