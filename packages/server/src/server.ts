@@ -14,14 +14,45 @@ const app = express();
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
-            defaultSrc: ["'none'"],
-            frameAncestors: ["'none'"]
+            defaultSrc: ["'self'"],
+            scriptSrc: [
+                "'self'",
+                "'unsafe-inline'",
+                `https://${process.env.FRONTEND_DOMAIN}`
+            ],
+            styleSrc: [
+                "'self'",
+                "'unsafe-inline'",
+                "https://fonts.googleapis.com",
+                "https://cdnjs.cloudflare.com"
+            ],
+            fontSrc: [
+                "https://fonts.gstatic.com",
+                "https://fonts.googleapis.com"
+            ],
+            imgSrc: [
+                "'self'",
+                "data:",
+                "https:",
+                "blob:",
+                "cloudinary.com",
+                `https://${process.env.FRONTEND_DOMAIN}`
+            ],
+            connectSrc: [
+                "'self'",
+                `https://${process.env.FRONTEND_DOMAIN}`,
+                `${process.env.BACKEND_URL}`
+            ],
+            frameSrc: ["'none'"],
+            upgradeInsecureRequests: [],
+            blockAllMixedContent: []
         }
     },
-    hsts: process.env.NODE_ENV === 'production' ? {
-        maxAge: 31536000,
-        includeSubDomains: true
-    } : false
+
+    frameguard: false,
+    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+    hidePoweredBy: true,
+    noSniff: true,
 }));
 
 app.use(cors({
