@@ -34,15 +34,10 @@
     "vitest": "^3.2.4"
   },
   "dependencies": {
-    "@glidejs/glide": "^3.7.1",
-    "@wjfe/n-savant": "^0.3.0",
-    "animate.css": "^4.1.1",
     "date-fns": "^4.1.0",
     "jwt-decode": "^4.0.0",
     "sass": "^1.97.3",
     "svelte-preprocess": "^6.0.3",
-    "svelte-spa-router": "^4.0.1",
-    "sweetalert2": "^11.26.17",
-    "zustand": "^5.0.10"
+    "svelte-spa-router": "^4.0.1"
   }
 }
