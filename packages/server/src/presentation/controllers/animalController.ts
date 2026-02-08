@@ -35,10 +35,17 @@ export class AnimalController {
     async getAnimalsByOwnerId(req: Request, res: Response) {
         try {
             const id = req.params.id;
+
+            if (!id) {
+                return APIResponse(res, null, "ID de l'utilisateur requis", 400);
+            }
+
+            if (Array.isArray(id)) {
+                return APIResponse(res, null, "Invalid user ID parameter", 400);
+            }
+
             const page = Math.max(parseInt(req.query.page as string) || 0, 0);
             const limit = Math.min(parseInt(req.query.limit as string) || 10, 50);
-
-            if(!id) return APIResponse(res, null, "ID de l'utilisateur requis", 400);
 
             const result = await this.getAllAnimalsByOwnerIdUseCase.execute(page, limit, id);
 

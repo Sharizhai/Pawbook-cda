@@ -35,7 +35,13 @@ export class UserController {
 
     async getUserById(req: Request, res: Response) {
         try {
-            const user = await this.getUserByIdUseCase.execute(req.params.id);
+            const { id } = req.params;
+
+            if (Array.isArray(id)) {
+                return APIResponse(res, null, "Invalid user ID parameter", 400);
+            }
+
+            const user = await this.getUserByIdUseCase.execute(id);
 
             return APIResponse(res, user, "Utilisateur trouvé", 200);
         } catch (error) {

@@ -22,11 +22,16 @@ export class PhotoController {
             }
 
             const targetUserId = req.params.id;
-            const currentUserId = req.user?.id;
 
             if (!targetUserId) {
                 return APIResponse(res, null, "Identifiant utilisateur manquant", 400);
             }
+
+            if (Array.isArray(targetUserId)) {
+                return APIResponse(res, null, "Invalid user ID parameter", 400);
+            }
+
+            const currentUserId = req.user?.id;
 
             if (currentUserId !== targetUserId && req.user?.role !== "ADMIN") {
                 return APIResponse(res, null, "Non autorisé à modifier cette photo", 403);
