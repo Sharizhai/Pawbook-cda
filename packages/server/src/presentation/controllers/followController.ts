@@ -41,9 +41,15 @@ export class FollowController {
 
     async deleteFollow(req: Request, res: Response) {
         try {
+            const { followingId } = req.params;
+
+            if (Array.isArray(followingId)) {
+                return APIResponse(res, null, "Invalid followingId parameter", 400);
+            }
+
             const unfollowData = {
                 followerId: req.user.id,
-                followingId: req.params.followingId,
+                followingId,
             }
 
             const unfollow = await this.unfollowAUserUseCase.execute(unfollowData);
