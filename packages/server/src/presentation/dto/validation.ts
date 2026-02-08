@@ -9,7 +9,7 @@ import {sanitizeString} from "$utils/stringUtils.utils";
 const blacklistedEmails = ["shrek@swamp.de", "donkey@swamp.de"];
 
 const sanitizedStringSchema = (schema: z.ZodString) =>
-    z.string().transform(val => sanitizeString(val)).pipe(schema);
+    z.string().transform(value => sanitizeString(value)).pipe(schema);
 
 const ReportReasonEnum = z.enum([
     "SPAM",
