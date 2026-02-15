@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, {Document, Model, Schema} from "mongoose";
 import {IMongoLikeDocument} from "$types/mongo";
 import {UserDocument} from "$infrastructure/database/mongoUserModel.model";
 
@@ -43,7 +43,7 @@ likeSchema.index({ postId: 1 });
 
 likeSchema.index({ animalId: 1 });
 
-export const MongoLikeModel = mongoose.models.Like || mongoose.model<LikeDocument>(
+export const MongoLikeModel: Model<LikeDocument> = (mongoose.models.Like as Model<LikeDocument>) || mongoose.model<LikeDocument>(
     "Like",
     likeSchema,
     "likes"
