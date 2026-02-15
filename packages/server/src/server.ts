@@ -7,7 +7,7 @@ import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 
-const {PORT, NODE_ENV} = env;
+const {PORT, HOST, NODE_ENV} = env;
 
 const app = express();
 
@@ -74,7 +74,7 @@ setupRoutes(app);
 
 connectDB();
 
-app.listen(PORT, () => {
+app.listen(PORT, HOST, () => {
   console.log(`🚀 Server is running in ${NODE_ENV} mode on http://localhost:${PORT}`);
 });
 

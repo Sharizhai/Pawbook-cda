@@ -13,6 +13,7 @@ services:
       PORT: '3001'
       NODE_ENV: 'development'
       ORIGIN: 'http://localhost:5173'
+      DATABASE_URL: ${DATABASE_URL_DOCKER}
     volumes:
       - ./packages/server/src:/app/packages/server/src
       - ./packages/server/tsconfig.json:/app/packages/server/tsconfig.json
