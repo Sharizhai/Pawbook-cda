@@ -19,7 +19,7 @@ const postSchema = new Schema<PostDocument>(
     }
 );
 
-export const MongoPostModel = mongoose.model<PostDocument>(
+export const MongoPostModel = mongoose.models.Post || mongoose.model<PostDocument>(
     "Post",
     postSchema,
     "posts"
