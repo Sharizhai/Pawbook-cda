@@ -26,7 +26,7 @@ const ReportReasonEnum = z.enum([
 ]);
 
 export const loginValidation = z.object({
-    email: z.string().email({ message: "Adresse e-mail invalide" }).refine((email): boolean => {
+    email: z.string().trim().toLowerCase().email({ message: "Adresse e-mail invalide" }).refine((email): boolean => {
         return !blacklistedEmails.includes(email)
     }, { message: "Cette adresse email n'est pas autorisée" }),
     password: z.string().min(1, { message: "Mot de passe requis" })
