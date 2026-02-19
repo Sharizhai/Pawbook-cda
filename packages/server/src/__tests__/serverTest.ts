@@ -25,7 +25,7 @@ export class ServerTest {
     }
 
     async teardown() {
-        await mongoose.connection.close();
+        await mongoose.connection.close(true);
         await mongoose.disconnect();
     }
 
