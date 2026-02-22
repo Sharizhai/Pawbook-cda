@@ -1,7 +1,7 @@
 import { IEnv } from "$types/env";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ override: false });
 
 export const env: IEnv = {
     PORT: parseInt(process.env.PORT || "3001"),
