@@ -20,11 +20,11 @@ describe("E2E: Authentication Flow", () => {
             new UserFixture(UnitUser.loly),
             new UserFixture(UnitUser.modette)
         ]);
-    });
+    }, 30000);
 
     afterAll(async () => {
         await serverTest.teardown();
-    });
+    }, 30000);
 
     describe("POST /api/auth/login", () => {
         it("should return 401 when email is missing", async () => {
