@@ -25,7 +25,9 @@ if (process.env.NODE_ENV !== 'production') {
  * Fonction pour fermer proprement la connexion
  */
 export async function disconnectPrisma() {
-    await prisma.$disconnect();
+    if (typeof prisma.$disconnect === 'function') {
+        await prisma.$disconnect();
+    }
 }
 
 /**
