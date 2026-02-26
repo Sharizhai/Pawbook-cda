@@ -37,6 +37,8 @@
     let isQuickActionsMenuVisible = $state(false);
     let isReportDialogPanelVisible = $state(false);
 
+    let settingsButtonElement: HTMLElement | undefined = $state();
+
     let selfSettingsQuickActionsMenuActionProperties: QuickActionsMenuActionProperties[] = $derived([
         {
             icon: editIcon,
@@ -62,7 +64,8 @@
 
     let quickActionsMenuToDisplay: QuickActionsMenuActionProperties[] = $derived(isOwnPost ? selfSettingsQuickActionsMenuActionProperties : otherSettingsQuickActionsMenuActionProperties);
 
-    function onSettingsButtonClick() {
+    function onSettingsButtonClick(event: MouseEvent) {
+        settingsButtonElement = event.currentTarget as HTMLElement;
         isQuickActionsMenuVisible = !isQuickActionsMenuVisible;
     }
 
@@ -124,7 +127,7 @@
         </div>
 
         <CommentInput bind:isVisible={isCommentInputVisible} onClick={onSendCommentButtonClick}/>
-        <QuickActionsMenu isVisible={isQuickActionsMenuVisible} actions={quickActionsMenuToDisplay} top={"0.5rem"} right={"3rem"} />
+        <QuickActionsMenu bind:isVisible={isQuickActionsMenuVisible} actions={quickActionsMenuToDisplay} anchorElement={settingsButtonElement} />
     </div>
 
 <ReportDialogPanel bind:isVisible={isReportDialogPanelVisible} onReportClick={onSubmitReportDialogPanelButtonClick}/>

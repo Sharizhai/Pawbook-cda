@@ -1,34 +1,70 @@
 <script lang="ts">
-    import type {QuickActionsMenuActionProperties} from "$types/quickActionsMenuTypes";
+    import {QuickActionMenuPosition, type QuickActionsMenuActionProperties} from "$types/quickActionsMenuTypes";
     import LanguageDropdown from "$components/LanguageDropdown.svelte";
 
     let {
-        isVisible,
-        top,
-        left,
-        right,
+        isVisible = $bindable(),
         actions,
+        anchorElement,
+        placement = QuickActionMenuPosition.BOTTOMLEFT,
         onClose,
         haslanguageDropdown = false
     } : {
         isVisible: boolean,
-        top?: string,
-        left?: string,
-        right?: string,
+        anchorElement?: HTMLElement,
+        placement?: QuickActionMenuPosition,
         actions: QuickActionsMenuActionProperties[],
         onClose?: () => void,
         haslanguageDropdown?: boolean,
     } = $props();
 
     let menuElement: HTMLDivElement | undefined = $state();
+    let position = $state({ top: "0px", left: "0px" });
+
+    function portal(node: HTMLElement) {
+        document.body.appendChild(node);
+        return {
+            destroy() { node.remove(); }
+        };
+    }
 
     $effect(() => {
-        if (!isVisible || !menuElement) return;
-    })
+        if (!isVisible || !anchorElement || !menuElement) return;
+
+        const rect = anchorElement.getBoundingClientRect();
+
+        menuElement.style.visibility = "hidden";
+        menuElement.style.top = "0px";
+        menuElement.style.left = "0px";
+
+        requestAnimationFrame(() => {
+            if (!menuElement || !anchorElement) return;
+
+            const menuRect = menuElement.getBoundingClientRect();
+            const top = rect.bottom + 4;
+            let left: number;
+
+            switch (placement) {
+                case "bottom-left":   left = rect.left; break;
+                case "bottom-center": left = rect.left + (rect.width / 2) - (menuRect.width / 2); break;
+                case "bottom-right":
+                default:              left = rect.right - menuRect.width; break;
+            }
+
+            if (left < 8) left = 8;
+            if (left + menuRect.width > window.innerWidth - 8) {
+                left = window.innerWidth - menuRect.width - 8;
+            }
+
+            menuElement.style.top = `${top}px`;
+            menuElement.style.left = `${left}px`;
+            menuElement.style.visibility = "visible";
+        });
+    });
 </script>
 
 {#if isVisible}
-    <div class="quick-actions-menu" style:top={top} style:left={left} style:right={right} bind:this={menuElement}>
+    <div use:portal class="quick-actions-menu" style:top={position.top} style:left={position.left} bind:this={menuElement}>
         {#if haslanguageDropdown}
             <LanguageDropdown />
         {/if}
@@ -47,7 +83,7 @@
         flex-direction: column;
         align-items: stretch;
         gap: 0.5rem;
-        position: absolute;
+        position: fixed;
         padding: 0.5rem;
         background-color: rgba(30, 138, 182, 0.5);
         z-index: 102;

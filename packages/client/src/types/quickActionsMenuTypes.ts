@@ -5,3 +5,9 @@ export type QuickActionsMenuActionProperties = {
     disabled?: boolean,
     isWarningAction?: boolean
 }
+
+export enum QuickActionMenuPosition {
+    BOTTOMLEFT = "bottom-right",
+    BOTTOMRIGHT = "bottom-left",
+    BOTTOMCENTER = "bottom-center",
+}
