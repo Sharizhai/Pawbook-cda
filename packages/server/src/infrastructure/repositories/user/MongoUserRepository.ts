@@ -40,7 +40,6 @@ export class MongoUserRepository implements IUserRepository {
             role: user.role,
             profileDescription: user.profileDescription,
             profilePicture: user.profilePicture,
-            refreshToken: user.refreshToken,
             createdAt: user.createdAt,
             updatedAt: new Date(),
         };

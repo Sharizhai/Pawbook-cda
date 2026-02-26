@@ -70,7 +70,6 @@ export class PostgresUserRepository implements IUserRepository {
                 role: user.role,
                 profileDescription: user.profileDescription,
                 profilePicture: user.profilePicture,
-                refreshToken: user.refreshToken,
                 createdAt: user.createdAt,
                 updatedAt: new Date()
             },
@@ -82,7 +81,6 @@ export class PostgresUserRepository implements IUserRepository {
                 role: user.role,
                 profileDescription: user.profileDescription,
                 profilePicture: user.profilePicture,
-                refreshToken: user.refreshToken,
                 updatedAt: new Date()
             },
             include: {
@@ -233,7 +231,6 @@ export class PostgresUserRepository implements IUserRepository {
             updatedAt: prismaUser.updatedAt,
             profileDescription: prismaUser.profileDescription ?? undefined,
             profilePicture: prismaUser.profilePicture ?? undefined,
-            refreshToken: prismaUser.refreshToken ?? undefined
         });
     }
 }

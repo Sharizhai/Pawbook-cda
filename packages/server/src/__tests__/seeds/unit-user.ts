@@ -13,7 +13,6 @@ export const UnitUser = {
         updatedAt: DateHelper.hoursAgo(2),
         profileDescription: "",
         profilePicture: "",
-        refreshToken: "",
     }),
     jane: new User({
         id: "550e8400-e29b-41d4-a716-446655440001",
@@ -26,7 +25,6 @@ export const UnitUser = {
         updatedAt: DateHelper.minutesAgo(30),
         profileDescription: "",
         profilePicture: "",
-        refreshToken: "",
     }),
     loly: new User({
         id: "550e8400-e29b-41d4-a716-446655440002",
@@ -39,7 +37,6 @@ export const UnitUser = {
         updatedAt: DateHelper.minutesAgo(30),
         profileDescription: "",
         profilePicture: "",
-        refreshToken: "",
     }),
     modette: new User({
         id: "550e8400-e29b-41d4-a716-446655440003",
@@ -52,6 +49,5 @@ export const UnitUser = {
         updatedAt: DateHelper.minutesAgo(30),
         profileDescription: "",
         profilePicture: "",
-        refreshToken: "",
     })
 }
