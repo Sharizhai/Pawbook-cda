@@ -41,13 +41,7 @@ export class CreatePostUseCase {
         // 5. Sauvegarde du post
         const savedPost = await this.postRepository.save(post);
 
-        // 6. Mise à jour de l'utilisateur avec le nouveau post
-        const updatedUser = author.updateWith({
-            posts: [...author.posts, savedPost.id]
-        });
-        await this.userRepository.save(updatedUser);
-
-        // 7. Retour du post créé
+        // 6. Retour du post créé
         return savedPost;
     }
 }
