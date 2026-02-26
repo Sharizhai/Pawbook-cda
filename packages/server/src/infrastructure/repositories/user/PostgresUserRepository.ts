@@ -6,27 +6,14 @@ export class PostgresUserRepository implements IUserRepository {
     constructor(private prisma: PrismaClient) {}
 
     async findAll(): Promise<User[]> {
-        const users = await this.prisma.user.findMany({
-            include: {
-                following: { select: { followingId: true } },
-                followers: { select: { followerId: true } },
-                posts: { select: { id: true } },
-                animals: { select: { id: true } }
-            }
-        });
+        const users = await this.prisma.user.findMany();
 
         return users.map(user => this.toDomain(user));
     }
 
     async findById(id: string): Promise<User | null> {
         const user = await this.prisma.user.findUnique({
-            where: { id },
-            include: {
-                following: { select: { followingId: true } },
-                followers: { select: { followerId: true } },
-                posts: { select: { id: true } },
-                animals: { select: { id: true } }
-            }
+            where: { id }
         });
 
         return user ? this.toDomain(user) : null;
@@ -34,13 +21,7 @@ export class PostgresUserRepository implements IUserRepository {
 
     async findByEmail(email: string): Promise<User | null> {
         const user = await this.prisma.user.findUnique({
-            where: { email },
-            include: {
-                following: { select: { followingId: true } },
-                followers: { select: { followerId: true } },
-                posts: { select: { id: true } },
-                animals: { select: { id: true } }
-            }
+            where: { email }
         });
 
         return user ? this.toDomain(user) : null;
@@ -82,12 +63,6 @@ export class PostgresUserRepository implements IUserRepository {
                 profileDescription: user.profileDescription,
                 profilePicture: user.profilePicture,
                 updatedAt: new Date()
-            },
-            include: {
-                following: { select: { followingId: true } },
-                followers: { select: { followerId: true } },
-                posts: { select: { id: true } },
-                animals: { select: { id: true } }
             }
         });
 
@@ -103,12 +78,6 @@ export class PostgresUserRepository implements IUserRepository {
                 data: {
                     ...updateData,
                     updatedAt: new Date()
-                },
-                include: {
-                    following: { select: { followingId: true } },
-                    followers: { select: { followerId: true } },
-                    posts: { select: { id: true } },
-                    animals: { select: { id: true } }
                 }
             });
 
@@ -137,12 +106,6 @@ export class PostgresUserRepository implements IUserRepository {
                         followingId: userId
                     }
                 }
-            },
-            include: {
-                following: { select: { followingId: true } },
-                followers: { select: { followerId: true } },
-                posts: { select: { id: true } },
-                animals: { select: { id: true } }
             }
         });
 
@@ -157,12 +120,6 @@ export class PostgresUserRepository implements IUserRepository {
                         followerId: userId
                     }
                 }
-            },
-            include: {
-                following: { select: { followingId: true } },
-                followers: { select: { followerId: true } },
-                posts: { select: { id: true } },
-                animals: { select: { id: true } }
             }
         });
 
@@ -176,12 +133,6 @@ export class PostgresUserRepository implements IUserRepository {
                     { name: { contains: query, mode: 'insensitive' } },
                     { firstName: { contains: query, mode: 'insensitive' } }
                 ]
-            },
-            include: {
-                following: { select: { followingId: true } },
-                followers: { select: { followerId: true } },
-                posts: { select: { id: true } },
-                animals: { select: { id: true } }
             }
         });
 
@@ -200,13 +151,7 @@ export class PostgresUserRepository implements IUserRepository {
         }
 
         const users = await this.prisma.user.findMany({
-            where,
-            include: {
-                following: { select: { followingId: true } },
-                followers: { select: { followerId: true } },
-                posts: { select: { id: true } },
-                animals: { select: { id: true } }
-            }
+            where
         });
 
         return users.map(user => this.toDomain(user));

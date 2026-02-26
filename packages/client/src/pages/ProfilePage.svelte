@@ -48,7 +48,11 @@
 
     $effect(() => {
         if (params.userId && user.information) {
-            profileUserId = params.userId;
+            const userId = params.userId;
+            
+            if (profileUserId === userId) return;
+
+            profileUserId = userId;
 
             if (isOwnProfile) {
                 profileUser = user.information;
@@ -68,8 +72,10 @@
     });
 
     $effect(() => {
-        if (isAnimalCreationDialogPanelOpen === false && profileUserId)
-            loadProfileData();
+        if (isAnimalCreationDialogPanelOpen === false && profileUserId) {
+            // Uniquement si on a déjà chargé le profil une fois
+            if (profileUser) loadProfileData();
+        }
     });
 
     function onHeaderTabButtonClick(tab: ProfileTab) {
