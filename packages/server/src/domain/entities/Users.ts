@@ -16,7 +16,6 @@ export interface UserData {
     updatedAt: Date;
     profileDescription?: string;
     profilePicture?: string;
-    refreshToken?: string;
 }
 
 export class User {
@@ -30,7 +29,6 @@ export class User {
     public readonly updatedAt: Date;
     public readonly profileDescription?: string;
     public readonly profilePicture?: string;
-    public readonly refreshToken?: string;
 
     constructor(data: UserData) {
         this.id = data.id;
@@ -43,7 +41,6 @@ export class User {
         this.updatedAt = data.updatedAt;
         this.profileDescription = data.profileDescription;
         this.profilePicture = data.profilePicture;
-        this.refreshToken = data.refreshToken;
     }
 
     /**
@@ -101,7 +98,7 @@ export class User {
      * Return public data of the user (without sensitive information)
      */
     getPublicData(): Omit<UserData, "password" | "refreshToken" | "email"> {
-        const { password, refreshToken, email, ...publicData } = this;
+        const { password, email, ...publicData } = this;
         return publicData;
     }
 
@@ -111,7 +108,6 @@ export class User {
             id: randomUUID(),
             createdAt: new Date(),
             updatedAt: new Date(),
-            refreshToken: "",
         });
     }
 
@@ -159,8 +155,7 @@ export class User {
             createdAt: doc.createdAt,
             updatedAt: doc.updatedAt,
             profileDescription: doc.profileDescription,
-            profilePicture: doc.profilePicture,
-            refreshToken: doc.refreshToken
+            profilePicture: doc.profilePicture
         });
     }
 
