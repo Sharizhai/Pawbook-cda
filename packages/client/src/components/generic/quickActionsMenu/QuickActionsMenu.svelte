@@ -21,7 +21,7 @@
     let menuElement: HTMLDivElement | undefined = $state();
     let position = $state({ top: "0px", left: "0px" });
 
-    function portal(node: HTMLElement) {
+    export function portal(node: HTMLElement) {
         document.body.appendChild(node);
         return {
             destroy() { node.remove(); }

@@ -66,15 +66,15 @@ describe("PostCard Component", () => {
     expect(hasTextContent || hasImageContent).toBe(true);
   });
 
-  it("devrait appeler onSettingsButtonClick lors du clic sur le bouton de paramètres", async () => {
+  it("Should call onSettingsButtonClick when click on parameter button", async () => {
     const { container } = renderPostCard();
 
     const settingsButton = container.querySelector(".postcard-settings-button") as HTMLElement;
-    let quickActionsMenu = container.querySelector(".quick-actions-menu");
+    let quickActionsMenu = document.body.querySelector(".quick-actions-menu");
     expect(quickActionsMenu).toBeFalsy();
 
     await fireEvent.click(settingsButton);
-    quickActionsMenu = container.querySelector(".quick-actions-menu");
+    quickActionsMenu = document.body.querySelector(".quick-actions-menu");
     expect(quickActionsMenu).toBeTruthy();
 
     await fireEvent.click(settingsButton);
