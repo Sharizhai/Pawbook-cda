@@ -98,8 +98,7 @@ export class PostgresUserRepository implements IUserRepository {
 
     async update(id: string, updates: Partial<UserData>): Promise<User | null> {
         try {
-            // Exclut les champs de relation (gérés par Prisma automatiquement)
-            const { posts, animals, follows, followers, ...updateData } = updates;
+            const { ...updateData } = updates;
 
             const updated = await this.prisma.user.update({
                 where: { id },
