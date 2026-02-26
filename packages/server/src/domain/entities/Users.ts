@@ -12,10 +12,6 @@ export interface UserData {
     email: string;
     password: string;
     role: "USER" | "ADMIN" | "MODERATOR";
-    posts: string[];
-    animals: string[];
-    follows: string[];
-    followers: string[];
     createdAt: Date;
     updatedAt: Date;
     profileDescription?: string;
@@ -30,10 +26,6 @@ export class User {
     public readonly email: string;
     public readonly password: string;
     public readonly role: "USER" | "ADMIN" | "MODERATOR";
-    public readonly posts: string[];
-    public readonly animals: string[];
-    public readonly follows: string[];
-    public readonly followers: string[];
     public readonly createdAt: Date;
     public readonly updatedAt: Date;
     public readonly profileDescription?: string;
@@ -47,10 +39,6 @@ export class User {
         this.email = data.email;
         this.password = data.password;
         this.role = data.role;
-        this.posts = [...data.posts];
-        this.animals = [...data.animals];
-        this.follows = [...data.follows];
-        this.followers = [...data.followers];
         this.createdAt = data.createdAt;
         this.updatedAt = data.updatedAt;
         this.profileDescription = data.profileDescription;
@@ -101,62 +89,6 @@ export class User {
     }
 
     /**
-     * Return the number of animals owned by the user
-     */
-    getAnimalsCount(): number {
-        return this.animals.length;
-    }
-
-    /**
-     * Return the number of posts by the user
-     */
-    getPostsCount(): number {
-        return this.posts.length;
-    }
-
-    /**
-     * Return the number of followers
-     */
-    getFollowersCount(): number {
-        return this.followers.length;
-    }
-
-    /**
-     * Return the number of people followed
-     */
-    getFollowingCount(): number {
-        return this.follows.length;
-    }
-
-    /**
-     * Verify if the user follows another user
-     */
-    isFollowing(memberId: string): boolean {
-        return this.follows.includes(memberId);
-    }
-
-    /**
-     * Verify if a member follows this member
-     */
-    isFollowedBy(memberId: string): boolean {
-        return this.followers.includes(memberId);
-    }
-
-    /**
-     * Verify if the user owns a specific animal
-     */
-    ownsAnimal(animalId: string): boolean {
-        return this.animals.includes(animalId);
-    }
-
-    /**
-     * Verify if the user has created a specific post
-     */
-    hasCreatedPost(postId: string): boolean {
-        return this.posts.includes(postId);
-    }
-
-    /**
      * Calculate the age of the account in days
      */
     getUsershipDuration(): number {
@@ -173,14 +105,10 @@ export class User {
         return publicData;
     }
 
-    static create(data: Omit<UserData, 'id' | 'posts' | 'animals' | 'follows' | 'followers' | 'createdAt' | 'updatedAt' | 'refreshToken'>): User {
+    static create(data: Omit<UserData, 'id' | 'createdAt' | 'updatedAt' | 'refreshToken'>): User {
         return new User({
             ...data,
             id: randomUUID(),
-            posts: [],
-            animals: [],
-            follows: [],
-            followers: [],
             createdAt: new Date(),
             updatedAt: new Date(),
             refreshToken: "",
@@ -196,10 +124,6 @@ export class User {
         name: string;
         profileDescription?: string;
         profilePicture?: string;
-        animalsCount: number;
-        postsCount: number;
-        followersCount: number;
-        followingCount: number;
         memberSince: Date;
     } {
         return {
@@ -208,10 +132,6 @@ export class User {
             name: this.name,
             profileDescription: this.profileDescription,
             profilePicture: this.profilePicture,
-            animalsCount: this.getAnimalsCount(),
-            postsCount: this.getPostsCount(),
-            followersCount: this.getFollowersCount(),
-            followingCount: this.getFollowingCount(),
             memberSince: this.createdAt,
         };
     }
@@ -236,10 +156,6 @@ export class User {
             email: doc.email,
             password: doc.password,
             role: doc.role,
-            posts: doc.posts?.map((p: any) => p.toString()) || [],
-            animals: doc.animals?.map((a: any) => a.toString()) || [],
-            follows: doc.follows?.map((f: any) => f.toString()) || [],
-            followers: doc.followers?.map((f: any) => f.toString()) || [],
             createdAt: doc.createdAt,
             updatedAt: doc.updatedAt,
             profileDescription: doc.profileDescription,
