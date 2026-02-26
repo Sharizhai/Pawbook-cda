@@ -6,10 +6,11 @@
     import AnimalCreationDialogPanel from "$components/dialogPanels/AnimalCreationDialogPanel.svelte";
     import PostCreationDialogPanel from "$components/dialogPanels/PostCreationDialogPanel.svelte";
     import EmptyContentCTA from "$components/profile/EmptyContentCTA.svelte";
+    import { getUserInformations } from "$services/userServices.svelte";
     import {fetchPostsByAuthorId} from "$services/postsServices.svelte";
-    import {fetchAnimalsByOwnerId} from "$services/animalServices";
     import ProfileCard from "$components/profile/ProfileCard.svelte";
     import ProfileTabs from "$components/profile/ProfileTabs.svelte";
+    import {fetchAnimalsByOwnerId} from "$services/animalServices";
     import AnimalCard from "$components/profile/AnimalCard.svelte";
     import PostCard from "$components/post/PostCard.svelte";
     import Button from "$components/generic/Button.svelte";
@@ -18,7 +19,6 @@
     import {ProfileTab} from "$types/profileTabsTypes";
     import {profileTabs} from "$config/profileTabsUI";
     import { user } from "\$stores/stores.svelte";
-    import { getUserInformations } from "$services/userServices.svelte";
 
     const emptyPostIncentive = messages.profile_tab_posts_incentive();
     const emptyPostButtonLabel = messages.profile_tab_first_post();
@@ -68,6 +68,13 @@
             }
 
             loadProfileData();
+        }
+    });
+
+    $effect(() => {
+        if (isPostCreationDialogPanelOpen === false && profileUserId) {
+            // Uniquement si on a déjà chargé le profil une fois
+            if (profileUser) loadProfileData();
         }
     });
 
