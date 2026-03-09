@@ -25,7 +25,7 @@
     "@types/node": "^25.3.5",
     "@vitest/coverage-istanbul": "^4.0.18",
     "esbuild": "^0.25.12",
-    "jsdom": "^28.1.0",
+    "jsdom": "^26.1.0",
     "svelte": "^5.53.7",
     "tslib": "^2.8.1",
     "typescript": "^5.9.3",
