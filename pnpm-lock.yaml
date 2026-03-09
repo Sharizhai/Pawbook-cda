@@ -14,7 +14,7 @@ importers:
     devDependencies:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^5.1.1
-        version: 5.1.1(svelte@5.48.2)(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))
+        version: 5.1.1(svelte@5.53.7)(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))
       '@testing-library/jest-dom':
         specifier: ^6.9.1
         version: 6.9.1
@@ -44,7 +44,7 @@ importers:
         version: 6.15.0
       svelte-preprocess:
         specifier: ^6.0.3
-        version: 6.0.3(@babel/core@7.28.6)(postcss@8.5.6)(sass@1.97.3)(svelte@5.48.2)(typescript@5.9.3)
+        version: 6.0.3(@babel/core@7.28.6)(postcss@8.5.8)(sass@1.97.3)(svelte@5.53.7)(typescript@5.9.3)
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
@@ -53,7 +53,7 @@ importers:
         version: 6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)
       vitest:
         specifier: ^3.2.4
-        version: 3.2.4(@types/node@25.3.5)(@vitest/ui@4.0.18)(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0)
+        version: 3.2.4(@types/node@25.3.5)(@vitest/ui@4.0.18(vitest@3.2.4))(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0)
 
   packages/client:
     dependencies:
@@ -68,35 +68,35 @@ importers:
         version: 1.97.3
       svelte-preprocess:
         specifier: ^6.0.3
-        version: 6.0.3(@babel/core@7.28.6)(postcss@8.5.6)(sass@1.97.3)(svelte@5.48.2)(typescript@5.9.3)
+        version: 6.0.3(@babel/core@7.28.6)(postcss@8.5.8)(sass@1.97.3)(svelte@5.53.7)(typescript@5.9.3)
       svelte-spa-router:
         specifier: ^4.0.1
         version: 4.0.1
     devDependencies:
       '@inlang/cli':
-        specifier: ^3.1.4
-        version: 3.1.4
+        specifier: ^3.1.6
+        version: 3.1.6
       '@inlang/paraglide-js':
         specifier: 2.0.10
         version: 2.0.10
       '@sveltejs/vite-plugin-svelte':
         specifier: ^5.1.1
-        version: 5.1.1(svelte@5.48.2)(vite@6.4.1(@types/node@25.2.2)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))
+        version: 5.1.1(svelte@5.53.7)(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))
       '@testing-library/jest-dom':
         specifier: ^6.9.1
         version: 6.9.1
       '@testing-library/svelte':
         specifier: ^5.3.1
-        version: 5.3.1(svelte@5.48.2)(vite@6.4.1(@types/node@25.2.2)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))(vitest@3.2.4(@types/node@25.2.2)(@vitest/ui@4.0.18(vitest@3.2.4))(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0))
+        version: 5.3.1(svelte@5.53.7)(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))(vitest@3.2.4(@types/node@25.3.5)(@vitest/ui@4.0.18(vitest@3.2.4))(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0))
       '@tsconfig/svelte':
-        specifier: ^5.0.6
-        version: 5.0.6
+        specifier: ^5.0.8
+        version: 5.0.8
       '@types/node':
-        specifier: ^25.2.2
-        version: 25.2.2
+        specifier: ^25.3.5
+        version: 25.3.5
       '@vitest/coverage-istanbul':
         specifier: ^3.2.4
-        version: 3.2.4(vitest@3.2.4(@types/node@25.2.2)(@vitest/ui@4.0.18(vitest@3.2.4))(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0))
+        version: 3.2.4(vitest@3.2.4(@types/node@25.3.5)(@vitest/ui@4.0.18(vitest@3.2.4))(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0))
       esbuild:
         specifier: ^0.25.12
         version: 0.25.12
@@ -104,8 +104,8 @@ importers:
         specifier: ^26.1.0
         version: 26.1.0
       svelte:
-        specifier: ^5.48.2
-        version: 5.48.2
+        specifier: ^5.53.7
+        version: 5.53.7
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -114,10 +114,10 @@ importers:
         version: 5.9.3
       vite:
         specifier: ^6.4.1
-        version: 6.4.1(@types/node@25.2.2)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)
+        version: 6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)
       vitest:
         specifier: ^3.2.4
-        version: 3.2.4(@types/node@25.2.2)(@vitest/ui@4.0.18(vitest@3.2.4))(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0)
+        version: 3.2.4(@types/node@25.3.5)(@vitest/ui@4.0.18(vitest@3.2.4))(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0)
 
   packages/server:
     dependencies:
@@ -800,8 +800,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@inlang/cli@3.1.4':
-    resolution: {integrity: sha512-nVW1fzJVoNNX1EdBcfrg7TO7kpzKgo+lxWBwSPBNUrU3Z9Yv4QXeJCpEYJ5spR69L2O7jujMMQkxbYaOVEldZA==}
+  '@inlang/cli@3.1.6':
+    resolution: {integrity: sha512-fJG2E/DB4b31/Z8ie4rdfJaO9zK+aUcE90DNn1YoRxiaZ/nxk7cgYdh9Yd6tcZKQjHxH0V6fF6R+bGDxr/3Enw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -816,8 +816,8 @@ packages:
     resolution: {integrity: sha512-EKq1mituvRjYVT4iCLFQyz4W4c5L0i5JsPKcjiOZnFUN7gcnKgnoqQB/M7eBy2dNTinH+yR6lftmurOdh77rzA==}
     engines: {node: '>=18.0.0'}
 
-  '@inlang/sdk@2.6.2':
-    resolution: {integrity: sha512-eOgAX+eQpHvD/H4BMILc4tZ85XviTlwr/51RKkKUHozVVthj5avUPKP+4N4vcTUrqSscl2atTh9NbNTuvoBN0A==}
+  '@inlang/sdk@2.7.0':
+    resolution: {integrity: sha512-yJNBD0o8i29TTJqWX5uDRHxnalDGcsUDctxepzFXsUfkzqGWfiFBxODdxvReqvM2CuKAAOo/kib/F1UcgdYFNQ==}
     engines: {node: '>=18.0.0'}
 
   '@isaacs/cliui@8.0.2':
@@ -1322,8 +1322,8 @@ packages:
   '@tsconfig/node16@1.0.4':
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
 
-  '@tsconfig/svelte@5.0.6':
-    resolution: {integrity: sha512-yGxYL0I9eETH1/DR9qVJey4DAsCdeau4a9wYPKuXfEhm8lFO8wg+LLYJjIpAm6Fw7HSlhepPhYPDop75485yWQ==}
+  '@tsconfig/svelte@5.0.8':
+    resolution: {integrity: sha512-UkNnw1/oFEfecR8ypyHIQuWYdkPvHiwcQ78sh+ymIiYoF+uc5H1UBetbjyqT+vgGJ3qQN6nhucJviX6HesWtKQ==}
 
   '@types/aria-query@5.0.4':
     resolution: {integrity: sha512-rfT93uj5s0PRL7EzccGMs3brplhcrghnDoV26NqKhCAS1hVo+WdNsPvE/yb6ilfr5hi2MEk6d5EWJTKdxg8jVw==}
@@ -1401,6 +1401,9 @@ packages:
 
   '@types/supertest@6.0.3':
     resolution: {integrity: sha512-8WzXq62EXFhJ7QsH3Ocb/iKQ/Ty9ZVWnVzoTKc9tyyFRRF3a74Tk2+TLFgaFFw364Ere+npzHKEJ6ga2LzIL7w==}
+
+  '@types/trusted-types@2.0.7':
+    resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
 
   '@types/webidl-conversions@7.0.3':
     resolution: {integrity: sha512-CiJJvcRtIgzadHCYXw7dqEnMNRjhGZlYK05Mj9OyktqV8uVT8fD2BFOB7S1uwBE3Kj2Z+4UyPmFw/Ixgw/LAlA==}
@@ -1518,6 +1521,10 @@ packages:
 
   aria-query@5.3.0:
     resolution: {integrity: sha512-b0P0sZPKtyu8HkeRAfCq0IfURZK+SuwMjY1UXGBU27wpAiTwQAIlq56IbIO+ytk/JjS1fMR14ee5WBBfKi5J6A==}
+
+  aria-query@5.3.1:
+    resolution: {integrity: sha512-Z/ZeOgVl7bcSYZ/u/rh0fOpvEpq//LZmdbkXyc7syVzjPAhfOa9ebsdTSjEBDU4vs5nC98Kfduj1uFo0qyET3g==}
+    engines: {node: '>= 0.4'}
 
   aria-query@5.3.2:
     resolution: {integrity: sha512-COROpnaoap1E2F000S62r6A60uHZnmlvomhfyT2DlTcrY1OrBKn2UhH7qn5wTC9zMvD0AY7csdPSNwKP+7WiQw==}
@@ -1842,8 +1849,8 @@ packages:
     resolution: {integrity: sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==}
     engines: {node: '>=8'}
 
-  devalue@5.6.2:
-    resolution: {integrity: sha512-nPRkjWzzDQlsejL1WVifk5rvcFi/y1onBRxjaFMjZeR9mFpqu2gmAZ9xUB9/IEanEP/vBtGeGganC/GO1fmufg==}
+  devalue@5.6.3:
+    resolution: {integrity: sha512-nc7XjUU/2Lb+SvEFVGcWLiKkzfw8+qHI7zn8WYXKkLMgfGSHbgCEaR6bJpev8Cm6Rmrb19Gfd/tZvGqx9is3wg==}
 
   dezalgo@1.0.4:
     resolution: {integrity: sha512-rXSP0bf+5n0Qonsb+SVVfNfIsimO4HEtmnIpPHY8Q1UCzKlQrDMfdobr8nJOOsRgWCyMRqeSBQzmWUMq7zvVig==}
@@ -2886,8 +2893,8 @@ packages:
   svelte-spa-router@4.0.1:
     resolution: {integrity: sha512-2JkmUQ2f9jRluijL58LtdQBIpynSbem2eBGp4zXdi7aDY1znbR6yjw0KsonD0aq2QLwf4Yx4tBJQjxIjgjXHKg==}
 
-  svelte@5.48.2:
-    resolution: {integrity: sha512-VPWD+UyoSFZ7Nxix5K/F8yWiKWOiROkLlWYXOZReE0TUycw+58YWB3D6lAKT+57xmN99wRX4H3oZmw0NPy7y3Q==}
+  svelte@5.53.7:
+    resolution: {integrity: sha512-uxck1KI7JWtlfP3H6HOWi/94soAl23jsGJkBzN2BAWcQng0+lTrRNhxActFqORgnO9BHVd1hKJhG+ljRuIUWfQ==}
     engines: {node: '>=18'}
 
   symbol-tree@3.2.4:
@@ -3682,9 +3689,9 @@ snapshots:
   '@esbuild/win32-x64@0.27.3':
     optional: true
 
-  '@inlang/cli@3.1.4':
+  '@inlang/cli@3.1.6':
     dependencies:
-      '@inlang/sdk': 2.6.2
+      '@inlang/sdk': 2.7.0
       esbuild-wasm: 0.19.12
     transitivePeerDependencies:
       - babel-plugin-macros
@@ -3715,7 +3722,7 @@ snapshots:
     transitivePeerDependencies:
       - babel-plugin-macros
 
-  '@inlang/sdk@2.6.2':
+  '@inlang/sdk@2.7.0':
     dependencies:
       '@lix-js/sdk': 0.4.7
       '@sinclair/typebox': 0.31.28
@@ -4071,45 +4078,23 @@ snapshots:
     dependencies:
       acorn: 8.15.0
 
-  '@sveltejs/vite-plugin-svelte-inspector@4.0.1(@sveltejs/vite-plugin-svelte@5.1.1(svelte@5.48.2)(vite@6.4.1(@types/node@25.2.2)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)))(svelte@5.48.2)(vite@6.4.1(@types/node@25.2.2)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))':
+  '@sveltejs/vite-plugin-svelte-inspector@4.0.1(@sveltejs/vite-plugin-svelte@5.1.1(svelte@5.53.7)(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)))(svelte@5.53.7)(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))':
     dependencies:
-      '@sveltejs/vite-plugin-svelte': 5.1.1(svelte@5.48.2)(vite@6.4.1(@types/node@25.2.2)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))
+      '@sveltejs/vite-plugin-svelte': 5.1.1(svelte@5.53.7)(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))
       debug: 4.4.3(supports-color@5.5.0)
-      svelte: 5.48.2
-      vite: 6.4.1(@types/node@25.2.2)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)
-    transitivePeerDependencies:
-      - supports-color
-
-  '@sveltejs/vite-plugin-svelte-inspector@4.0.1(@sveltejs/vite-plugin-svelte@5.1.1(svelte@5.48.2)(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)))(svelte@5.48.2)(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))':
-    dependencies:
-      '@sveltejs/vite-plugin-svelte': 5.1.1(svelte@5.48.2)(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))
-      debug: 4.4.3(supports-color@5.5.0)
-      svelte: 5.48.2
+      svelte: 5.53.7
       vite: 6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)
     transitivePeerDependencies:
       - supports-color
 
-  '@sveltejs/vite-plugin-svelte@5.1.1(svelte@5.48.2)(vite@6.4.1(@types/node@25.2.2)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))':
+  '@sveltejs/vite-plugin-svelte@5.1.1(svelte@5.53.7)(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))':
     dependencies:
-      '@sveltejs/vite-plugin-svelte-inspector': 4.0.1(@sveltejs/vite-plugin-svelte@5.1.1(svelte@5.48.2)(vite@6.4.1(@types/node@25.2.2)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)))(svelte@5.48.2)(vite@6.4.1(@types/node@25.2.2)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))
+      '@sveltejs/vite-plugin-svelte-inspector': 4.0.1(@sveltejs/vite-plugin-svelte@5.1.1(svelte@5.53.7)(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)))(svelte@5.53.7)(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))
       debug: 4.4.3(supports-color@5.5.0)
       deepmerge: 4.3.1
       kleur: 4.1.5
       magic-string: 0.30.21
-      svelte: 5.48.2
-      vite: 6.4.1(@types/node@25.2.2)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)
-      vitefu: 1.1.1(vite@6.4.1(@types/node@25.2.2)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))
-    transitivePeerDependencies:
-      - supports-color
-
-  '@sveltejs/vite-plugin-svelte@5.1.1(svelte@5.48.2)(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))':
-    dependencies:
-      '@sveltejs/vite-plugin-svelte-inspector': 4.0.1(@sveltejs/vite-plugin-svelte@5.1.1(svelte@5.48.2)(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)))(svelte@5.48.2)(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))
-      debug: 4.4.3(supports-color@5.5.0)
-      deepmerge: 4.3.1
-      kleur: 4.1.5
-      magic-string: 0.30.21
-      svelte: 5.48.2
+      svelte: 5.53.7
       vite: 6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)
       vitefu: 1.1.1(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))
     transitivePeerDependencies:
@@ -4135,18 +4120,18 @@ snapshots:
       picocolors: 1.1.1
       redent: 3.0.0
 
-  '@testing-library/svelte-core@1.0.0(svelte@5.48.2)':
+  '@testing-library/svelte-core@1.0.0(svelte@5.53.7)':
     dependencies:
-      svelte: 5.48.2
+      svelte: 5.53.7
 
-  '@testing-library/svelte@5.3.1(svelte@5.48.2)(vite@6.4.1(@types/node@25.2.2)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))(vitest@3.2.4(@types/node@25.2.2)(@vitest/ui@4.0.18(vitest@3.2.4))(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0))':
+  '@testing-library/svelte@5.3.1(svelte@5.53.7)(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0))(vitest@3.2.4(@types/node@25.3.5)(@vitest/ui@4.0.18(vitest@3.2.4))(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0))':
     dependencies:
       '@testing-library/dom': 10.4.1
-      '@testing-library/svelte-core': 1.0.0(svelte@5.48.2)
-      svelte: 5.48.2
+      '@testing-library/svelte-core': 1.0.0(svelte@5.53.7)
+      svelte: 5.53.7
     optionalDependencies:
-      vite: 6.4.1(@types/node@25.2.2)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)
-      vitest: 3.2.4(@types/node@25.2.2)(@vitest/ui@4.0.18(vitest@3.2.4))(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0)
+      vite: 6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)
+      vitest: 3.2.4(@types/node@25.3.5)(@vitest/ui@4.0.18(vitest@3.2.4))(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0)
 
   '@tsconfig/node10@1.0.12': {}
 
@@ -4156,7 +4141,7 @@ snapshots:
 
   '@tsconfig/node16@1.0.4': {}
 
-  '@tsconfig/svelte@5.0.6': {}
+  '@tsconfig/svelte@5.0.8': {}
 
   '@types/aria-query@5.0.4': {}
 
@@ -4251,6 +4236,8 @@ snapshots:
       '@types/methods': 1.1.4
       '@types/superagent': 8.1.9
 
+  '@types/trusted-types@2.0.7': {}
+
   '@types/webidl-conversions@7.0.3': {}
 
   '@types/whatwg-url@11.0.5':
@@ -4273,6 +4260,22 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@vitest/coverage-istanbul@3.2.4(vitest@3.2.4(@types/node@25.3.5)(@vitest/ui@4.0.18(vitest@3.2.4))(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0))':
+    dependencies:
+      '@istanbuljs/schema': 0.1.3
+      debug: 4.4.3(supports-color@5.5.0)
+      istanbul-lib-coverage: 3.2.2
+      istanbul-lib-instrument: 6.0.3
+      istanbul-lib-report: 3.0.1
+      istanbul-lib-source-maps: 5.0.6
+      istanbul-reports: 3.2.0
+      magicast: 0.3.5
+      test-exclude: 7.0.1
+      tinyrainbow: 2.0.0
+      vitest: 3.2.4(@types/node@25.3.5)(@vitest/ui@4.0.18(vitest@3.2.4))(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0)
+    transitivePeerDependencies:
+      - supports-color
+
   '@vitest/coverage-v8@3.2.4(vitest@3.2.4)':
     dependencies:
       '@ampproject/remapping': 2.3.0
@@ -4288,7 +4291,7 @@ snapshots:
       std-env: 3.10.0
       test-exclude: 7.0.1
       tinyrainbow: 2.0.0
-      vitest: 3.2.4(@types/node@25.3.5)(@vitest/ui@4.0.18)(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0)
+      vitest: 3.2.4(@types/node@25.3.5)(@vitest/ui@4.0.18(vitest@3.2.4))(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -4349,7 +4352,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vitest: 3.2.4(@types/node@25.3.5)(@vitest/ui@4.0.18)(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0)
+      vitest: 3.2.4(@types/node@25.3.5)(@vitest/ui@4.0.18(vitest@3.2.4))(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0)
 
   '@vitest/utils@3.2.4':
     dependencies:
@@ -4408,6 +4411,8 @@ snapshots:
   aria-query@5.3.0:
     dependencies:
       dequal: 2.0.3
+
+  aria-query@5.3.1: {}
 
   aria-query@5.3.2: {}
 
@@ -4713,7 +4718,7 @@ snapshots:
   detect-libc@2.1.2:
     optional: true
 
-  devalue@5.6.2: {}
+  devalue@5.6.3: {}
 
   dezalgo@1.0.4:
     dependencies:
@@ -5871,12 +5876,12 @@ snapshots:
     dependencies:
       has-flag: 4.0.0
 
-  svelte-preprocess@6.0.3(@babel/core@7.28.6)(postcss@8.5.6)(sass@1.97.3)(svelte@5.48.2)(typescript@5.9.3):
+  svelte-preprocess@6.0.3(@babel/core@7.28.6)(postcss@8.5.8)(sass@1.97.3)(svelte@5.53.7)(typescript@5.9.3):
     dependencies:
-      svelte: 5.48.2
+      svelte: 5.53.7
     optionalDependencies:
       '@babel/core': 7.28.6
-      postcss: 8.5.6
+      postcss: 8.5.8
       sass: 1.97.3
       typescript: 5.9.3
 
@@ -5884,17 +5889,18 @@ snapshots:
     dependencies:
       regexparam: 2.0.2
 
-  svelte@5.48.2:
+  svelte@5.53.7:
     dependencies:
       '@jridgewell/remapping': 2.3.5
       '@jridgewell/sourcemap-codec': 1.5.5
       '@sveltejs/acorn-typescript': 1.0.8(acorn@8.15.0)
       '@types/estree': 1.0.8
+      '@types/trusted-types': 2.0.7
       acorn: 8.15.0
-      aria-query: 5.3.2
+      aria-query: 5.3.1
       axobject-query: 4.1.0
       clsx: 2.1.1
-      devalue: 5.6.2
+      devalue: 5.6.3
       esm-env: 1.2.2
       esrap: 2.2.2
       is-reference: 3.0.3
@@ -6154,10 +6160,6 @@ snapshots:
       tsx: 4.21.0
     optional: true
 
-  vitefu@1.1.1(vite@6.4.1(@types/node@25.2.2)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)):
-    optionalDependencies:
-      vite: 6.4.1(@types/node@25.2.2)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)
-
   vitefu@1.1.1(vite@6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)):
     optionalDependencies:
       vite: 6.4.1(@types/node@25.3.5)(jiti@2.6.1)(sass@1.97.3)(tsx@4.21.0)
@@ -6214,7 +6216,7 @@ snapshots:
       - tsx
       - yaml
 
-  vitest@3.2.4(@types/node@25.3.5)(@vitest/ui@4.0.18)(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0):
+  vitest@3.2.4(@types/node@25.3.5)(@vitest/ui@4.0.18(vitest@3.2.4))(jiti@2.6.1)(jsdom@26.1.0)(sass@1.97.3)(tsx@4.21.0):
     dependencies:
       '@types/chai': 5.2.3
       '@vitest/expect': 3.2.4
