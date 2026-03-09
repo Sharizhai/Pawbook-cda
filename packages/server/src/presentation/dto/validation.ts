@@ -51,7 +51,7 @@ export const userCreationValidation = z.object({
 
 export const userUpdateValidation = z.object({
     profilePicture: z.string().optional(),
-    profileDescription: sanitizedStringSchema(z.string().max(150, { error: "La description ne doit pas dépasser 150 caractères" })).optional(),
+    profileDescription: sanitizedStringSchema(z.string().max(150, { error: "The description must not exceed 150 characters." })).optional(),
 });
 
 export const animalCreationValidation = z.object({
