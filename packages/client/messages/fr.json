@@ -111,5 +111,8 @@
 
     "landing_page_hero_cta_button": "Rejoindre Pawbook",
     "landing_page_hero_title": "Partage la vie de tes animaux, un moment à la fois",
-    "landing_page_hero_subtitle": "Parce que chaque instant mérite d’être partagé et conservé."
+    "landing_page_hero_subtitle": "Parce que chaque instant mérite d’être partagé et conservé.",
+
+    "profile_update_dialog_panel_title": "Modifier mon profil",
+    "profile_update_dialog_panel_validation_button": "Mettre à jour"
 }

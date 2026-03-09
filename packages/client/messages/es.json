@@ -107,5 +107,8 @@
     "post_moderation_table_post_reporter": "Usuario que reporta",
     "post_moderation_table_report_reason": "Motivo del reporte",
     "post_moderation_table_report_comment": "Comentario del reporte",
-    "post_moderation_table_actions": "Acciones"
+    "post_moderation_table_actions": "Acciones",
+
+    "profile_update_dialog_panel_title": "Editar mi perfil",
+    "profile_update_dialog_panel_validation_button": "Actualizar"
 }

@@ -1,5 +1,6 @@
 <script lang="ts">
     import QuickActionsMenu from "$components/generic/quickActionsMenu/QuickActionsMenu.svelte";
+    import ProfileUpdateDialogPanel from "$components/profile/ProfileUpdateDialogPanel.svelte";
     import type {QuickActionsMenuActionProperties} from "$types/quickActionsMenuTypes";
     import {createFollow, deleteFollow} from "$services/followServices.svelte";
     import SettingsButton from "$components/generic/SettingsButton.svelte";
@@ -33,6 +34,7 @@
     const followButtonLabel = $derived(follow.isFollowing(profileUser.id) ? messages.profile_card_unfollow() : messages.profile_card_follow())
 
     let isQuickActionsMenuOpen = $state(false);
+    let isProfileUpdateDialogPanelOpen = $state(false);
 
     let settingsQuickActionsMenuActionProperties: QuickActionsMenuActionProperties[] = $derived([
         {
@@ -67,7 +69,8 @@
     }
 
     function onQuickActionUpdateProfileButtonClick() {
-
+        isProfileUpdateDialogPanelOpen = true;
+        isQuickActionsMenuOpen = false;
     }
 
     function onQuickActionGcuButtonClick() {
@@ -105,6 +108,7 @@
     </div>
 
 <QuickActionsMenu isVisible={isQuickActionsMenuOpen} actions={settingsQuickActionsMenuActionProperties} top={"1rem"} right={"3rem"} haslanguageDropdown />
+<ProfileUpdateDialogPanel bind:isVisible={isProfileUpdateDialogPanelOpen} userProfile={profileUser}/>
 
 <style lang="scss">
     .profile-card-container {

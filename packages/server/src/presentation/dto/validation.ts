@@ -49,6 +49,11 @@ export const userCreationValidation = z.object({
     profileDescription: sanitizedStringSchema(z.string().max(150, { message: "La description ne doit pas dépasser 150 caractères" })).optional(),
 });
 
+export const userUpdateValidation = z.object({
+    profilePicture: z.string().optional(),
+    profileDescription: sanitizedStringSchema(z.string().max(150, { message: "La description ne doit pas dépasser 150 caractères" })).optional(),
+});
+
 export const animalCreationValidation = z.object({
     ownerId: z.string().uuid("ownerId must be a valid UUID"),
     name: sanitizedStringSchema(z.string().min(2, { message: "Le nom est requis" })),
@@ -93,6 +98,7 @@ export const postReportCreationValidation = z.object({
 
 export type LoginDto = z.infer<typeof loginValidation>;
 export type UserCreationDto = z.infer<typeof userCreationValidation>;
+export type UserUpdateDto = z.infer<typeof userUpdateValidation>;
 export type AnimalCreationDto = z.infer<typeof animalCreationValidation>;
 export type PostCreationDto = z.infer<typeof postCreationValidation>;
 export type FollowCreationDto = z.infer<typeof followCreationValidation>;
