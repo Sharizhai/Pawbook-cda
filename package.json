@@ -21,7 +21,7 @@
     "@vitest/ui": "^4.0.18",
     "concurrently": "^9.2.1",
     "esbuild": "^0.25.12",
-    "jsdom": "^26.1.0",
+    "jsdom": "^28.1.0",
     "qs": "^6.15.0",
     "svelte-preprocess": "^6.0.3",
     "tsx": "^4.21.0",
