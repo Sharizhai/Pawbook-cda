@@ -46,7 +46,7 @@ jobs:
   # Job pour le frontend (client)
   test-client:
     docker:
-      - image: cimg/node:22.0
+      - image: cimg/node:22.11
     working_directory: ~/project
     steps:
       - checkout
@@ -77,7 +77,7 @@ jobs:
   # Job pour le backend (server)
   test-server:
     docker:
-      - image: cimg/node:22.0
+      - image: cimg/node:22.11
     working_directory: ~/project
     steps:
       - checkout
@@ -106,7 +106,7 @@ jobs:
   # Job pour builder le frontend
   build-client:
     docker:
-      - image: cimg/node:22.0
+      - image: cimg/node:22.11
     working_directory: ~/project
     steps:
       - checkout
@@ -132,7 +132,7 @@ jobs:
   # Job pour builder le backend
   build-server:
     docker:
-      - image: cimg/node:22.0
+      - image: cimg/node:22.11
     working_directory: ~/project
     steps:
       - checkout
