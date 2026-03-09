@@ -2,7 +2,6 @@ import {CreateAPostReportUseCase} from "$application/use-cases/report/CreateAPos
 import {GetAllPostReportsUseCase} from "$application/use-cases/report/GetAllPostReportsUseCase";
 import {APIResponse} from "$utils/responseUtils.utils";
 import {Request, Response} from "express";
-import {an} from "vitest/dist/chunks/reporters.d.Rsi0PyxX";
 
 /**
  * PostReportController - Couche Présentation

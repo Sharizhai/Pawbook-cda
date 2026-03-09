@@ -9,12 +9,6 @@ export class GetAllPostsByAuthorIdUseCase {
     ) {}
 
     async execute(page: number, limit: number, authorId: string): Promise<{ posts: Post[], hasMore: boolean }> {
-        const user = await this.userRepository.findById(authorId);
-
-        if (!user) {
-            throw new Error("User not found");
-        }
-
         const posts = await this.postRepository.findByAuthorId(authorId, page, limit + 1);
 
         const hasMore = posts.length > limit;

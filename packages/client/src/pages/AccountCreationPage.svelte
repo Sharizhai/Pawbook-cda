@@ -3,17 +3,16 @@
 </svelte:head>
 
 <script lang="ts">
+    import {uploadProfilePicture} from "$services/photosServices.svelte";
     import LanguageDropdown from "$components/LanguageDropdown.svelte";
-    import Button from "$components/generic/Button.svelte";
-    import * as messages from "$lib/paraglide/messages";
-    import Input from "$components/generic/Input.svelte";
-    import { push } from "svelte-spa-router";
     import {createUser} from "$services/userServices.svelte";
+    import {authLogin} from "$services/authServices.svelte";
+    import Button from "$components/generic/Button.svelte";
+    import Input from "$components/generic/Input.svelte";
+    import * as messages from "$lib/paraglide/messages";
+    import { push } from "svelte-spa-router";
 
     import cameraIcon from "$assets/icons/images/camera.svg?raw";
-    import {uploadProfilePicture} from "$services/photosServices.svelte";
-    import {backendURL} from "$services/backendServices.svelte";
-    import {authLogin} from "$services/authServices.svelte";
 
     const incentiveLabel = messages.signup_incentive();
     const emailPlaceholder = messages.signup_email_placeholder();

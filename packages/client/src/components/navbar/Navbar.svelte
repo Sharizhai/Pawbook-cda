@@ -31,7 +31,7 @@
     })
 
     async function loadData() {
-        if (user.accessToken) {
+        if (user.accessToken && !user.information?.id) {
                 try {
                     const userData = await fetchUserInformations();
                     user.information = userData;

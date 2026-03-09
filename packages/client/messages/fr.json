@@ -76,6 +76,7 @@
 
     "quick_action_profile_update": "Modifier mon profil",
     "quick_action_profile_delete": "Supprimer mon compte",
+    "quick_action_profile_report": "Signaler ce compte",
 
     "profile_card_follow": "Suivre",
     "profile_card_unfollow": "Ne plus suivre",

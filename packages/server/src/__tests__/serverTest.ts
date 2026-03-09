@@ -3,8 +3,7 @@ import container from "$config/dependencyInjection";
 import {setupRoutes} from "$presentation/routes";
 import express, {Application} from "express";
 import {Container} from "$types/container";
-import {env} from "$config/env";
-import mongoose from "mongoose";
+import {disconnectPrisma} from "$config/prisma";
 
 export class ServerTest {
     private app: Application;
@@ -16,16 +15,13 @@ export class ServerTest {
     }
 
     async setup() {
-        await mongoose.connect(env.MONGO_URI);
-        await mongoose.connection.db?.collection("users").deleteMany({});
-
         this.app.use(express.json());
         this.app.use(express.urlencoded({extended: true}));
         setupRoutes(this.app);
     }
 
     async teardown() {
-        await mongoose.disconnect();
+        await disconnectPrisma();
     }
 
     async loadFixtures(fixtures: IFixture[]) {

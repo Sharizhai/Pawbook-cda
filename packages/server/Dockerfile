@@ -12,6 +12,8 @@ COPY ./tsconfig.json ./tsconfig.json
 COPY ./packages/server/package.json ./packages/server/package.json
 COPY ./packages/server/tsconfig.json ./packages/server/tsconfig.json
 
+COPY ./packages/server/prisma ./packages/server/prisma
+
 RUN pnpm install
 
 COPY ./packages/server/src ./packages/server/src

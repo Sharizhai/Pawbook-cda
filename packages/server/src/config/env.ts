@@ -1,10 +1,11 @@
 import { IEnv } from "$types/env";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ override: false });
 
 export const env: IEnv = {
     PORT: parseInt(process.env.PORT || "3001"),
+    HOST: process.env.HOST || "0.0.0.0",
     NODE_ENV: process.env.NODE_ENV as 'development' | 'production' | 'test',
 
     JWT_SECRET: process.env.JWT_SECRET || (() => {

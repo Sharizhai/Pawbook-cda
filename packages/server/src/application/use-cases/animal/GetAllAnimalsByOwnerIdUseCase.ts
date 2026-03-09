@@ -9,12 +9,6 @@ export class GetAllAnimalsByOwnerIdUseCase {
     ) {}
 
     async execute(page: number, limit: number, ownerId: string): Promise<{ animals: Animal[], hasMore: boolean }> {
-        const user = await this.userRepository.findById(ownerId);
-
-        if (!user) {
-            throw new Error("User not found");
-        }
-
         const animals = await this.animalRepository.findByOwnerId(ownerId, page, limit + 1);
 
         const hasMore = animals.length > limit;

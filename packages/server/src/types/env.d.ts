@@ -1,5 +1,6 @@
 export interface IEnv {
     PORT: number;
+    HOST: string;
     NODE_ENV: "development" | "production" | "test";
 
     JWT_SECRET: string;

@@ -1,6 +1,5 @@
 <script lang="ts">
     import QuickActionsMenu from "$components/generic/quickActionsMenu/QuickActionsMenu.svelte";
-    import ProfileUpdateDialogPanel from "$components/profile/ProfileUpdateDialogPanel.svelte";
     import type {QuickActionsMenuActionProperties} from "$types/quickActionsMenuTypes";
     import {createFollow, deleteFollow} from "$services/followServices.svelte";
     import SettingsButton from "$components/generic/SettingsButton.svelte";
@@ -11,6 +10,7 @@
     import {user, follow} from "$stores/stores.svelte";
     import {push} from "svelte-spa-router";
 
+    import reportIcon from "$assets/icons//posts/report.svg?raw";
     import deleteIcon from "$assets/icons/delete.svg?raw";
     import logoutIcon from "$assets/icons/logout.svg?raw";
     import editIcon from "$assets/icons/edit.svg?raw";
@@ -20,6 +20,7 @@
     const gcuLabel = messages.home_gcu();
     const logoutLabel = messages.logout();
     const deleteLabel = messages.quick_action_profile_delete();
+    const reportUserLabel = messages.quick_action_profile_report();
 
     let {
         customClass,
@@ -31,12 +32,13 @@
         isSelfProfile: boolean
     } = $props();
 
-    const followButtonLabel = $derived(follow.isFollowing(profileUser.id) ? messages.profile_card_unfollow() : messages.profile_card_follow())
+    const followButtonLabel = $derived(follow.isFollowing(profileUser.id) ? messages.profile_card_unfollow() : messages.profile_card_follow());
+
+    let settingsButtonElement: HTMLElement | undefined = $state();
 
     let isQuickActionsMenuOpen = $state(false);
-    let isProfileUpdateDialogPanelOpen = $state(false);
 
-    let settingsQuickActionsMenuActionProperties: QuickActionsMenuActionProperties[] = $derived([
+    let selfQuickActionsMenu: QuickActionsMenuActionProperties[] = $derived([
         {
             icon: editIcon,
             label: updateProfileLabel,
@@ -58,23 +60,34 @@
             onClick: onQuickActionDeleteAccountButtonClick,
             isWarningAction: true
         }
-    ])
+    ]);
+
+    let otherQuickActionsMenu: QuickActionsMenuActionProperties[] = $derived([
+        {
+            icon: reportIcon,
+            label: reportUserLabel,
+            onClick: onQuickActionReportUserButtonClick,
+            isWarningAction: true
+        }
+    ]);
+
+    let settingsQuickActionsMenuActionProperties: QuickActionsMenuActionProperties[] = $derived(isSelfProfile ? selfQuickActionsMenu : otherQuickActionsMenu);
 
     async function onFollowButtonClick() {
         follow.isFollowing(profileUser.id) ? await deleteFollow(profileUser.id) : await createFollow(user.information.id, profileUser.id);
     }
 
-    function onSettingsButtonClick() {
+    function onSettingsButtonClick(event: MouseEvent) {
+        settingsButtonElement = event.currentTarget as HTMLElement;
         isQuickActionsMenuOpen = !isQuickActionsMenuOpen;
     }
 
     function onQuickActionUpdateProfileButtonClick() {
-        isProfileUpdateDialogPanelOpen = true;
-        isQuickActionsMenuOpen = false;
+        // TODO
     }
 
     function onQuickActionGcuButtonClick() {
-
+        // TODO
     }
 
     function onQuickActionDisconnectButtonClick() {
@@ -84,7 +97,11 @@
     }
 
     function onQuickActionDeleteAccountButtonClick() {
+        // TODO
+    }
 
+    function onQuickActionReportUserButtonClick() {
+        // TODO
     }
 </script>
     <div class="profile-card-container {customClass ?? ''}">
@@ -107,9 +124,7 @@
         </div>
     </div>
 
-
-<QuickActionsMenu bind:isVisible={isQuickActionsMenuOpen} actions={settingsQuickActionsMenuActionProperties} anchorElement={settingsButtonElement} haslanguageDropdown />Stashed changes
-<ProfileUpdateDialogPanel bind:isVisible={isProfileUpdateDialogPanelOpen} userProfile={profileUser}/>
+<QuickActionsMenu bind:isVisible={isQuickActionsMenuOpen} actions={settingsQuickActionsMenuActionProperties} anchorElement={settingsButtonElement} haslanguageDropdown />
 
 <style lang="scss">
     .profile-card-container {

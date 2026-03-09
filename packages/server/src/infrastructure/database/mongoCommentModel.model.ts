@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, {Document, Model, Schema} from "mongoose";
 import {IMongoCommentDocument} from "$types/mongo";
 
 export type CommentDocument = Document & IMongoCommentDocument;
@@ -17,7 +17,7 @@ const commentSchema = new Schema<CommentDocument>(
     }
 );
 
-export const MongoCommentModel = mongoose.model<CommentDocument>(
+export const MongoCommentModel: Model<CommentDocument> = (mongoose.models.Comment as Model<CommentDocument>) || mongoose.model<CommentDocument>(
     "Comment",
     commentSchema,
     "comments"

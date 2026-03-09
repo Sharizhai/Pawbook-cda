@@ -110,6 +110,12 @@ export const makeAuthMiddleware = (authService: IAuthServices, userRepository: I
      */
     const canModifyUser = (req: Request, res: Response, next: NextFunction): void => {
         const targetUserId = req.params.id;
+
+        if (Array.isArray(targetUserId)) {
+            APIResponse(res, null, "Invalid user ID parameter", 400);
+            return;
+        }
+
         const currentUser = req.user;
 
         if (!currentUser) {

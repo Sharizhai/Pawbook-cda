@@ -6,9 +6,6 @@ export type UserInformations = {
     "role": string,
     "profilePicture"?: string;
     "profileDescription"?: string;
-    "posts": string[];
-    "animals": string[];
-    "follows": string[];
     "createdAt": Date;
     "updatedAt": Date;
 }
@@ -19,9 +16,5 @@ export type PublicUserInformations = {
     name: string;
     profileDescription?: string;
     profilePicture?: string;
-    animalsCount: number;
-    postsCount: number;
-    followersCount: number;
-    followingCount: number;
     memberSince: string;
 };

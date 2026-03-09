@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, {Document, Model, Schema} from "mongoose";
 import {IMongoUserDocument} from "$types/mongo";
 
 export type UserDocument = Document & IMongoUserDocument;
@@ -27,7 +27,7 @@ const userSchema = new Schema<UserDocument>(
     }
 );
 
-export const MongoUserModel = mongoose.model<UserDocument>(
+export const MongoUserModel: Model<UserDocument> = (mongoose.models.User as Model<UserDocument>) || mongoose.model<UserDocument>(
     "User",
     userSchema,
     "users"

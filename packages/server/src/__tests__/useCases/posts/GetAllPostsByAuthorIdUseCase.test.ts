@@ -37,10 +37,12 @@ describe("Usecase: We must be able to get all posts with an author id", () => {
         await userRepository.save(UnitUser.jane);
     })
 
-    it("Should return an error if no user with this id is found", async () => {
+    it("Should return an empty array if no user with this id is found", async () => {
         const nonExistentUserId = "non-existing-user-id";
 
-        await expect(getAllPostsByAuthorIdUseCase.execute(0, 10, nonExistentUserId)).rejects.toThrow();
+        const result = await getAllPostsByAuthorIdUseCase.execute(0, 10, nonExistentUserId);
+        expect(result.posts).toHaveLength(0);
+        expect(result.hasMore).toBe(false);
     });
 
     it("Should return an array of posts if some are found", async () => {

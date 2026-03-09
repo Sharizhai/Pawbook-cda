@@ -38,13 +38,8 @@ export class MongoUserRepository implements IUserRepository {
             email: user.email,
             password: user.password,
             role: user.role,
-            posts: [...user.posts],
-            animals: [...user.animals],
-            follows: [...user.follows],
-            followers: [...user.followers],
             profileDescription: user.profileDescription,
             profilePicture: user.profilePicture,
-            refreshToken: user.refreshToken,
             createdAt: user.createdAt,
             updatedAt: new Date(),
         };

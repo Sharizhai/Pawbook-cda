@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, {Document, Model, Schema} from "mongoose";
 import {IMongoPostDocument} from "$types/mongo";
 
 export type PostDocument = Document & IMongoPostDocument;
@@ -19,7 +19,7 @@ const postSchema = new Schema<PostDocument>(
     }
 );
 
-export const MongoPostModel = mongoose.model<PostDocument>(
+export const MongoPostModel: Model<PostDocument> = (mongoose.models.Post as Model<PostDocument>) || mongoose.model<PostDocument>(
     "Post",
     postSchema,
     "posts"

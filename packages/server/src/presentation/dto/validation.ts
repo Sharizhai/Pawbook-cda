@@ -9,7 +9,7 @@ import {sanitizeString} from "$utils/stringUtils.utils";
 const blacklistedEmails = ["shrek@swamp.de", "donkey@swamp.de"];
 
 const sanitizedStringSchema = (schema: z.ZodString) =>
-    z.string().transform(val => sanitizeString(val)).pipe(schema);
+    z.string().transform(value => sanitizeString(value)).pipe(schema);
 
 const ReportReasonEnum = z.enum([
     "SPAM",
@@ -26,7 +26,7 @@ const ReportReasonEnum = z.enum([
 ]);
 
 export const loginValidation = z.object({
-    email: z.string().email({ message: "Adresse e-mail invalide" }).refine((email): boolean => {
+    email: z.string().trim().toLowerCase().email({ message: "Adresse e-mail invalide" }).refine((email): boolean => {
         return !blacklistedEmails.includes(email)
     }, { message: "Cette adresse email n'est pas autorisée" }),
     password: z.string().min(1, { message: "Mot de passe requis" })
