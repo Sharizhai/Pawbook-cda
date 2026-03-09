@@ -21,7 +21,7 @@ export class CreateUserUseCase {
         // 2. Validation des données entrantes
         const validation = userCreationValidation.safeParse(normalizedData);
         if (!validation.success) {
-            throw new Error(validation.error.errors[0].message);
+            throw new Error(validation.error.issues[0].message);
         }
 
         const validData = validation.data;

@@ -26,46 +26,46 @@ const ReportReasonEnum = z.enum([
 ]);
 
 export const loginValidation = z.object({
-    email: z.string().trim().toLowerCase().email({ message: "Adresse e-mail invalide" }).refine((email): boolean => {
+    email: z.string().trim().toLowerCase().email({ error: "Adresse e-mail invalide" }).refine((email): boolean => {
         return !blacklistedEmails.includes(email)
-    }, { message: "Cette adresse email n'est pas autorisée" }),
-    password: z.string().min(1, { message: "Mot de passe requis" })
+    }, { error: "Cette adresse email n'est pas autorisée" }),
+    password: z.string().min(1, { error: "Mot de passe requis" })
 });
 
 export const userCreationValidation = z.object({
-    name: sanitizedStringSchema(z.string().min(2, { message: "Le nom est requis" })),
-    firstName: sanitizedStringSchema(z.string().min(2, { message: "Le prénom est requis" })),
-    email: z.string().email({ message: "Adresse e-mail invalide" }).refine((email): boolean => {
+    name: sanitizedStringSchema(z.string().min(2, { error: "Le nom est requis" })),
+    firstName: sanitizedStringSchema(z.string().min(2, { error: "Le prénom est requis" })),
+    email: z.email({ error: "Adresse e-mail invalide" }).refine((email): boolean => {
         return !blacklistedEmails.includes(email)
-    }, { message: "Cette adresse email n'est pas autorisée" }),
+    }, { error: "Cette adresse email n'est pas autorisée" }),
     password: z.string()
-        .min(12, { message: "Le mot de passe doit faire au moins 12 caractères" })
-        .regex(/[0-9]/, { message: "Le mot de passe doit contenir au moins un chiffre" })
-        .regex(/[!@$#^&(),.?":|<>{}]/, { message: "Le mot de passe doit contenir au moins un caractère spécial" })
-        .regex(/[A-Z]/, { message: "Le mot de passe doit contenir au moins une majuscule" })
-        .regex(/[a-z]/, { message: "Le mot de passe doit contenir au moins une minuscule" }),
+        .min(12, { error: "Le mot de passe doit faire au moins 12 caractères" })
+        .regex(/[0-9]/, { error: "Le mot de passe doit contenir au moins un chiffre" })
+        .regex(/[!@$#^&(),.?":|<>{}]/, { error: "Le mot de passe doit contenir au moins un caractère spécial" })
+        .regex(/[A-Z]/, { error: "Le mot de passe doit contenir au moins une majuscule" })
+        .regex(/[a-z]/, { error: "Le mot de passe doit contenir au moins une minuscule" }),
     role: z.enum(["USER", "ADMIN", "MODERATOR"]).default("USER"),
     profilePicture: z.string().optional(),
-    profileDescription: sanitizedStringSchema(z.string().max(150, { message: "La description ne doit pas dépasser 150 caractères" })).optional(),
+    profileDescription: sanitizedStringSchema(z.string().max(150, { error: "La description ne doit pas dépasser 150 caractères" })).optional(),
 });
 
 export const userUpdateValidation = z.object({
     profilePicture: z.string().optional(),
-    profileDescription: sanitizedStringSchema(z.string().max(150, { message: "La description ne doit pas dépasser 150 caractères" })).optional(),
+    profileDescription: sanitizedStringSchema(z.string().max(150, { error: "La description ne doit pas dépasser 150 caractères" })).optional(),
 });
 
 export const animalCreationValidation = z.object({
-    ownerId: z.string().uuid("ownerId must be a valid UUID"),
-    name: sanitizedStringSchema(z.string().min(2, { message: "Le nom est requis" })),
-    type: sanitizedStringSchema(z.string().min(2, { message: "Le type est requis" })),
+    ownerId: z.uuid("ownerId must be a valid UUID"),
+    name: sanitizedStringSchema(z.string().min(2, { error: "Le nom est requis" })),
+    type: sanitizedStringSchema(z.string().min(2, { error: "Le type est requis" })),
     race: sanitizedStringSchema(z.string()).optional(),
     age: z.number().optional(),
     picture: z.string().optional(),
-    description: sanitizedStringSchema(z.string().max(150, { message: "La description ne doit pas dépasser 150 caractères" })).optional(),
+    description: sanitizedStringSchema(z.string().max(150, { error: "La description ne doit pas dépasser 150 caractères" })).optional(),
 });
 
 export const postCreationValidation = z.object({
-    authorId: z.string().uuid("authorId must be a valid UUID"),
+    authorId: z.uuid("authorId must be a valid UUID"),
     textContent: sanitizedStringSchema(z.string()).optional(),
     photoContent: z.array(z.string()).optional(),
     moderationStatus: z.enum(["NONE", "PENDING", "APPROVED", "REJECTED"]).default("NONE"),
@@ -73,27 +73,27 @@ export const postCreationValidation = z.object({
     return (data.textContent && data.textContent.length > 0) ||
         (data.photoContent && data.photoContent.length > 0);
 }, {
-    message: "Du texte ou une image est requis"
+    error: "Du texte ou une image est requis"
 });
 
 export const followCreationValidation = z.object({
-    followerId: z.string().uuid("followerId must be a valid UUID"),
-    followingId: z.string().uuid("followingId must be a valid UUID"),
+    followerId: z.uuid("followerId must be a valid UUID"),
+    followingId: z.uuid("followingId must be a valid UUID"),
 }).refine(
     (data) => data.followerId !== data.followingId, {
-        message:"Vous ne pouvez pas vous suivre vous-même",
+        error:"Vous ne pouvez pas vous suivre vous-même",
     });
 
 export const followDeletionValidation = z.object({
-    followerId: z.string().uuid("followerId must be a valid UUID"),
-    followingId: z.string().uuid("followingId must be a valid UUID"),
+    followerId: z.uuid("followerId must be a valid UUID"),
+    followingId: z.uuid("followingId must be a valid UUID"),
 });
 
 export const postReportCreationValidation = z.object({
-    postId: z.string().uuid("postId must be a valid UUID"),
-    reporterId: z.string().uuid("reporterId must be a valid UUID"),
+    postId: z.uuid("postId must be a valid UUID"),
+    reporterId: z.uuid("reporterId must be a valid UUID"),
     reason: z.string().min(1, "Report reason not found").pipe(ReportReasonEnum),
-    description: sanitizedStringSchema(z.string().max(500, { message: "Report description is too long" })).optional(),
+    description: sanitizedStringSchema(z.string().max(500, { error: "Report description is too long" })).optional(),
 });
 
 export type LoginDto = z.infer<typeof loginValidation>;
