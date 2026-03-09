@@ -8,7 +8,6 @@
     "build": "tsc -p tsconfig.json",
     "postbuild": "node restore-aliases.js",
     "build:production": "node convert-to-relative.js && prisma generate && prisma db push --accept-data-loss && tsc -p tsconfig.json",
-    "postinstall": "prisma generate",
     "start": "node dist/server.js",
     "test": "vitest",
     "test:run": "vitest run",
