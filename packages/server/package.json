@@ -27,7 +27,7 @@
     "@types/supertest": "^7.2.0",
     "@vitest/coverage-istanbul": "^4.0.18",
     "nodemon": "^3.1.14",
-    "prisma": "^6.19.2",
+    "prisma": "^7.4.2",
     "supertest": "^7.2.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
@@ -37,7 +37,8 @@
     "vitest-tsconfig-paths": "^3.4.1"
   },
   "dependencies": {
-    "@prisma/client": "^6.19.2",
+    "@prisma/adapter-pg": "^7.4.2",
+    "@prisma/client": "^7.4.2",
     "argon2": "^0.44.0",
     "awilix": "^13.0.3",
     "cloudinary": "^2.9.0",
