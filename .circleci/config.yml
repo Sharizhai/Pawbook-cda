@@ -11,7 +11,7 @@ commands:
     steps:
       - run:
           name: Install pnpm
-          command: npm install -g pnpm@10.11.0
+          command: sudo npm install -g pnpm@10.11.0
 
   restore-dependencies:
     description: "Restaurer le cache des dépendances"
