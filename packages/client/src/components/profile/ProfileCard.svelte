@@ -107,7 +107,8 @@
         </div>
     </div>
 
-<QuickActionsMenu isVisible={isQuickActionsMenuOpen} actions={settingsQuickActionsMenuActionProperties} top={"1rem"} right={"3rem"} haslanguageDropdown />
+
+<QuickActionsMenu bind:isVisible={isQuickActionsMenuOpen} actions={settingsQuickActionsMenuActionProperties} anchorElement={settingsButtonElement} haslanguageDropdown />Stashed changes
 <ProfileUpdateDialogPanel bind:isVisible={isProfileUpdateDialogPanelOpen} userProfile={profileUser}/>
 
 <style lang="scss">
