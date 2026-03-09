@@ -18,6 +18,9 @@ export interface IEnv {
     MONGO_URI?: string;
     DATABASE_URL?: string;
 
+    //Supabase cert
+    SUPABASE_CA_CERT?: string;
+
     // // Nodemailer
     // EMAIL_USER: string;
     // EMAIL_APP_PASSWORD: string;

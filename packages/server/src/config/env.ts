@@ -34,6 +34,9 @@ export const env: IEnv = {
     MONGO_URI: process.env.MONGO_URI,
     DATABASE_URL: process.env.DATABASE_URL,
 
+    //Supabase CERT
+    SUPABASE_CA_CERT: process.env.SUPABASE_CA_CERT,
+
     // Cloudinary
     CLOUDINARY_URL: process.env.CLOUDINARY_URL || (() => {
         throw new Error('CLOUDINARY_URL must be defined');

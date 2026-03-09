@@ -10,7 +10,13 @@ const globalForPrisma = globalThis as unknown as {
     prisma: PrismaClient | undefined;
 };
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+const adapter = new PrismaPg({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: true,
+        ca: process.env.SUPABASE_CA_CERT?.replace(/\\n/g, '\n')
+    }
+});
 
 export const prisma = globalForPrisma.prisma ?? (
     process.env.NODE_ENV === 'test'
