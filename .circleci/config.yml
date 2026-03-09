@@ -11,9 +11,7 @@ commands:
     steps:
       - run:
           name: Install pnpm
-          command: |
-            sudo corepack enable
-            corepack prepare pnpm@10.11.0 --activate
+          command: npm install -g pnpm@10.11.0
 
   restore-dependencies:
     description: "Restaurer le cache des dépendances"
