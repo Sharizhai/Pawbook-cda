@@ -11,7 +11,9 @@ commands:
     steps:
       - run:
           name: Install pnpm
-          command: sudo npm install -g pnpm@10.11.0
+          command: |
+            sudo corepack enable
+            corepack prepare pnpm@latest --activate
 
   restore-dependencies:
     description: "Restaurer le cache des dépendances"
@@ -84,9 +86,6 @@ jobs:
       - install-dependencies
       - save-dependencies
       - run:
-          name: Generate Prisma Client
-          command: cd packages/server && pnpm prisma generate
-      - run:
           name: Run server tests
           command: |
             cd packages/server
@@ -112,9 +111,6 @@ jobs:
       - restore-dependencies
       - install-dependencies
       - save-dependencies
-      - run:
-          name: Generate Prisma Client
-          command: cd packages/server && pnpm prisma generate
       - run:
           name: Build client
           command: |
