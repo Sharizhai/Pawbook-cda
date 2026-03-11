@@ -51,6 +51,7 @@ import {CreatePostUseCase} from "$application/use-cases/post/CreatePostUseCase";
 
 import {CreateUserUseCase} from "$application/use-cases/user/CreateUserUseCase";
 import {GetUserByIdUseCase} from "$application/use-cases/user/GetUserByIdUseCase";
+import {UpdateUserProfileUseCase} from "$application/use-cases/user/UpdateUserProfileUseCase";
 
 import {CreateAnimalProfileUseCase} from "$application/use-cases/animal/CreateAnimalProfileUseCase";
 import {GetAllAnimalsByOwnerIdUseCase} from "$application/use-cases/animal/GetAllAnimalsByOwnerIdUseCase";
@@ -103,6 +104,7 @@ export interface Dependencies {
 
     createUserUserCase: CreateUserUseCase;
     getUserByIdUseCase: GetUserByIdUseCase;
+    updateUserProfileUseCase: UpdateUserProfileUseCase;
 
     createAnimalProfileUseCase: CreateAnimalProfileUseCase;
     getAllAnimalsByOwnerIdUseCase: GetAllAnimalsByOwnerIdUseCase;
@@ -235,6 +237,10 @@ container.register({
         new GetUserByIdUseCase(deps.userRepository)
     ).singleton(),
 
+    updateUserProfileUseCase: asFunction((deps: Dependencies) =>
+        new UpdateUserProfileUseCase(deps.userRepository)
+    ).singleton(),
+
     // *** ANIMALS ***
     createAnimalProfileUseCase: asFunction((deps: Dependencies) =>
         new CreateAnimalProfileUseCase(deps.animalRepository, deps.userRepository)
@@ -277,7 +283,8 @@ container.register({
     userController: asFunction((deps: Dependencies) =>
         new UserController(
             deps.createUserUserCase,
-            deps.getUserByIdUseCase)
+            deps.getUserByIdUseCase,
+            deps.updateUserProfileUseCase)
     ).singleton(),
 
     photoController: asFunction((deps: Dependencies) =>

@@ -7,12 +7,15 @@
     import type {PublicUserInformations} from "$types/userTypes";
 
     import cameraIcon from "$assets/icons/images/camera.svg?raw";
+    import {updateUserInformations} from "$services/userServices.svelte";
+    import {user} from "\$stores/stores.svelte";
+    import {uploadProfilePicture} from "$services/photosServices.svelte";
 
     const panelTitle = messages.profile_update_dialog_panel_title();
     const bioPlaceholder = messages.signup_bio_placeholder();
     const panelValidationButtonLabel = messages.profile_update_dialog_panel_validation_button();
 
-    let {isVisible = $bindable(), userProfile}: { isVisible: boolean, userProfile: PublicUserInformations } = $props();
+    let {isVisible = $bindable(), userProfile = $bindable() }: { isVisible: boolean, userProfile: PublicUserInformations } = $props();
 
     const panelContent: Snippet[] = [contentSnippet];
 
@@ -21,28 +24,36 @@
     let profilePictureFile: File | null = $state(null);
     let profilePicturePreview: string = $state("");
 
-    let profilePicture: string = $derived(profilePicturePreview !== "" ? profilePicturePreview : (userProfile.profilePicture ?? "/paws.png"));
-    let profileDescription: string = $derived(userProfile.profileDescription ? userProfile.profileDescription : "");
+    let profilePicture: string = $state(userProfile.profilePicture ?? "/paws.png");
+    let profileDescription: string = $state(userProfile.profileDescription ?? "");
 
-    function onSubmit(event: Event) {
+    let profilePictureDisplay = $derived(profilePicturePreview !== "" ? profilePicturePreview : profilePicture);
+
+    $effect(() => {
+        if (!isVisible) {
+            profilePicture = userProfile.profilePicture ?? "/paws.png";
+            profileDescription = userProfile.profileDescription ?? "";
+            profilePicturePreview = "";
+            profilePictureFile = null;
+        }
+    });
+
+    async function onSubmit(event: Event) {
         event.preventDefault();
-
         errorMessage = "\u00A0";
 
         try {
-            updateProfile(profilePicture, profileDescription);
+            let updatedUser = await updateUserInformations(userProfile.id, { profilePicture, profileDescription });
+
+            if (profilePictureFile) {
+                const updatedPicture = await uploadProfilePicture(userProfile.id, profilePictureFile);
+                updatedUser = { ...updatedUser, profilePicture: updatedPicture.profilePicture };
+            }
+
+            user.information = { ...user.information, ...updatedUser };
+            userProfile = { ...userProfile, ...updatedUser };
 
             isVisible = false;
-            profilePictureFile = null;
-            profilePicturePreview = "";
-        } catch (error: any) {
-            errorMessage = error.message;
-        }
-    }
-
-    async function updateProfile(profilePicture: string, profileDescription: string) {
-        try {
-
         } catch (error: any) {
             errorMessage = error.message;
         }
@@ -69,7 +80,7 @@
     <form class="profile-update-dialog-panel-form" action="/login" method="POST" onsubmit={onSubmit}>
         <div class="profile-update-dialog-panel-form-picture-wrapper">
             <div class="profile-update-dialog-panel-form-picture-container">
-                <img src={profilePicture} alt="User Avatar" class="profile-update-dialog-panel-form-picture" />
+                <img src={profilePictureDisplay} alt="User Avatar" class="profile-update-dialog-panel-form-picture" />
 
                 <input type="file" id="profilePictureInput" class="profile-update-dialog-panel-form-picture-input"
                        accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" onchange={onProfilePictureChange} />

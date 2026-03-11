@@ -18,3 +18,7 @@ export type PublicUserInformations = {
     profilePicture?: string;
     memberSince: string;
 };
+
+export type UserUpdateInformations = Partial<Pick<UserInformations,
+    "profilePicture" |
+    "profileDescription">>

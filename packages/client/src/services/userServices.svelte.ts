@@ -1,4 +1,4 @@
-import type {PublicUserInformations, UserInformations} from "$types/userTypes";
+import type {PublicUserInformations, UserInformations, UserUpdateInformations} from "$types/userTypes";
 import {apiFetch} from "$services/backendServices.svelte";
 
 export async function fetchUserInformations(): Promise<UserInformations> {
@@ -26,7 +26,7 @@ export async function createUser(name: string, firstName:string, email: string, 
         throw error;
     }
 
-    return response.json();
+    return await response.json();
 }
 
 export async function getUserInformations(userId: string): Promise<PublicUserInformations> {
@@ -41,4 +41,21 @@ export async function getUserInformations(userId: string): Promise<PublicUserInf
     const responseData = await response.json();
 
     return responseData.data || {} as PublicUserInformations;
+}
+
+export async function updateUserInformations(userId: string, data: UserUpdateInformations) {
+    const response = await apiFetch(`/users/${userId}`, {
+        method: "PATCH",
+        body: JSON.stringify(data),
+        checkCredentials: true,
+    });
+
+    if(!response.ok) {
+        const error = await response.json();
+        throw error;
+    }
+
+    const responseData = await response.json();
+
+    return responseData.data as UserInformations;
 }

@@ -36,14 +36,14 @@
                     const userData = await fetchUserInformations();
                     user.information = userData;
 
-                    if (userData.follows) {
-                        follow.setFollowing(userData.follows.map(id => ({
-                            id: "",
-                            followerId: userData.id,
-                            followingId: id,
-                            createdAt: new Date().toISOString()
-                        })));
-                    }
+                    // if (userData.follows) {
+                    //     follow.setFollowing(userData.follows.map(id => ({
+                    //         id: "",
+                    //         followerId: userData.id,
+                    //         followingId: id,
+                    //         createdAt: new Date().toISOString()
+                    //     })));
+                    // }
                 } catch (error) {
                     console.error("Failed to load initial user data", error);
                 }

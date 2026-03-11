@@ -1,4 +1,5 @@
 import { apiFetch } from "$services/backendServices.svelte";
+import type {UserInformations} from "$types/userTypes";
 
 export async function uploadProfilePicture(userId: string, file: File) {
     const formData = new FormData();
@@ -21,5 +22,6 @@ export async function uploadProfilePicture(userId: string, file: File) {
     }
 
     const result = await response.json();
-    return result.data;
+
+    return result.data as UserInformations;
 }

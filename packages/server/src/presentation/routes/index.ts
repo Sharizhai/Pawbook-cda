@@ -165,6 +165,7 @@ export const setupRoutes = (app: express.Application): void => {
                         users: {
                             createUser: "POST /users/register",
                             getUserById: "GET /users/:id",
+                            updateUserProfile: "PATCH /users/:id",
                         },
                         animals: {
                             createAnimalProfile: "POST /animals/register",

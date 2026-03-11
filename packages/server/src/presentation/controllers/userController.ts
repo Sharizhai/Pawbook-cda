@@ -1,7 +1,8 @@
+import {UpdateUserProfileUseCase} from "$application/use-cases/user/UpdateUserProfileUseCase";
+import {GetUserByIdUseCase} from "$application/use-cases/user/GetUserByIdUseCase";
 import {CreateUserUseCase} from "$application/use-cases/user/CreateUserUseCase";
 import {APIResponse} from "$utils/responseUtils.utils";
 import {Request, Response} from "express";
-import {GetUserByIdUseCase} from "$application/use-cases/user/GetUserByIdUseCase";
 
 /**
  * UserController - Couche Présentation
@@ -11,7 +12,8 @@ import {GetUserByIdUseCase} from "$application/use-cases/user/GetUserByIdUseCase
 export class UserController {
     constructor(
         private readonly createUserUseCase: CreateUserUseCase,
-        private readonly getUserByIdUseCase: GetUserByIdUseCase
+        private readonly getUserByIdUseCase: GetUserByIdUseCase,
+        private readonly updateUserProfileUseCase: UpdateUserProfileUseCase
     ) {}
 
     /**
@@ -48,6 +50,27 @@ export class UserController {
             const message = error instanceof Error
                 ? error.message
                 : "Erreur lors de la récupération de l'utilisateur";
+
+            const status = this.getErrorStatus(error);
+
+            return APIResponse(res, null, message, status);
+        }
+    }
+
+    async updateUser(req: Request, res: Response) {
+        try {
+            const { id } = req.params;
+
+            if (Array.isArray(id)) {
+                return APIResponse(res, null, "Invalid user ID parameter", 400);
+            }
+
+            const user = await this.updateUserProfileUseCase.execute(id, req.body);
+            return APIResponse(res, user, "Utilisateur mis à jour", 200);
+        } catch (error) {
+            const message = error instanceof Error
+                ? error.message
+                : "Erreur lors de la mise à jour de l'utilisateur";
 
             const status = this.getErrorStatus(error);
 

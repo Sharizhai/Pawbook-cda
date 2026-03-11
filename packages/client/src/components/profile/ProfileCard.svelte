@@ -15,6 +15,7 @@
     import logoutIcon from "$assets/icons/logout.svg?raw";
     import editIcon from "$assets/icons/edit.svg?raw";
     import gcuIcon from "$assets/icons/gcu.svg?raw";
+    import ProfileUpdateDialogPanel from "$components/profile/ProfileUpdateDialogPanel.svelte";
 
     const updateProfileLabel = messages.quick_action_profile_update();
     const gcuLabel = messages.home_gcu();
@@ -24,7 +25,7 @@
 
     let {
         customClass,
-        profileUser,
+        profileUser = $bindable(),
         isSelfProfile
     } : {
         customClass?: string,
@@ -37,6 +38,7 @@
     let settingsButtonElement: HTMLElement | undefined = $state();
 
     let isQuickActionsMenuOpen = $state(false);
+    let isProfileUpdateDialogPanelOpen = $state(false);
 
     let selfQuickActionsMenu: QuickActionsMenuActionProperties[] = $derived([
         {
@@ -83,7 +85,8 @@
     }
 
     function onQuickActionUpdateProfileButtonClick() {
-        // TODO
+        isProfileUpdateDialogPanelOpen = true;
+        isQuickActionsMenuOpen = !isQuickActionsMenuOpen;
     }
 
     function onQuickActionGcuButtonClick() {
@@ -125,6 +128,7 @@
     </div>
 
 <QuickActionsMenu bind:isVisible={isQuickActionsMenuOpen} actions={settingsQuickActionsMenuActionProperties} anchorElement={settingsButtonElement} haslanguageDropdown />
+<ProfileUpdateDialogPanel bind:isVisible={isProfileUpdateDialogPanelOpen} bind:userProfile={profileUser}/>
 
 <style lang="scss">
     .profile-card-container {

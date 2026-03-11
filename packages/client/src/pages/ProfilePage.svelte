@@ -85,6 +85,12 @@
         }
     });
 
+    $effect(() => {
+        if (isOwnProfile && user.information) {
+            profileUser = user.information;
+        }
+    });
+
     function onHeaderTabButtonClick(tab: ProfileTab) {
         activeTab = tab;
     }
@@ -157,7 +163,7 @@
 
         <div class="profile-page-container">
             {#if profileUser}
-                <ProfileCard profileUser={profileUser} isSelfProfile={isOwnProfile}/>
+                <ProfileCard bind:profileUser={profileUser} isSelfProfile={isOwnProfile}/>
             {/if}
 
             <ProfileTabs onClick={onHeaderTabButtonClick} tabContent={profileTabContentSnippet} activeTab={activeTab} tabs={profileTabs} />

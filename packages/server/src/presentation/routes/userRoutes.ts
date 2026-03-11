@@ -23,5 +23,12 @@ export default function userRoutesFactory(userController: UserController, middle
      */
     router.get("/:id", middleware.isAuthenticated , userController.getUserById.bind(userController));
 
+    /**
+     * @route PATCH /api/users/:id
+     * @desc Met à jour les informations d'un utilisateur'
+     * @access Protected
+     */
+    router.patch("/:id", middleware.isAuthenticated , userController.updateUser.bind(userController));
+
     return router;
 }
