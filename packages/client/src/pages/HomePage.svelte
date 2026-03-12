@@ -7,13 +7,14 @@
     import Button from "$components/generic/Button.svelte";
     import * as messages from "$lib/paraglide/messages";
     import { link, push } from "svelte-spa-router";
-    import logo from "/logo.png";
     import paws from "/paws.png";
   
     const catchphraseLabel = messages.website_catchphrase();
     const connectionLabel = messages.home_connection();
     const inscriptionLabel = messages.home_inscription();
     const gcuLabel = messages.home_gcu();
+
+    const logo = import.meta.env.VITE_LOGO_URL;
 
     function onConnectionButtonClick() {
         push("/login");

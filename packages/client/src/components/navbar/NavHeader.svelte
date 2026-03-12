@@ -2,11 +2,12 @@
     import NavbarButton from "$components/navbar/NavbarButton.svelte";
     import * as messages from "$lib/paraglide/messages";
     import {user} from "$stores/stores.svelte";
-    import logo from "/logo.png";
 
     import adminIcon from "$assets/icons/navbar/administration.svg?raw";
     import menuIcon from "$assets/icons/navbar/menu.svg?raw";
     import {push, location} from "svelte-spa-router";
+
+    const logo = import.meta.env.VITE_LOGO_URL;
 
     const administrationLabel = messages.navbar_administration();
     const menuLabel = messages.navbar_menu();

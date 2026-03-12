@@ -6,7 +6,8 @@
     import NavbarButton from "./NavbarButton.svelte";
     import { push } from "svelte-spa-router";
     import {onMount} from "svelte";
-    import logo from "/logo.png";
+
+    const logo = import.meta.env.VITE_LOGO_URL;
 
     import statsIcon from "$assets/icons/navbar/stats.svg?raw";
     import usersIcon from "$assets/icons/navbar/users.svg?raw";
@@ -26,14 +27,14 @@
                 const userData = await fetchUserInformations();
                 user.information = userData;
 
-                if (userData.follows) {
-                    follow.setFollowing(userData.follows.map(id => ({
-                        id: "",
-                        followerId: userData.id,
-                        followingId: id,
-                        createdAt: new Date().toISOString()
-                    })));
-                }
+                // if (userData.follows) {
+                //     follow.setFollowing(userData.follows.map(id => ({
+                //         id: "",
+                //         followerId: userData.id,
+                //         followingId: id,
+                //         createdAt: new Date().toISOString()
+                //     })));
+                // }
             } catch (error) {
                 console.error("Failed to load initial user data", error);
             }

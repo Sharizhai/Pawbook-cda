@@ -50,7 +50,7 @@ export const env: IEnv = {
     CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET || (() => {
         throw new Error('CLOUDINARY_API_SECRET must be defined');
     })(),
-    // LOGO_URL: process.env.LOGO_URL || (() => {
-    //     throw new Error('LOGO_URL must be defined');
-    // })(),
+    LOGO_URL: process.env.LOGO_URL || (() => {
+        throw new Error('LOGO_URL must be defined');
+    })(),
 };

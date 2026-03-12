@@ -6,7 +6,8 @@
     import NavbarButton from "./NavbarButton.svelte";
     import { push } from "svelte-spa-router";
     import {onMount} from "svelte";
-    import logo from "/logo.png";
+
+    const logo = import.meta.env.VITE_LOGO_URL;
 
     import administrationIcon from "$assets/icons/navbar/administration.svg?raw";
     import notificationIcon from "$assets/icons/navbar/notification.svg?raw";

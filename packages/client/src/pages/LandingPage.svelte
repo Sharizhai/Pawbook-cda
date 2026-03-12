@@ -28,9 +28,8 @@
     import featuresData from "../data/featuresData.json";
     import opinionsData from "../data/opinionsData.json";
     import * as messages from "$lib/paraglide/messages";
-    import {isMobile} from "$utils/deviceUtils";
     import {push, link} from "svelte-spa-router";
-    import logo from "/logo.png";
+    import {isMobile} from "$utils/deviceUtils";
 
     import cameraIcon from "$assets/icons/images/camera.svg?raw";
     import groupIcon from "$assets/icons/features/group.svg?raw";
@@ -41,6 +40,8 @@
     import Input from "$components/generic/Input.svelte";
     import {uploadProfilePicture} from "$services/photosServices.svelte";
     import {createUser} from "$services/userServices.svelte";
+
+    const logo = import.meta.env.VITE_LOGO_URL;
 
     const connectionLabel = messages.home_connection();
     const inscriptionLabel = messages.home_inscription();

@@ -9,7 +9,8 @@
     import Input from "$components/generic/Input.svelte";
     import * as messages from "$lib/paraglide/messages";
     import { link, push } from "svelte-spa-router";
-    import logo from "/logo.png";
+
+    const logo = import.meta.env.VITE_LOGO_URL;
 
     const emailLabel = messages.email();
     const emailPlaceholder = messages.email_placholder();

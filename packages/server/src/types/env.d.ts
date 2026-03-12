@@ -31,7 +31,7 @@ export interface IEnv {
     CLOUDINARY_CLOUD_NAME: string;
     CLOUDINARY_API_KEY: string;
     CLOUDINARY_API_SECRET: string;
-    // LOGO_URL: string;
+    LOGO_URL: string;
 
     // // Helmet
     // FRONTEND_DOMAIN: string;
