@@ -1,5 +1,3 @@
-import multer from "multer";
-
 /**
  * Interface IPhotoStorageService - Couche Domaine
  * Définit le contrat pour la gestion des photos
