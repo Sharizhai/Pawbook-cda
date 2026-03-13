@@ -26,9 +26,6 @@ export interface IEnv {
     EMAIL_APP_PASSWORD: string;
     JWT_RESET_PWD_SECRET: string;
 
-    // Resend
-    RESEND_API_KEY: string;
-
     // Cloudinary
     CLOUDINARY_URL: string;
     CLOUDINARY_CLOUD_NAME: string;
