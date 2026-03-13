@@ -13,7 +13,8 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest --coverage"
+    "test:coverage": "vitest --coverage",
+    "test:welcome-email": "ts-node -r tsconfig-paths/register src/scripts/testWelcomeEmail.ts"
   },
   "keywords": [],
   "author": "",
