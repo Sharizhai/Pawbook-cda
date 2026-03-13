@@ -1,6 +1,7 @@
+import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import {CreateUserUseCase} from "$application/use-cases/user/CreateUserUseCase";
 import {IPasswordServices} from "$domain/interfaces/passwordServices.interface";
-import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
+import {IEmailServices} from "$domain/interfaces/emailServices.interface";
 import {UserCreationDto} from "$presentation/dto/validation";
 import {beforeAll, describe, it, expect} from "vitest";
 import container from "$config/dependencyInjection";
@@ -10,6 +11,7 @@ import {Container} from "$types/container";
 describe("Usecase : We should be able to create a new user", () => {
     let createUserUseCase: CreateUserUseCase;
     let passwordServices: IPasswordServices;
+    let emailServices: IEmailServices;
     let userRepository: IUserRepository;
     let validUserData: UserCreationDto;
 
@@ -17,10 +19,11 @@ describe("Usecase : We should be able to create a new user", () => {
         const c: Container = container;
         userRepository = c.resolve<IUserRepository>("userRepository");
         passwordServices = c.resolve<IPasswordServices>("argon2Services");
+        emailServices = c.resolve<IEmailServices>("emailServices");
 
         await userRepository.save(UnitUser.jane);
 
-        createUserUseCase = new CreateUserUseCase(userRepository, passwordServices);
+        createUserUseCase = new CreateUserUseCase(userRepository, passwordServices, emailServices);
 
         validUserData = {
             name: "Doe",

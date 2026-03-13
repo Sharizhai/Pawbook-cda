@@ -49,7 +49,7 @@ export class CreateUserUseCase {
         });
 
         // 6.Envoi d'un email de confirmation
-        await this.emailServices.sendConfirmationEmail(user.email, user.firstName);
+        await this.emailServices.sendConfirmationEmail(user.email, user.firstName, user.id);
 
         // 7. Sauvegarde
         return await this.userRepository.save(user);
