@@ -29,7 +29,7 @@
     const addNewAnimalButtonLabel = messages.profile_tab_new_animal();
     const addNewPostButtonLabel = messages.profile_tab_new_post();
 
-    let activeTab = $state(ProfileTab.Publications);
+    let activeTab = $state(ProfileTab.Animals);
 
     let profilePosts = $state<any[]>([]);
     let profileAnimals = $state<any[]>([]);
