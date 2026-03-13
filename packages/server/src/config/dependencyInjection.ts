@@ -9,6 +9,7 @@ import {IUserRepository} from "$domain/interfaces/repositories/userRepository.in
 import {IPostRepository} from "$domain/interfaces/repositories/postRepository.interface";
 import {IFollowRepository} from "$domain/interfaces/repositories/followRepository.interface";
 import {IPostReportRepository} from "$domain/interfaces/repositories/reports/postReportRepository.interface";
+import {IEmailServices} from "$domain/interfaces/emailServices.interface";
 import {IAuthServices} from "$domain/interfaces/authServices.interface";
 import {IJwtServices} from "$domain/interfaces/jwtServices.interface";
 
@@ -64,6 +65,8 @@ import {GetAllPostReportsUseCase} from "$application/use-cases/report/GetAllPost
 
 import {UploadProfilePictureUseCase} from "$application/use-cases/pictures/uploadProfilePictureUseCase";
 
+import {NodemailerEmailServices} from "$infrastructure/mailing/nodemailerEmailServices";
+
 import {JwtAuthService} from "$infrastructure/auth/jwtAuthServices";
 import {Argon2Services} from "$infrastructure/auth/argon2Services";
 
@@ -82,6 +85,8 @@ export interface Dependencies {
     authServices: IAuthServices;
 
     photoStorageServices: IPhotoStorageService;
+
+    emailServices: IEmailServices;
 
     userRepository: IUserRepository;
     postRepository: IPostRepository;
@@ -197,6 +202,7 @@ container.register({
     postReportRepository: asFunction(() => new postReportRepositoryClass(prisma)).singleton(),
     argon2Services: asClass(Argon2Services).singleton(),
     photoStorageServices: asClass(photoStorageServiceClass).singleton(),
+    emailServices: asClass(NodemailerEmailServices).singleton(),
     jwtAuthService: asFunction(() =>
         new JwtAuthService(
             env.JWT_SECRET,
@@ -230,7 +236,7 @@ container.register({
 
     // *** USERS ***
     createUserUserCase: asFunction((deps: Dependencies) =>
-        new CreateUserUseCase(deps.userRepository, deps.argon2Services)
+        new CreateUserUseCase(deps.userRepository, deps.argon2Services, deps.emailServices)
     ).singleton(),
 
     getUserByIdUseCase: asFunction((deps: Dependencies) =>

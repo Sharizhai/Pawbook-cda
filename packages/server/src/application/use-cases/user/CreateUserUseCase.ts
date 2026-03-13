@@ -2,11 +2,13 @@ import {UserCreationDto, userCreationValidation} from "$presentation/dto/validat
 import {IPasswordServices} from "$domain/interfaces/passwordServices.interface";
 import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
 import {User} from "$domain/entities/Users";
+import {IEmailServices} from "$domain/interfaces/emailServices.interface";
 
 export class CreateUserUseCase {
     constructor(
         private readonly userRepository: IUserRepository,
         private readonly passwordServices: IPasswordServices,
+        private readonly emailServices: IEmailServices,
     ) {}
 
     async execute(dto: UserCreationDto): Promise<User> {
@@ -46,7 +48,10 @@ export class CreateUserUseCase {
             profileDescription: validData.profileDescription,
         });
 
-        // 6. Sauvegarde
+        // 6.Envoi d'un email de confirmation
+        await this.emailServices.sendConfirmationEmail(user.email, user.firstName);
+
+        // 7. Sauvegarde
         return await this.userRepository.save(user);
     }
 }
