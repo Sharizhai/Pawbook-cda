@@ -37,6 +37,16 @@ export const env: IEnv = {
     //Supabase CERT
     SUPABASE_CA_CERT: process.env.SUPABASE_CA_CERT,
 
+    // Nodemailer
+    EMAIL_USER: process.env.EMAIL_USER,
+    EMAIL_APP_PASSWORD: process.env.EMAIL_APP_PASSWORD,
+    JWT_RESET_PWD_SECRET: process.env.JWT_RESET_PWD_SECRET,
+
+    // Resend
+    RESEND_API_KEY: process.env.RESEND_API_KEY|| (() => {
+        throw new Error('RESEND_API_KEY must be defined');
+    })(),
+
     // Cloudinary
     CLOUDINARY_URL: process.env.CLOUDINARY_URL || (() => {
         throw new Error('CLOUDINARY_URL must be defined');

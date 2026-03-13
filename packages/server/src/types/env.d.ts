@@ -21,10 +21,13 @@ export interface IEnv {
     //Supabase cert
     SUPABASE_CA_CERT?: string;
 
-    // // Nodemailer
-    // EMAIL_USER: string;
-    // EMAIL_APP_PASSWORD: string;
-    // JWT_RESET_PWD_SECRET: string;
+    // Nodemailer
+    EMAIL_USER: string;
+    EMAIL_APP_PASSWORD: string;
+    JWT_RESET_PWD_SECRET: string;
+
+    // Resend
+    RESEND_API_KEY: string;
 
     // Cloudinary
     CLOUDINARY_URL: string;

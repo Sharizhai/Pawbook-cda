@@ -48,8 +48,12 @@ export class CreateUserUseCase {
             profileDescription: validData.profileDescription,
         });
 
-        // 6.Envoi d'un email de confirmation
-        await this.emailServices.sendConfirmationEmail(user.email, user.firstName, user.id);
+        // 6.Envoi d'un email de confirmation (non bloquant)
+        try {
+            await this.emailServices.sendConfirmationEmail(user.email, user.firstName, user.id);
+        } catch (error) {
+            console.error("[CreateUserUseCase] Email failed, user created anyway:", error);
+        }
 
         // 7. Sauvegarde
         return await this.userRepository.save(user);

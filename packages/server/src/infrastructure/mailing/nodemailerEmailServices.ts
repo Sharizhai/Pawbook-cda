@@ -1,6 +1,6 @@
 import {IEmailServices} from "$domain/interfaces/emailServices.interface";
 import {welcomeEmail} from "$infrastructure/mailing/templates/newAccountTemplate";
-import {emailConfig} from "$config/mailer";
+import {emailConfig} from "$config/nodemailer";
 
 export class NodemailerEmailServices implements IEmailServices {
     constructor() {}
