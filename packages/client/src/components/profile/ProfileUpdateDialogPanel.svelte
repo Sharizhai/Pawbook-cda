@@ -77,7 +77,7 @@
 </script>
 
 {#snippet contentSnippet()}
-    <form class="profile-update-dialog-panel-form" action="/login" method="POST" onsubmit={onSubmit}>
+    <form class="profile-update-dialog-panel-form" onsubmit={onSubmit}>
         <div class="profile-update-dialog-panel-form-picture-wrapper">
             <div class="profile-update-dialog-panel-form-picture-container">
                 <img src={profilePictureDisplay} alt="User Avatar" class="profile-update-dialog-panel-form-picture" />
