@@ -65,6 +65,8 @@ import {GetAllPostReportsUseCase} from "$application/use-cases/report/GetAllPost
 
 import {UploadProfilePictureUseCase} from "$application/use-cases/pictures/uploadProfilePictureUseCase";
 
+import {UpdatePasswordUseCase} from "$application/use-cases/password/UpdatePasswordUseCase";
+
 import {NodemailerEmailServices} from "$infrastructure/mailing/nodemailerEmailServices";
 
 import {JwtAuthService} from "$infrastructure/auth/jwtAuthServices";
@@ -121,6 +123,8 @@ export interface Dependencies {
     getAllPostReportsUseCase: GetAllPostReportsUseCase;
 
     uploadProfilePictureUseCase: UploadProfilePictureUseCase;
+
+    updatePasswordUseCase: UpdatePasswordUseCase;
 }
 
 const container = createContainer<Dependencies>({
@@ -278,6 +282,11 @@ container.register({
         new UploadProfilePictureUseCase(deps.userRepository, deps.photoStorageServices)
     ).singleton(),
 
+    // *** PASSWORD ***
+    updatePasswordUseCase: asFunction((deps: Dependencies) =>
+        new UpdatePasswordUseCase(deps.userRepository, deps.argon2Services)
+    ).singleton(),
+
     // === PRESENTATION LAYER ===
     postController: asFunction((deps: Dependencies) =>
         new PostController(
@@ -290,7 +299,8 @@ container.register({
         new UserController(
             deps.createUserUserCase,
             deps.getUserByIdUseCase,
-            deps.updateUserProfileUseCase)
+            deps.updateUserProfileUseCase,
+            deps.updatePasswordUseCase)
     ).singleton(),
 
     photoController: asFunction((deps: Dependencies) =>

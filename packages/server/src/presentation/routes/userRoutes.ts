@@ -17,6 +17,13 @@ export default function userRoutesFactory(userController: UserController, middle
     router.post("/register", userController.createUser.bind(userController));
 
     /**
+     * @route PATCH /api/users/password
+     * @desc Met à jour le mot de passe de l'utilisateur connecté
+     * @access Protected
+     */
+    router.patch("/update-password", middleware.isAuthenticated, userController.updatePassword.bind(userController));
+
+    /**
      * @route GET /api/users/:id
      * @desc Trouve un utilisateur par son ID
      * @access Protected

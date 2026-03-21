@@ -1,4 +1,5 @@
 import {UpdateUserProfileUseCase} from "$application/use-cases/user/UpdateUserProfileUseCase";
+import {UpdatePasswordUseCase} from "$application/use-cases/password/UpdatePasswordUseCase";
 import {GetUserByIdUseCase} from "$application/use-cases/user/GetUserByIdUseCase";
 import {CreateUserUseCase} from "$application/use-cases/user/CreateUserUseCase";
 import {APIResponse} from "$utils/responseUtils.utils";
@@ -13,7 +14,8 @@ export class UserController {
     constructor(
         private readonly createUserUseCase: CreateUserUseCase,
         private readonly getUserByIdUseCase: GetUserByIdUseCase,
-        private readonly updateUserProfileUseCase: UpdateUserProfileUseCase
+        private readonly updateUserProfileUseCase: UpdateUserProfileUseCase,
+        private readonly updatePasswordUseCase: UpdatePasswordUseCase
     ) {}
 
     /**
@@ -67,6 +69,25 @@ export class UserController {
 
             const user = await this.updateUserProfileUseCase.execute(id, req.body);
             return APIResponse(res, user, "Utilisateur mis à jour", 200);
+        } catch (error) {
+            const message = error instanceof Error
+                ? error.message
+                : "Erreur lors de la mise à jour de l'utilisateur";
+
+            const status = this.getErrorStatus(error);
+
+            return APIResponse(res, null, message, status);
+        }
+    }
+
+    /**
+     * Mise à jour du mot de passe
+     */
+    async updatePassword(req: Request, res: Response) {
+        try {
+            await this.updatePasswordUseCase.execute(req.user!.id, req.body);
+
+            return APIResponse(res, null, "Mot de passe mis à jour", 200);
         } catch (error) {
             const message = error instanceof Error
                 ? error.message
