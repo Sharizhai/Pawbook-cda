@@ -89,4 +89,6 @@ export interface IUserRepository {
      * @returns Nombre de membres
      */
     count(): Promise<number>;
+
+    updatePassword(userId: string, hashedPassword: string): Promise<void>;
 }

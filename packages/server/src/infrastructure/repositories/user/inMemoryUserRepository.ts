@@ -59,4 +59,12 @@ export class InMemoryUserRepository implements IUserRepository {
     count(): Promise<number> {
         return Promise.resolve(this.users.length);
     }
+
+    updatePassword(userId: string, hashedPassword: string): Promise<void> {
+        const index = this.users.findIndex(u => u.id === userId);
+        if (index !== -1) {
+            this.users[index] = this.users[index].updateWith({ password: hashedPassword });
+        }
+        return Promise.resolve();
+    }
 }

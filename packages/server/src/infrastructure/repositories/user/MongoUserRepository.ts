@@ -130,4 +130,12 @@ export class MongoUserRepository implements IUserRepository {
     async count(): Promise<number> {
         return await MongoUserModel.countDocuments();
     }
+
+    async updatePassword(userId: string, hashedPassword: string): Promise<void> {
+        await MongoUserModel.findByIdAndUpdate(
+            userId,
+            { $set: { password: hashedPassword, updatedAt: new Date() } },
+            { runValidators: true }
+        );
+    }
 }

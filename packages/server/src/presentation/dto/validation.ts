@@ -96,6 +96,19 @@ export const postReportCreationValidation = z.object({
     description: sanitizedStringSchema(z.string().max(500, { error: "Report description is too long" })).optional(),
 });
 
+export const passwordUpdateValidation = z.object({
+    currentPassword: z.string(),
+    newPassword: z.string()
+        .min(12, { error: "Password must be at least 12 characters long" })
+        .regex(/[0-9]/, { error: "Password must contain at least one number" })
+        .regex(/[!@$#^&(),.?":|<>{}]/, { error: "Password must contain at least one special character" })
+        .regex(/[A-Z]/, { error: "Password must contain at least one uppercase letter" })
+        .regex(/[a-z]/, { error: "Password must contain at least one lowercase letter" }),
+}).refine(data => data.currentPassword !== data.newPassword, {
+    message: "New password must be different from current password",
+    path: ["newPassword"]
+});
+
 export type LoginDto = z.infer<typeof loginValidation>;
 export type UserCreationDto = z.infer<typeof userCreationValidation>;
 export type UserUpdateDto = z.infer<typeof userUpdateValidation>;
@@ -104,3 +117,4 @@ export type PostCreationDto = z.infer<typeof postCreationValidation>;
 export type FollowCreationDto = z.infer<typeof followCreationValidation>;
 export type FollowDeletionDto = z.infer<typeof followDeletionValidation>;
 export type PostReportCreationDto = z.infer<typeof postReportCreationValidation>;
+export type PasswordUpdateDto = z.infer<typeof passwordUpdateValidation>;

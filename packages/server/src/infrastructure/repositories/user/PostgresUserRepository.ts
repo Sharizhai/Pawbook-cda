@@ -69,7 +69,7 @@ export class PostgresUserRepository implements IUserRepository {
         return this.toDomain(saved);
     }
 
-    async update(id: string, updates: Partial<UserData>): Promise<User | null> {
+    async update(id: string, updates: Partial<Omit<UserData, "id" | "role" | "createdAt" | "password">>): Promise<User | null> {
         try {
             const { ...updateData } = updates;
 
@@ -159,6 +159,16 @@ export class PostgresUserRepository implements IUserRepository {
 
     async count(): Promise<number> {
         return await this.prisma.user.count();
+    }
+
+    async updatePassword(userId: string, hashedPassword: string): Promise<void> {
+        await this.prisma.user.update({
+            where: { id: userId },
+            data: {
+                password: hashedPassword,
+                updatedAt: new Date()
+            }
+        });
     }
 
     /**
