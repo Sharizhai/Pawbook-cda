@@ -104,6 +104,7 @@
             border: 1px solid rgba(30, 138, 182, 0.7);
             border-radius: 0.45rem;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
 
             :global(svg){
                 width: 1.5rem;
