@@ -1,15 +1,14 @@
 <script lang="ts">
     import DialogPanel from "$components/generic/dialogPanel/DialogPanel.svelte";
-    import * as messages from "$lib/paraglide/messages";
-    import type {Snippet} from "svelte";
-    import Input from "$components/generic/Input.svelte";
-    import Button from "$components/generic/Button.svelte";
+    import {updateUserInformations} from "$services/userServices.svelte";
+    import {uploadProfilePicture} from "$services/photosServices.svelte";
     import type {PublicUserInformations} from "$types/userTypes";
+    import Button from "$components/generic/Button.svelte";
+    import * as messages from "$lib/paraglide/messages";
+    import {user} from "\$stores/stores.svelte";
+    import type {Snippet} from "svelte";
 
     import cameraIcon from "$assets/icons/images/camera.svg?raw";
-    import {updateUserInformations} from "$services/userServices.svelte";
-    import {user} from "\$stores/stores.svelte";
-    import {uploadProfilePicture} from "$services/photosServices.svelte";
 
     const panelTitle = messages.profile_update_dialog_panel_title();
     const bioPlaceholder = messages.signup_bio_placeholder();

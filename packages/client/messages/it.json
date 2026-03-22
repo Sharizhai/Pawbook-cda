@@ -75,6 +75,7 @@
     "logout": "Esci",
 
     "quick_action_profile_update": "Aggiorna il mio profilo",
+    "quick_action_password_update": "Aggiorna la mia password",
     "quick_action_profile_delete": "Elimina il mio account",
     "quick_action_profile_report": "Segnala questo account",
 
@@ -111,5 +112,22 @@
     "post_moderation_table_actions": "Azioni",
 
     "profile_update_dialog_panel_title": "Modifica il mio profilo",
-    "profile_update_dialog_panel_validation_button": "Aggiornare"
+    "profile_update_dialog_panel_validation_button": "Aggiornare",
+
+    "password_update_explanations": "La password deve contenere almeno 12 caratteri e deve includere almeno una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale.",
+    "password_update_current_password_label": "Password attuale",
+    "password_update_new_password_label": "Nuova password",
+    "password_update_confirm_password_label": "Conferma la nuova password",
+    "password_update_error_invalid_password": "Password non valida",
+    "password_update_error_same_password": "La nuova password deve essere diversa da quella attuale",
+    "password_update_error_long": "La password deve contenere almeno 12 caratteri",
+    "password_update_error_missing_number": "La password deve contenere almeno un numero",
+    "password_update_error_missing_uppercase_letter": "La password deve contenere almeno una lettera maiuscola",
+    "password_update_error_missing_lowercase_letter": "La password deve contenere almeno una lettera minuscola",
+    "password_update_error_missing_special_character": "La password deve contenere almeno un carattere speciale",
+    "password_update_success_message": "La tua password è stata aggiornata con successo",
+
+    "error_generic_message": "Si è verificato un errore. Riprova più tardi.",
+
+    "close": "Chiudi"
 }

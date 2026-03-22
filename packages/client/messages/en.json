@@ -75,6 +75,7 @@
     "logout": "Log out",
 
     "quick_action_profile_update": "Update my profile",
+    "quick_action_password_update": "Update my password",
     "quick_action_profile_delete": "Delete my account",
     "quick_action_profile_report": "Report this account",
 
@@ -111,5 +112,22 @@
     "post_moderation_table_actions": "Actions",
 
     "profile_update_dialog_panel_title": "Edit my profile",
-    "profile_update_dialog_panel_validation_button": "Update"
+    "profile_update_dialog_panel_validation_button": "Update",
+
+    "password_update_explanations": "Your password must be at least 12 characters long and must include at least one uppercase letter, one lowercase letter, one number and one special character.",
+    "password_update_current_password_label": "Current password",
+    "password_update_new_password_label": "New password",
+    "password_update_confirm_password_label": "Confirm new password",
+    "password_update_error_invalid_password": "Invalid password",
+    "password_update_error_same_password": "New password must be different from current password",
+    "password_update_error_long": "Password must be at least 12 characters long",
+    "password_update_error_missing_number": "Password must contain at least one number",
+    "password_update_error_missing_uppercase_letter": "Password must contain at least one uppercase letter",
+    "password_update_error_missing_lowercase_letter": "Password must contain at least one lowercase letter",
+    "password_update_error_missing_special_character": "Password must contain at least one special character",
+    "password_update_success_message": "Your password has been successfully updated",
+
+    "error_generic_message": "An error has occurred. Please try again later.",
+
+    "close": "Close"
 }

@@ -75,6 +75,7 @@
     "logout": "Abmelden",
 
     "quick_action_profile_update": "Mein Profil aktualisieren",
+    "quick_action_password_update": "Mein Passwort aktualisieren",
     "quick_action_profile_delete": "Mein Konto löschen",
     "quick_action_profile_report": "Dieses Konto melden",
 
@@ -111,5 +112,22 @@
     "post_moderation_table_actions": "Aktionen",
 
     "profile_update_dialog_panel_title": "Mein Profil bearbeiten",
-    "profile_update_dialog_panel_validation_button": "Aktualisieren"
+    "profile_update_dialog_panel_validation_button": "Aktualisieren",
+
+    "password_update_explanations": "Ihr Passwort muss mindestens 12 Zeichen lang sein und mindestens einen Großbuchstaben, einen Kleinbuchstaben, eine Ziffer und ein Sonderzeichen enthalten.",
+    "password_update_current_password_label": "Aktuelles Passwort",
+    "password_update_new_password_label": "Neues Passwort",
+    "password_update_confirm_password_label": "Neues Passwort bestätigen",
+    "password_update_error_invalid_password": "Falsches Passwort",
+    "password_update_error_same_password": "Das neue Passwort muss sich vom aktuellen Passwort unterscheiden",
+    "password_update_error_long": "Das Passwort muss mindestens 12 Zeichen lang sein",
+    "password_update_error_missing_number": "Das Passwort muss mindestens eine Ziffer enthalten",
+    "password_update_error_missing_uppercase_letter": "Das Passwort muss mindestens einen Großbuchstaben enthalten",
+    "password_update_error_missing_lowercase_letter": "Das Passwort muss mindestens einen Kleinbuchstaben enthalten",
+    "password_update_error_missing_special_character": "Das Passwort muss mindestens ein Sonderzeichen enthalten",
+    "password_update_success_message": "Ihr Passwort wurde erfolgreich aktualisiert",
+
+    "error_generic_message": "Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.",
+
+    "close": "Schließen"
 }

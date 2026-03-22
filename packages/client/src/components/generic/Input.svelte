@@ -8,7 +8,8 @@
         isDisabled = false,
         required = false,
         value = $bindable(type === 'checkbox' ? false : ""),
-        checked = $bindable(false)
+        checked = $bindable(false),
+        hasError = false,
     } : {
         label?: string,
         customClass?: string,
@@ -18,7 +19,8 @@
         isDisabled?: boolean,
         required?: boolean,
         value?: string | boolean,
-        checked?: boolean
+        checked?: boolean,
+        hasError?: boolean,
     } = $props();
 
     let isPasswordVisible = $state(false);
@@ -42,7 +44,7 @@
         </div>
         {:else}
         <div class="input-container-input-wrapper">
-            <input class="input-container-input" type={inputType} id={name} name={name} placeholder={placeholder} disabled={isDisabled} {required} bind:value />
+            <input class="input-container-input" class:error={hasError} type={inputType} id={name} name={name} placeholder={placeholder} disabled={isDisabled} {required} bind:value />
             {#if type === 'password'}
                 <button type="button" class="input-container-input-password-icon material-icons bolder" onclick={onVisibilityIconClick} aria-label="Toggle password visibility" >
                     {isPasswordVisible ? "visibility_off" : "visibility"}
@@ -129,6 +131,10 @@
                 color: var(--main-text-color);
                 border: none;
                 background: transparent;
+            }
+
+            &.error {
+                border-color: var(--color-alert);
             }
         }
     }

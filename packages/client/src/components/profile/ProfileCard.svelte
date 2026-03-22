@@ -1,5 +1,6 @@
 <script lang="ts">
     import QuickActionsMenu from "$components/generic/quickActionsMenu/QuickActionsMenu.svelte";
+    import ProfileUpdateDialogPanel from "$components/profile/ProfileUpdateDialogPanel.svelte";
     import type {QuickActionsMenuActionProperties} from "$types/quickActionsMenuTypes";
     import {createFollow, deleteFollow} from "$services/followServices.svelte";
     import SettingsButton from "$components/generic/SettingsButton.svelte";
@@ -15,9 +16,10 @@
     import logoutIcon from "$assets/icons/logout.svg?raw";
     import editIcon from "$assets/icons/edit.svg?raw";
     import gcuIcon from "$assets/icons/gcu.svg?raw";
-    import ProfileUpdateDialogPanel from "$components/profile/ProfileUpdateDialogPanel.svelte";
+    import UpdatePasswordDialogPanel from "$components/dialogPanels/UpdatePasswordDialogPanel.svelte";
 
     const updateProfileLabel = messages.quick_action_profile_update();
+    const updatePasswordLabel = messages.quick_action_password_update();
     const gcuLabel = messages.home_gcu();
     const logoutLabel = messages.logout();
     const deleteLabel = messages.quick_action_profile_delete();
@@ -39,12 +41,18 @@
 
     let isQuickActionsMenuOpen = $state(false);
     let isProfileUpdateDialogPanelOpen = $state(false);
+    let isPasswordUpdateDialogPanelOpen = $state(false);
 
     let selfQuickActionsMenu: QuickActionsMenuActionProperties[] = $derived([
         {
             icon: editIcon,
             label: updateProfileLabel,
             onClick: onQuickActionUpdateProfileButtonClick
+        },
+        {
+            icon: editIcon,
+            label: updatePasswordLabel,
+            onClick: onQuickActionUpdatePasswordButtonClick
         },
         {
             icon: gcuIcon,
@@ -89,6 +97,11 @@
         isQuickActionsMenuOpen = !isQuickActionsMenuOpen;
     }
 
+    function onQuickActionUpdatePasswordButtonClick() {
+        isPasswordUpdateDialogPanelOpen = true;
+        isQuickActionsMenuOpen = !isQuickActionsMenuOpen;
+    }
+
     function onQuickActionGcuButtonClick() {
         // TODO
     }
@@ -129,6 +142,7 @@
 
 <QuickActionsMenu bind:isVisible={isQuickActionsMenuOpen} actions={settingsQuickActionsMenuActionProperties} anchorElement={settingsButtonElement} haslanguageDropdown />
 <ProfileUpdateDialogPanel bind:isVisible={isProfileUpdateDialogPanelOpen} bind:userProfile={profileUser}/>
+<UpdatePasswordDialogPanel bind:isVisible={isPasswordUpdateDialogPanelOpen} />
 
 <style lang="scss">
     .profile-card-container {
