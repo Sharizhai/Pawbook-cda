@@ -125,6 +125,7 @@
     "password_update_error_missing_uppercase_letter": "Password must contain at least one uppercase letter",
     "password_update_error_missing_lowercase_letter": "Password must contain at least one lowercase letter",
     "password_update_error_missing_special_character": "Password must contain at least one special character",
+    "password_update_error_password_mismatch": "The passwords do not match",
     "password_update_success_message": "Your password has been successfully updated",
 
     "error_generic_message": "An error has occurred. Please try again later.",

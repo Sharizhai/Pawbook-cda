@@ -1,4 +1,5 @@
 <script lang="ts">
+    import AnimatedCheckIcon from "$components/animated/AnimatedCheckIcon.svelte";
     import DialogPanel from "$components/generic/dialogPanel/DialogPanel.svelte";
     import {updatePassword} from "$services/passwordServices.svelte";
     import Button from "$components/generic/Button.svelte";
@@ -7,14 +8,14 @@
     import * as messages from "$lib/paraglide/messages";
     import type {Snippet} from "svelte";
 
-    import validationIcon from "$assets/icons/validation-ok.svg?raw";
-
     const panelTitle = messages.quick_action_password_update();
     const explanationText = messages.password_update_explanations();
     const currentPasswordLabel = messages.password_update_current_password_label();
     const newPasswordLabel = messages.password_update_new_password_label();
     const confirmPasswordLabel = messages.password_update_confirm_password_label();
     const panelValidationButtonLabel = messages.profile_update_dialog_panel_validation_button();
+    const passwordMismatchLabel = messages.password_update_error_password_mismatch();
+    const successUpdateLabel = messages.password_update_success_message();
     const closeLabel = messages.close();
 
     let {isVisible = $bindable()}: { isVisible: boolean } = $props();
@@ -38,13 +39,8 @@
         e.preventDefault();
         backendError = "";
 
-        if(currentPassword === newPassword) {
-            errorMessage = messages.password_update_error_same_password();
-            return;
-        }
-
         if(newPassword !== confirmPassword) {
-            errorMessage = "Les mots de passe ne correspondent pas";
+            errorMessage = passwordMismatchLabel;
             return;
         }
 
@@ -79,9 +75,11 @@
 {/snippet}
 
 {#snippet successfulUpdateSnippet()}
-    <p class="update-password-dialog-panel-form-text">Votre mot de passe a bien été mis à jour</p>
-    <span class="validation-icon">{@html validationIcon}</span>
-    <Button label={closeLabel} onClick={onClosePanelButtonClick} isCTA/>
+    <div class="update-password-dialog-panel-form-validation">
+        <p class="update-password-dialog-panel-form-validation-text">{successUpdateLabel}</p>
+        <AnimatedCheckIcon />
+        <Button label={closeLabel} onClick={onClosePanelButtonClick} isCTA/>
+    </div>
 {/snippet}
 
 <DialogPanel bind:isVisible title={panelTitle} steps={panelContent}/>
@@ -99,17 +97,19 @@
             text-align: left;
             margin: 2rem 0;
         }
-    }
 
-    .validation-icon {
-        width: 4.5rem;
-        height: 4.5rem;
-        margin-bottom: 2rem;
-        color: var(--second-highlight-color);
+        &-validation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
 
-        :global(svg) {
-            width: 100%;
-            height: 100%;
+            &-text {
+                font-size: 1rem;
+
+                text-align: left;
+                margin: 2rem 0 0 0;
+            }
         }
     }
 </style>
