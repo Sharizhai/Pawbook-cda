@@ -67,6 +67,8 @@ import {UploadProfilePictureUseCase} from "$application/use-cases/pictures/uploa
 
 import {UpdatePasswordUseCase} from "$application/use-cases/password/UpdatePasswordUseCase";
 
+import {SearchUserOrPetUseCase} from "$application/use-cases/search/SearchUserOrPetUseCase";
+
 import {NodemailerEmailServices} from "$infrastructure/mailing/nodemailerEmailServices";
 
 import {JwtAuthService} from "$infrastructure/auth/jwtAuthServices";
@@ -123,6 +125,8 @@ export interface Dependencies {
     getAllPostReportsUseCase: GetAllPostReportsUseCase;
 
     uploadProfilePictureUseCase: UploadProfilePictureUseCase;
+
+    searchUserOrPetUseCase: SearchUserOrPetUseCase;
 
     updatePasswordUseCase: UpdatePasswordUseCase;
 }
@@ -285,6 +289,11 @@ container.register({
     // *** PASSWORD ***
     updatePasswordUseCase: asFunction((deps: Dependencies) =>
         new UpdatePasswordUseCase(deps.userRepository, deps.argon2Services)
+    ).singleton(),
+
+    // *** SEARCH ***
+    searchUserOrPetUseCase: asFunction((deps: Dependencies) =>
+        new SearchUserOrPetUseCase(deps.userRepository, deps.animalRepository)
     ).singleton(),
 
     // === PRESENTATION LAYER ===
