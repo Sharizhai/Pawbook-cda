@@ -106,6 +106,10 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
             cursor: pointer;
 
+            &:hover {
+                background-color: var(--light-blue);
+            }
+
             :global(svg){
                 width: 1.5rem;
                 height: 1.5rem;

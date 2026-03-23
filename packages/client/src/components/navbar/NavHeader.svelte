@@ -1,19 +1,44 @@
 <script lang="ts">
+    import type {QuickActionsMenuActionProperties} from "$types/quickActionsMenuTypes";
     import NavbarButton from "$components/navbar/NavbarButton.svelte";
     import * as messages from "$lib/paraglide/messages";
+    import {push, location} from "svelte-spa-router";
     import {user} from "$stores/stores.svelte";
 
     import adminIcon from "$assets/icons/navbar/administration.svg?raw";
     import menuIcon from "$assets/icons/navbar/menu.svg?raw";
-    import {push, location} from "svelte-spa-router";
+    import logoutIcon from "$assets/icons/logout.svg?raw";
+    import gcuIcon from "$assets/icons/gcu.svg?raw";
+    import {authLogout} from "$services/authServices.svelte";
+    import QuickActionsMenu from "$components/generic/quickActionsMenu/QuickActionsMenu.svelte";
+
 
     const logo = import.meta.env.VITE_LOGO_URL;
 
     const administrationLabel = messages.navbar_administration();
     const menuLabel = messages.navbar_menu();
+    const gcuLabel = messages.home_gcu();
+    const logoutLabel = messages.logout();
 
-    function onMenuButtonClick () {
-        console.log("Menu button clicked");
+    let settingsButtonElement: HTMLElement | undefined = $state();
+
+    let isQuickActionsMenuOpen = $state(false);
+    let navbarQuickActionsMenu: QuickActionsMenuActionProperties[] = $derived([
+        {
+            icon: gcuIcon,
+            label: gcuLabel,
+            onClick: onQuickActionGcuButtonClick
+        },
+        {
+            icon: logoutIcon,
+            label: logoutLabel,
+            onClick: onQuickActionDisconnectButtonClick
+        }
+    ]);
+
+    function onMenuButtonClick (event: MouseEvent) {
+        settingsButtonElement = event.currentTarget as HTMLElement;
+        isQuickActionsMenuOpen = !isQuickActionsMenuOpen;
     }
 
     function onAdministrationButtonClick () {
@@ -22,6 +47,16 @@
 
     function onLogoButtonClick () {
         push("/feed");
+    }
+
+    function onQuickActionGcuButtonClick() {
+        // TODO
+    }
+
+    function onQuickActionDisconnectButtonClick() {
+        authLogout();
+
+        push("/");
     }
 </script>
 
@@ -46,6 +81,8 @@
     </div>
     {/if}
 </header>
+
+<QuickActionsMenu bind:isVisible={isQuickActionsMenuOpen} actions={navbarQuickActionsMenu} anchorElement={settingsButtonElement} haslanguageDropdown />
 
 <style lang="scss">
     .feed-header {
