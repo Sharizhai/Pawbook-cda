@@ -31,13 +31,15 @@ test("Should render the menu button with the good label", () => {
     expect(getByText("Menu")).toBeInTheDocument();
 });
 
-test("onClick should run properly", async () => {
-    const logSpy = vi.spyOn(console, "log");
+test("onClick should open the quick action menu", async () => {
     const { getByText } = render(NavHeader);
     const menuButton = getByText("Menu");
+
+    expect(document.body.querySelector(".quick-actions-menu")).not.toBeInTheDocument();
+
     await fireEvent.click(menuButton);
 
-    expect(logSpy).toHaveBeenCalledWith("Menu button clicked");
+    expect(document.body.querySelector(".quick-actions-menu")).toBeInTheDocument();
 });
 
 test("Should render logo as button on administration page", () => {
