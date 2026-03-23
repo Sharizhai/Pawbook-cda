@@ -52,8 +52,13 @@ export class InMemoryUserRepository implements IUserRepository {
         return Promise.resolve([]);
     }
 
-    searchByName(query: string): Promise<User[]> {
-        return Promise.resolve([]);
+    async searchByName(query: string): Promise<User[]> {
+        const q = query.toLowerCase();
+
+        return this.users.filter(
+            u => u.name.toLowerCase().includes(q) ||
+                u.firstName.toLowerCase().includes(q)
+        );
     }
 
     count(): Promise<number> {

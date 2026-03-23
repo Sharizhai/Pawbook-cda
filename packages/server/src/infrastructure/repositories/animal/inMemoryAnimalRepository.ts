@@ -52,7 +52,12 @@ export class InMemoryAnimalRepository implements IAnimalRepository
     }
 
     async findByFilters(filters: AnimalFilters): Promise<Animal[]> {
-        return Promise.resolve([]);
+        return this.animals.filter(a => {
+            if (filters.name) {
+                return a.name.toLowerCase().includes(filters.name.toLowerCase());
+            }
+            return true;
+        });
     }
 
     async count(): Promise<number> {
