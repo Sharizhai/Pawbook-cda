@@ -55,6 +55,12 @@
             color: var(--second-highlight-color);
             border: 1px solid var(--second-highlight-color);
         }
+
+        &:disabled {
+            background-color: color-mix((in srgb, rgba(255, 255, 255, 0.5) 80%, black));
+            border: 1px solid var(--second-text-color);
+            cursor: default;
+        }
     }
 
     .main-cta {
