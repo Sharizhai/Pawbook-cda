@@ -274,6 +274,7 @@ This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for d
 - [Prisma](https://www.prisma.io/) for the fantastic ORM
 - [Supabase](https://supabase.com/) for PostgreSQL hosting
 - [Cloudinary](https://cloudinary.com/) for image management
+- [Damir Tuarshe](https://tuarshe.com/) for his amazing and sweet Solar Icons set
 
 ---
 
