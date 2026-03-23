@@ -1,22 +1,27 @@
 <script lang="ts">
+    import type {PublicUserInformations, UserUpdateInformations} from "$types/userTypes";
+    import AnimatedCheckIcon from "$components/animated/AnimatedCheckIcon.svelte";
     import DialogPanel from "$components/generic/dialogPanel/DialogPanel.svelte";
     import {updateUserInformations} from "$services/userServices.svelte";
     import {uploadProfilePicture} from "$services/photosServices.svelte";
-    import type {PublicUserInformations} from "$types/userTypes";
     import Button from "$components/generic/Button.svelte";
     import * as messages from "$lib/paraglide/messages";
     import {user} from "\$stores/stores.svelte";
     import type {Snippet} from "svelte";
 
     import cameraIcon from "$assets/icons/images/camera.svg?raw";
+    import {edition} from "$stores/stores.svelte";
 
     const panelTitle = messages.profile_update_dialog_panel_title();
     const bioPlaceholder = messages.signup_bio_placeholder();
     const panelValidationButtonLabel = messages.profile_update_dialog_panel_validation_button();
+    const successUpdateLabel = messages.profile_update_success_message();
+    const closeLabel = messages.close();
 
     let {isVisible = $bindable(), userProfile = $bindable() }: { isVisible: boolean, userProfile: PublicUserInformations } = $props();
 
-    const panelContent: Snippet[] = [contentSnippet];
+    let profileUpdateSuccess: boolean = $state(false);
+    const panelContent: Snippet[] = $derived([profileUpdateSuccess ? successfulUpdateSnippet : contentSnippet]);
 
     let errorMessage: string = $state("\u00A0");
 
@@ -29,13 +34,19 @@
     let profilePictureDisplay = $derived(profilePicturePreview !== "" ? profilePicturePreview : profilePicture);
 
     $effect(() => {
-        if (!isVisible) {
+        if (isVisible) {
+            edition.startEditing<UserUpdateInformations>({
+                profilePicture: userProfile.profilePicture,
+                profileDescription: userProfile.profileDescription
+            });
+        } else {
             profilePicture = userProfile.profilePicture ?? "/paws.png";
             profileDescription = userProfile.profileDescription ?? "";
             profilePicturePreview = "";
             profilePictureFile = null;
+            profileUpdateSuccess = false;
         }
-    });
+    })
 
     async function onSubmit(event: Event) {
         event.preventDefault();
@@ -52,7 +63,8 @@
             user.information = { ...user.information, ...updatedUser };
             userProfile = { ...userProfile, ...updatedUser };
 
-            isVisible = false;
+            profileUpdateSuccess = true;
+            edition.stopEditing();
         } catch (error: any) {
             errorMessage = error.message;
         }
@@ -68,10 +80,20 @@
 
             reader.onload = (e) => {
                 profilePicturePreview = e.target?.result as string;
+                edition.patch<UserUpdateInformations>({ profilePicture: profilePicturePreview });
             };
 
             reader.readAsDataURL(file);
         }
+    }
+
+    function onDescriptionChange(value: string) {
+        profileDescription = value;
+        edition.patch<UserUpdateInformations>({ profileDescription: value });
+    }
+
+    function onClosePanelButtonClick() {
+        isVisible = false;
     }
 </script>
 
@@ -91,12 +113,21 @@
             </div>
         </div>
         <textarea name={"profileDescription"} bind:value={profileDescription}
-                  placeholder={bioPlaceholder} class="profile-update-dialog-panel-form-profile-description"> </textarea>
+                  placeholder={bioPlaceholder} class="profile-update-dialog-panel-form-profile-description"
+                  oninput={(e) => onDescriptionChange(e.currentTarget.value)}> </textarea>
 
         <div class="error-message">{errorMessage}</div>
 
-        <Button label={panelValidationButtonLabel} type="submit" customClass="extra-margin-top" isCTA/>
+        <Button label={panelValidationButtonLabel} isDisabled={!edition.hasChanges} type="submit" customClass="extra-margin-top" isCTA/>
     </form>
+{/snippet}
+
+{#snippet successfulUpdateSnippet()}
+    <div class="profile-update-dialog-panel-form-validation">
+        <p class="profile-update-dialog-panel-form-validation-text">{successUpdateLabel}</p>
+        <AnimatedCheckIcon />
+        <Button label={closeLabel} onClick={onClosePanelButtonClick} isCTA/>
+    </div>
 {/snippet}
 
 <DialogPanel bind:isVisible title={panelTitle} steps={panelContent}/>
@@ -201,6 +232,20 @@
 
             &:focus {
                 outline: none;
+            }
+        }
+
+        &-validation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+
+            &-text {
+                font-size: 1rem;
+
+                text-align: left;
+                margin: 2rem 0 0 0;
             }
         }
     }

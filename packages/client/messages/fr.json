@@ -134,5 +134,7 @@
 
     "error_generic_message": "Une erreur est survenue. Veuillez réessayer plus tard.",
 
-    "close": "Fermer"
+    "close": "Fermer",
+
+    "profile_update_success_message": "Votre profil a bien été mis à jour"
 }
