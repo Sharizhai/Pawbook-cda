@@ -45,6 +45,7 @@ import {PhotoController} from "$presentation/controllers/photoController";
 import {AnimalController} from "$presentation/controllers/animalController";
 import {FollowController} from "$presentation/controllers/followController";
 import {PostReportController} from "$presentation/controllers/postReportController";
+import {SearchController} from "$presentation/controllers/searchController";
 
 import {GetAllPostsByAuthorIdUseCase} from "$application/use-cases/post/GetAllPostsByAuthorIdUseCase";
 import {GetAllPostsUseCase} from "$application/use-cases/post/GetAllPostsUseCase";
@@ -106,6 +107,7 @@ export interface Dependencies {
     animalController: AnimalController;
     followController: FollowController;
     postReportController: PostReportController;
+    searchController: SearchController;
 
     getAllPostsByAuthorIdUseCase: GetAllPostsByAuthorIdUseCase;
     getAllPostsUseCase: GetAllPostsUseCase;
@@ -332,6 +334,9 @@ container.register({
         new PostReportController(
             deps.createAPostReportUseCase,
             deps.getAllPostReportsUseCase)
+    ),
+    searchController: asFunction((deps: Dependencies) =>
+        new SearchController(deps.searchUserOrPetUseCase)
     ),
 });
 

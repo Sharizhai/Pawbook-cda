@@ -17,6 +17,8 @@ import {FollowController} from "$presentation/controllers/followController";
 import followRoutesFactory from "$presentation/routes/followRoutes";
 import {PostReportController} from "$presentation/controllers/postReportController";
 import postReportRoutesFactory from "$presentation/routes/postReportRoutes";
+import {SearchController} from "$presentation/controllers/searchController";
+import searchRoutesFactory from "$presentation/routes/searchRoutes";
 
 /**
  * Interface pour les statistiques de santé de l"API
@@ -45,6 +47,7 @@ interface ApiInfo {
         follows: string;
         postReports: string;
         photos: string;
+        search: string;
     };
     documentation?: string;
 }
@@ -70,6 +73,7 @@ export const setupRoutes = (app: express.Application): void => {
     const followController = container.resolve<FollowController>("followController");
     const postReportController = container.resolve<PostReportController>("postReportController");
     const photoController = container.resolve<PhotoController>("photoController");
+    const searchController = container.resolve<SearchController>("searchController");
 
     // Routes principales
     app.use("/api/auth", authRoutesFactory(authController, { isAuthenticated }));
@@ -79,6 +83,7 @@ export const setupRoutes = (app: express.Application): void => {
     app.use("/api/follows", followRoutesFactory(followController, {isAuthenticated}));
     app.use("/api/post-reports", postReportRoutesFactory(postReportController, {isAuthenticated, isAdminOrModerator}));
     app.use("/api/photos", photoRoutesFactory(photoController, {isAuthenticated}));
+    app.use("/api/search", searchRoutesFactory(searchController, {isAuthenticated}));
 
     // Route de base pour vérifier que l"API fonctionne
     app.get("/api", (req: express.Request, res: express.Response) => {
@@ -94,6 +99,7 @@ export const setupRoutes = (app: express.Application): void => {
                 follows: "/api/follows",
                 postReports: "/api/post-reports",
                 photos: "/api/photos",
+                search: "/api/search",
             },
             documentation:
                 process.env.NODE_ENV === "development"
@@ -182,6 +188,9 @@ export const setupRoutes = (app: express.Application): void => {
                         },
                         photos: {
                             uploadProfilePicture: "POST /photos/:id/profile-picture",
+                        },
+                        search: {
+                            searchUserOrPet: "GET /search",
                         },
                         utility: {
                             health: "GET /health",
