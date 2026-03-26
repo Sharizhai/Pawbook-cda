@@ -1,14 +1,15 @@
-.scrollbars::-webkit-scrollbar {
+.scrollbar::-webkit-scrollbar {
     width: 0.5rem;
+    height: 0.5rem;
 }
 
-.scrollbars::-webkit-scrollbar-thumb {
-    background-color: var(--second-text-color);
+.scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(30, 138, 182, 0.8);
     border-radius: 0.25rem;
     border: 1px solid var(--main-text-color);
 }
 
-.scrollbars::-webkit-scrollbar-track {
+.scrollbar::-webkit-scrollbar-track {
     background-color: var(--main-text-color);
     border-radius: 0.25rem;
 }
@@ -16,6 +17,6 @@
 @supports not selector(::-webkit-scrollbar) {
     .scrollbar {
         scrollbar-width: thin;
-        scrollbar-color: var(--second-text-color) var(--main-text-color);
+        scrollbar-color: rgba(30, 138, 182, 0.8) var(--main-text-color);
     }
 }
