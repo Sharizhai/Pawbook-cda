@@ -27,12 +27,14 @@ export class SearchUserOrPetUseCase {
                 firstName: user.firstName,
                 name: user.name,
                 profilePicture: user.profilePicture,
+                kind: "user" as const
             })),
             animals: animals.map(animal => ({
                 ownerId: animal.ownerId,
                 name: animal.name,
                 type: animal.type,
                 picture: animal.picture,
+                kind: "animal" as const
             })),
         };
     }
