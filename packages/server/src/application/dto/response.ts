@@ -8,7 +8,7 @@ type SearchUserResult = Pick<UserData, "id" | "firstName" | "name" | "profilePic
 
 type SearchPetResult = Pick<AnimalData, "ownerId" | "name" | "type" | "picture">;
 
-export interface SearchUserOrPetUserResponse {
+export interface SearchUserOrPetUserResponseDto {
     users: SearchUserResult[];
     animals: SearchPetResult[];
 }

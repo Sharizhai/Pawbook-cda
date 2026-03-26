@@ -1,6 +1,6 @@
 import {IAnimalRepository} from "$domain/interfaces/repositories/animalRepository.interface";
 import {IUserRepository} from "$domain/interfaces/repositories/userRepository.interface";
-import {SearchUserOrPetUserResponse} from "$application/dto/response";
+import {SearchUserOrPetUserResponseDto} from "$application/dto/response";
 
 export class SearchUserOrPetUseCase {
     constructor(
@@ -9,7 +9,7 @@ export class SearchUserOrPetUseCase {
     ) {
     }
 
-    async execute(query: string): Promise<SearchUserOrPetUserResponse> {
+    async execute(query: string): Promise<SearchUserOrPetUserResponseDto> {
         if (!query || query.trim().length < 2) {
             return { users: [], animals: [] };
         }
