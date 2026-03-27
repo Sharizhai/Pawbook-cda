@@ -1,6 +1,7 @@
 <script lang="ts">
     import PostCreationDialogPanel from "$components/dialogPanels/PostCreationDialogPanel.svelte";
     import {fetchUserInformations} from "$services/userServices.svelte";
+    import SearchPanel from "$components/search/SearchPanel.svelte";
     import * as messages from "$lib/paraglide/messages";
     import {user, follow} from "$stores/stores.svelte";
     import NavbarButton from "./NavbarButton.svelte";
@@ -26,6 +27,7 @@
     const addLabel = messages.navbar_add();
 
     let isPostCreationDialogPanelOpen = false;
+    let isSearchPanelOpen = false;
 
     onMount(() => {
         loadData();
@@ -56,8 +58,7 @@
     }
 
     function onSearchButtonClick() {
-        // Handle search button click
-        console.log("Search button clicked");
+        isSearchPanelOpen = !isSearchPanelOpen;
     }
 
     function onAddButtonClick() {
@@ -109,6 +110,7 @@
     </nav>
 
 <PostCreationDialogPanel bind:isVisible={isPostCreationDialogPanelOpen}/>
+<SearchPanel bind:isVisible={isSearchPanelOpen}/>
 
 <style lang="scss">
     #navbar-container {
@@ -121,7 +123,7 @@
         height: 80px;
         background-color: var(--main-background-color);
         border-top: 1px solid var(--second-highlight-color);
-        z-index: 10;
+        z-index: 12;
 
         @media only screen and (min-width: 1200px) {
             justify-content: flex-end;

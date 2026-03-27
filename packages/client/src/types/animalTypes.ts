@@ -10,3 +10,5 @@ export type AnimalInformations = {
     "createdAt": Date;
     "updatedAt": Date;
 }
+
+export type AnimalSearchResult = Pick<AnimalInformations, "ownerId" | "name" | "picture" | "type"> & { kind: "animal" }

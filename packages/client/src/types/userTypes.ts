@@ -22,3 +22,5 @@ export type PublicUserInformations = {
 export type UserUpdateInformations = Partial<Pick<UserInformations,
     "profilePicture" |
     "profileDescription">>
+
+export type UserSearchResult = Pick<UserInformations, "id" | "firstName" | "name" | "profilePicture"> & { kind: "user" }
