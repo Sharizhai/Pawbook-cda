@@ -39,3 +39,9 @@ if (typeof Element.prototype.animate === 'undefined') {
         } as any;
     };
 }
+
+global.ResizeObserver = class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+};

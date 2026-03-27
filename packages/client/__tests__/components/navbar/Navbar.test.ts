@@ -72,15 +72,15 @@ test("Profile button should navigate to profile page when clicked", async () => 
     expect(push).toHaveBeenCalledWith("/profile/test-user");
 });
 
-test("Search button should trigger a console.log", async () => {
-    const consoleSpy = vi.spyOn(console, "log");
+test("Search button should open the SearchPanel component", async () => {
     const { getByText } = render(Navbar);
     const searchButton = getByText("Rechercher");
-    
-    await fireEvent.click(searchButton);
-    expect(consoleSpy).toHaveBeenCalledWith("Search button clicked");
 
-    consoleSpy.mockRestore();
+    expect(document.body.querySelector(".search-panel")).not.toBeInTheDocument();
+
+    await fireEvent.click(searchButton);
+
+    expect(document.body.querySelector(".search-panel")).toBeInTheDocument();
 });
 
 test("Add button should open PostCreationDialogPanel", async () => {
