@@ -35,6 +35,15 @@
     let hasCurrentPasswordError: boolean = $derived(backendError === "Invalid password");
     let hasNewPasswordError: boolean = $derived((backendError !== "" && backendError !== "Invalid password"));
 
+    $effect(() => {
+        if(!isVisible) {
+            currentPassword = "";
+            newPassword = "";
+            confirmPassword = "";
+            passwordUpdateSuccess = false;
+        }
+    })
+
     const onSubmit = async (e: Event) => {
         e.preventDefault();
         backendError = "";
