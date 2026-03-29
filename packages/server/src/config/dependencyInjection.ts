@@ -76,6 +76,7 @@ import {UpdatePasswordUseCase} from "$application/use-cases/password/UpdatePassw
 import {SearchUserOrPetUseCase} from "$application/use-cases/search/SearchUserOrPetUseCase";
 
 import {LikeAPostUseCase} from "$application/use-cases/like/LikeAPostUseCase";
+import {UnlikeAPostUseCase} from "$application/use-cases/like/UnlikeAPostUseCase";
 
 import {NodemailerEmailServices} from "$infrastructure/mailing/nodemailerEmailServices";
 
@@ -142,6 +143,7 @@ export interface Dependencies {
     updatePasswordUseCase: UpdatePasswordUseCase;
 
     likeAPostUseCase: LikeAPostUseCase;
+    unlikeAPostUseCase: UnlikeAPostUseCase;
 }
 
 const container = createContainer<Dependencies>({
@@ -318,6 +320,9 @@ container.register({
     likeAPostUseCase: asFunction((deps: Dependencies) =>
         new LikeAPostUseCase(deps.postLikeRepository, deps.userRepository, deps.postRepository)
     ).singleton(),
+    unlikeAPostUseCase: asFunction((deps: Dependencies) =>
+        new UnlikeAPostUseCase(deps.postLikeRepository, deps.userRepository, deps.postRepository)
+    ).singleton(),
 
     // === PRESENTATION LAYER ===
     postController: asFunction((deps: Dependencies) =>
@@ -360,7 +365,9 @@ container.register({
         new SearchController(deps.searchUserOrPetUseCase)
     ),
     likeController: asFunction((deps: Dependencies) =>
-        new LikeController(deps.likeAPostUseCase)
+        new LikeController(
+            deps.likeAPostUseCase,
+            deps.unlikeAPostUseCase)
     ),
 });
 

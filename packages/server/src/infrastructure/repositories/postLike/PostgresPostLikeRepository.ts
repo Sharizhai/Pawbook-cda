@@ -58,6 +58,31 @@ export class PostgresPostLikeRepository implements IPostLikeRepository {
         }
     }
 
+    async deleteByUserAndPost(authorId: string, postId: string): Promise<boolean> {
+        try {
+            const result = await this.prisma.postLike.deleteMany({
+                where: {
+                    authorId,
+                    postId,
+                },
+            });
+            return result.count > 0;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    async exists(authorId: string, postId: string): Promise<boolean> {
+        const count = await this.prisma.postLike.count({
+            where: {
+                authorId,
+                postId,
+            },
+        });
+
+        return count > 0;
+    }
+
     async count(): Promise<number> {
         return await this.prisma.postLike.count();
     }

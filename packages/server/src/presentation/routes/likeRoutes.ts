@@ -16,5 +16,12 @@ export default function likeRoutesFactory(likeController: LikeController, middle
      */
     router.post("/:postId", middleware.isAuthenticated, likeController.likePost.bind(likeController));
 
+    /**
+     * @route DELETE /api/likes/:postId
+     * @desc Supprime une relation de like d'un utilisateur envers un post
+     * @access Protected
+     */
+    router.delete("/:postId", middleware.isAuthenticated, likeController.unlikePost.bind(likeController));
+
     return router;
 }

@@ -35,6 +35,21 @@ export class InMemoryPostLikeRepository implements IPostLikeRepository {
         return false;
     }
 
+    deleteByUserAndPost(authorId: string, postId: string): Promise<boolean> {
+        const index = this.postlikes.findIndex(follow => follow.authorId === authorId && follow.postId === postId);
+
+        if (index === -1) return Promise.resolve(false);
+
+        this.postlikes.splice(index, 1);
+
+        return Promise.resolve(true);
+    }
+
+    exists(authorId: string, postId: string): Promise<boolean> {
+        const postLike = this.postlikes.find(like => like.authorId === authorId && like.postId === postId);
+        return Promise.resolve(!!postLike);
+    }
+
     async count(): Promise<number> {
         return Promise.resolve(this.postlikes.length);
     }

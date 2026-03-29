@@ -42,6 +42,22 @@ export interface IPostLikeRepository {
     delete(id: string): Promise<boolean>;
 
     /**
+     * Supprime un like entre un user et un post
+     * @param authorId - ID du user
+     * @param postId - ID du post
+     * @returns True si suppression réussie
+     */
+    deleteByUserAndPost(authorId: string, postId: string): Promise<boolean>;
+
+    /**
+     * Vérifie si un utilisateur like un post
+     * @param authorId - ID du user
+     * @param postId - ID du post
+     * @returns True si le like existe
+     */
+    exists(authorId: string, postId: string): Promise<boolean>;
+
+    /**
      * Compte le nombre total de likes
      * @returns Nombre de likes
      */
