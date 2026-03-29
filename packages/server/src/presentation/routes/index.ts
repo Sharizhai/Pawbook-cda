@@ -19,6 +19,8 @@ import {PostReportController} from "$presentation/controllers/postReportControll
 import postReportRoutesFactory from "$presentation/routes/postReportRoutes";
 import {SearchController} from "$presentation/controllers/searchController";
 import searchRoutesFactory from "$presentation/routes/searchRoutes";
+import {LikeController} from "$presentation/controllers/likeController";
+import likeRoutesFactory from "$presentation/routes/likeRoutes";
 
 /**
  * Interface pour les statistiques de santé de l"API
@@ -48,6 +50,7 @@ interface ApiInfo {
         postReports: string;
         photos: string;
         search: string;
+        likes: string;
     };
     documentation?: string;
 }
@@ -74,6 +77,7 @@ export const setupRoutes = (app: express.Application): void => {
     const postReportController = container.resolve<PostReportController>("postReportController");
     const photoController = container.resolve<PhotoController>("photoController");
     const searchController = container.resolve<SearchController>("searchController");
+    const likeController = container.resolve<LikeController>("likeController");
 
     // Routes principales
     app.use("/api/auth", authRoutesFactory(authController, { isAuthenticated }));
@@ -84,6 +88,7 @@ export const setupRoutes = (app: express.Application): void => {
     app.use("/api/post-reports", postReportRoutesFactory(postReportController, {isAuthenticated, isAdminOrModerator}));
     app.use("/api/photos", photoRoutesFactory(photoController, {isAuthenticated}));
     app.use("/api/search", searchRoutesFactory(searchController, {isAuthenticated}));
+    app.use("/api/likes", likeRoutesFactory(likeController, {isAuthenticated}));
 
     // Route de base pour vérifier que l"API fonctionne
     app.get("/api", (req: express.Request, res: express.Response) => {
@@ -100,6 +105,7 @@ export const setupRoutes = (app: express.Application): void => {
                 postReports: "/api/post-reports",
                 photos: "/api/photos",
                 search: "/api/search",
+                likes: "/api/likes",
             },
             documentation:
                 process.env.NODE_ENV === "development"
@@ -191,6 +197,9 @@ export const setupRoutes = (app: express.Application): void => {
                         },
                         search: {
                             searchUserOrPet: "GET /search",
+                        },
+                        likes: {
+                            likePost: "POST /likes/:postId",
                         },
                         utility: {
                             health: "GET /health",

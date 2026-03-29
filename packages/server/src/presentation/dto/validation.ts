@@ -109,6 +109,11 @@ export const passwordUpdateValidation = z.object({
     path: ["newPassword"]
 });
 
+export const postLikeValidation = z.object({
+    authorId: z.string().uuid({ error: "userId must be a valid UUID" }),
+    postId: z.string().uuid({ error: "postId must be a valid UUID" })
+});
+
 export type LoginDto = z.infer<typeof loginValidation>;
 export type UserCreationDto = z.infer<typeof userCreationValidation>;
 export type UserUpdateDto = z.infer<typeof userUpdateValidation>;
@@ -118,3 +123,4 @@ export type FollowCreationDto = z.infer<typeof followCreationValidation>;
 export type FollowDeletionDto = z.infer<typeof followDeletionValidation>;
 export type PostReportCreationDto = z.infer<typeof postReportCreationValidation>;
 export type PasswordUpdateDto = z.infer<typeof passwordUpdateValidation>;
+export type PostLikeDto = z.infer<typeof postLikeValidation>;

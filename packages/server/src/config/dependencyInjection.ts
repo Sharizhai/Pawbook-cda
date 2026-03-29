@@ -9,6 +9,7 @@ import {IUserRepository} from "$domain/interfaces/repositories/userRepository.in
 import {IPostRepository} from "$domain/interfaces/repositories/postRepository.interface";
 import {IFollowRepository} from "$domain/interfaces/repositories/followRepository.interface";
 import {IPostReportRepository} from "$domain/interfaces/repositories/reports/postReportRepository.interface";
+import {IPostLikeRepository} from "$domain/interfaces/repositories/like/postLikeRepository.interface";
 import {IEmailServices} from "$domain/interfaces/emailServices.interface";
 import {IAuthServices} from "$domain/interfaces/authServices.interface";
 import {IJwtServices} from "$domain/interfaces/jwtServices.interface";
@@ -36,6 +37,9 @@ import {PostgresFollowRepository} from "$infrastructure/repositories/follow/Post
 import {InMemoryPostReportRepository} from "$infrastructure/repositories/postReport/inMemoryPostReportRepository";
 import {PostgresPostReportRepository} from "$infrastructure/repositories/postReport/PostgresPostReportRepository";
 
+import {InMemoryPostLikeRepository} from "$infrastructure/repositories/postLike/InMemoryPostLikeRepository";
+import {PostgresPostLikeRepository} from "$infrastructure/repositories/postLike/PostgresPostLikeRepository";
+
 import {InMemoryPhotosStorageServices} from "$infrastructure/storage/inMemoryPhotoStorageServices";
 import {CloudinaryStorageServices} from "$infrastructure/storage/cloudinaryStorageServices";
 
@@ -46,6 +50,7 @@ import {AnimalController} from "$presentation/controllers/animalController";
 import {FollowController} from "$presentation/controllers/followController";
 import {PostReportController} from "$presentation/controllers/postReportController";
 import {SearchController} from "$presentation/controllers/searchController";
+import {LikeController} from "$presentation/controllers/likeController";
 
 import {GetAllPostsByAuthorIdUseCase} from "$application/use-cases/post/GetAllPostsByAuthorIdUseCase";
 import {GetAllPostsUseCase} from "$application/use-cases/post/GetAllPostsUseCase";
@@ -69,6 +74,8 @@ import {UploadProfilePictureUseCase} from "$application/use-cases/pictures/uploa
 import {UpdatePasswordUseCase} from "$application/use-cases/password/UpdatePasswordUseCase";
 
 import {SearchUserOrPetUseCase} from "$application/use-cases/search/SearchUserOrPetUseCase";
+
+import {LikeAPostUseCase} from "$application/use-cases/like/LikeAPostUseCase";
 
 import {NodemailerEmailServices} from "$infrastructure/mailing/nodemailerEmailServices";
 
@@ -100,6 +107,7 @@ export interface Dependencies {
     animalRepository: IAnimalRepository;
     followRepository: IFollowRepository;
     postReportRepository: IPostReportRepository;
+    postLikeRepository: IPostLikeRepository;
 
     postController: PostController;
     userController: UserController;
@@ -108,6 +116,7 @@ export interface Dependencies {
     followController: FollowController;
     postReportController: PostReportController;
     searchController: SearchController;
+    likeController: LikeController;
 
     getAllPostsByAuthorIdUseCase: GetAllPostsByAuthorIdUseCase;
     getAllPostsUseCase: GetAllPostsUseCase;
@@ -131,6 +140,8 @@ export interface Dependencies {
     searchUserOrPetUseCase: SearchUserOrPetUseCase;
 
     updatePasswordUseCase: UpdatePasswordUseCase;
+
+    likeAPostUseCase: LikeAPostUseCase;
 }
 
 const container = createContainer<Dependencies>({
@@ -179,6 +190,10 @@ const postReportRepositoryClass = env.NODE_ENV === "test"
     ? InMemoryPostReportRepository
     : PostgresPostReportRepository;
 
+const postLikeRepositoryClass = env.NODE_ENV === "test"
+    ? InMemoryPostLikeRepository
+    : PostgresPostLikeRepository;
+
 const photoStorageServiceClass = (env.NODE_ENV === "test"
     ? InMemoryPhotosStorageServices
     : CloudinaryStorageServices) as Constructor<IPhotoStorageService>;
@@ -210,6 +225,7 @@ container.register({
     animalRepository: asFunction(() => new animalRepositoryClass(prisma)).singleton(),
     followRepository: asFunction(() => new followRepositoryClass(prisma)).singleton(),
     postReportRepository: asFunction(() => new postReportRepositoryClass(prisma)).singleton(),
+    postLikeRepository: asFunction(() => new postLikeRepositoryClass(prisma)).singleton(),
     argon2Services: asClass(Argon2Services).singleton(),
     photoStorageServices: asClass(photoStorageServiceClass).singleton(),
     emailServices: asClass(NodemailerEmailServices).singleton(),
@@ -298,6 +314,11 @@ container.register({
         new SearchUserOrPetUseCase(deps.userRepository, deps.animalRepository)
     ).singleton(),
 
+    // *** LIKE ***
+    likeAPostUseCase: asFunction((deps: Dependencies) =>
+        new LikeAPostUseCase(deps.postLikeRepository, deps.userRepository, deps.postRepository)
+    ).singleton(),
+
     // === PRESENTATION LAYER ===
     postController: asFunction((deps: Dependencies) =>
         new PostController(
@@ -337,6 +358,9 @@ container.register({
     ),
     searchController: asFunction((deps: Dependencies) =>
         new SearchController(deps.searchUserOrPetUseCase)
+    ),
+    likeController: asFunction((deps: Dependencies) =>
+        new LikeController(deps.likeAPostUseCase)
     ),
 });
 

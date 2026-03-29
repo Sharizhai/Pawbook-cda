@@ -46,6 +46,6 @@ export class InMemoryLikeRepository implements ILikeRepository {
     }
 
     async countByAuthorId(authorId: string): Promise<number> {
-        return Promise.resolve(this.likes.filter(like => like.postId === authorId).length);
+        return Promise.resolve(this.likes.filter(like => like.authorId === authorId).length);
     }
 }
