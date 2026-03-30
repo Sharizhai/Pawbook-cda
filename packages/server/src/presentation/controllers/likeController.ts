@@ -48,7 +48,7 @@ export class LikeController {
 
             const unlike = await this.unlikeAPostUseCase.execute(unlikeData);
 
-            return APIResponse(res, null, "Like supprimé avec succès", 204);
+            return APIResponse(res, null, "Like supprimé avec succès", 200);
         } catch (error) {
             const status = getHttpStatus(error);
             const message = error instanceof Error ? error.message : "Unlike error";

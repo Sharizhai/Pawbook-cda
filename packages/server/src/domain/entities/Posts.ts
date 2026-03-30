@@ -16,6 +16,7 @@ export interface PostData {
     };
     textContent?: string;
     photoContent?: string[];
+    likeCount?: number;
     reportCount: number;
     moderationStatus: "NONE" | "PENDING" | "APPROVED" | "REJECTED";
     updated?: boolean;
@@ -34,6 +35,7 @@ export class Post {
     };
     public readonly textContent?: string;
     public readonly photoContent?: string[];
+    public readonly likeCount?: number;
     public readonly reportCount: number;
     public readonly moderationStatus: "NONE" | "PENDING" | "APPROVED" | "REJECTED";
     public readonly updated?: boolean;
@@ -46,6 +48,7 @@ export class Post {
         this.author = data.author;
         this.textContent = data.textContent;
         this.photoContent = data.photoContent ? [...data.photoContent] : [];
+        this.likeCount = data.likeCount ?? 0;
         this.reportCount = data.reportCount;
         this.moderationStatus = data.moderationStatus;
         this.updated = data.updated;

@@ -13,6 +13,9 @@ export class PostgresPostRepository implements IPostRepository {
                 firstName: true,
                 profilePicture: true
             }
+        },
+        _count: {
+            select: { postLikes: true }
         }
     } as const;
 
@@ -131,6 +134,7 @@ export class PostgresPostRepository implements IPostRepository {
                 : undefined,
             textContent: prismaPost.textContent ?? undefined,
             photoContent: prismaPost.photoContent ?? [],
+            likeCount: prismaPost._count?.postLikes ?? 0,
             reportCount: prismaPost.reportCount,
             moderationStatus: prismaPost.moderationStatus,
             createdAt: prismaPost.createdAt,
