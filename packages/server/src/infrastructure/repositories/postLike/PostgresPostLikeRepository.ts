@@ -100,7 +100,7 @@ export class PostgresPostLikeRepository implements IPostLikeRepository {
     }
 
     /**
-     * Convertit un follow Prisma en entité Follow du domaine
+     * Convertit un like Prisma en entité Like du domaine
      */
     private toDomain(prismaPostLike: any): PostLike {
         return new PostLike({
