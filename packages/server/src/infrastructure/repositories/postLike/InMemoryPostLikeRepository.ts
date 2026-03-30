@@ -8,6 +8,10 @@ export class InMemoryPostLikeRepository implements IPostLikeRepository {
         return this.postlikes.filter(like => like.postId === postId);
     }
 
+    async findAllByAuthorId(authorId: string): Promise<PostLike[]> {
+        return this.postlikes.filter(like => like.authorId === authorId);
+    }
+
     async findById(id: string): Promise<PostLike | null> {
         const like = this.postlikes.find(like => like.id === id);
 

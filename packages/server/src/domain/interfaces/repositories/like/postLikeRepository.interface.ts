@@ -13,6 +13,13 @@ export interface IPostLikeRepository {
     findAllByPostId(postId: string): Promise<PostLike[]>;
 
     /**
+     * Récupère tous les likes d'un user donné
+     * @param authorId - ID de l'auteur du like
+     * @returns Likes trouvés ou array vide
+     */
+    findAllByAuthorId(authorId: string): Promise<PostLike[]>;
+
+    /**
      * Récupère un like par son ID
      * @param id - ID du like
      * @returns Like trouvé ou null

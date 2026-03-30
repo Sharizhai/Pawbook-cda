@@ -77,6 +77,7 @@ import {SearchUserOrPetUseCase} from "$application/use-cases/search/SearchUserOr
 
 import {LikeAPostUseCase} from "$application/use-cases/like/LikeAPostUseCase";
 import {UnlikeAPostUseCase} from "$application/use-cases/like/UnlikeAPostUseCase";
+import {GetAllPostLikesByAuthorUseCase} from "$application/use-cases/like/GetAllPostLikesByAuthorUseCase";
 
 import {NodemailerEmailServices} from "$infrastructure/mailing/nodemailerEmailServices";
 
@@ -144,6 +145,7 @@ export interface Dependencies {
 
     likeAPostUseCase: LikeAPostUseCase;
     unlikeAPostUseCase: UnlikeAPostUseCase;
+    getAllPostLikesByAuthorUseCase: GetAllPostLikesByAuthorUseCase;
 }
 
 const container = createContainer<Dependencies>({
@@ -323,6 +325,9 @@ container.register({
     unlikeAPostUseCase: asFunction((deps: Dependencies) =>
         new UnlikeAPostUseCase(deps.postLikeRepository, deps.userRepository, deps.postRepository)
     ).singleton(),
+    getAllPostLikesByAuthorUseCase: asFunction((deps: Dependencies) =>
+        new GetAllPostLikesByAuthorUseCase(deps.postLikeRepository, deps.userRepository, deps.postRepository)
+    ).singleton(),
 
     // === PRESENTATION LAYER ===
     postController: asFunction((deps: Dependencies) =>
@@ -367,7 +372,8 @@ container.register({
     likeController: asFunction((deps: Dependencies) =>
         new LikeController(
             deps.likeAPostUseCase,
-            deps.unlikeAPostUseCase)
+            deps.unlikeAPostUseCase,
+            deps.getAllPostLikesByAuthorUseCase)
     ),
 });
 

@@ -1,3 +1,4 @@
+import {GetAllPostLikesByAuthorUseCase} from "$application/use-cases/like/GetAllPostLikesByAuthorUseCase";
 import {UnlikeAPostUseCase} from "$application/use-cases/like/UnlikeAPostUseCase";
 import {LikeAPostUseCase} from "$application/use-cases/like/LikeAPostUseCase";
 import {getHttpStatus} from "$presentation/errors/httpErrorMapper";
@@ -11,7 +12,8 @@ import {Request, Response} from "express";
 export class LikeController {
     constructor(
         private readonly likeAPostUseCase: LikeAPostUseCase,
-        private readonly unlikeAPostUseCase: UnlikeAPostUseCase
+        private readonly unlikeAPostUseCase: UnlikeAPostUseCase,
+        private readonly getAllPostLikesByAuthorUseCase: GetAllPostLikesByAuthorUseCase
     ) {}
 
     /**
@@ -52,6 +54,25 @@ export class LikeController {
         } catch (error) {
             const status = getHttpStatus(error);
             const message = error instanceof Error ? error.message : "Unlike error";
+
+            return APIResponse(res, null, message, status);
+        }
+    }
+
+    async getAllPostLikesByAuthorId(req: Request, res: Response) {
+        try {
+            const authorId = req.params.authorId as string;
+
+            if (!authorId) {
+                return APIResponse(res, null, "Invalid authorId parameter", 400);
+            }
+
+            const postLikes = await this.getAllPostLikesByAuthorUseCase.execute(authorId);
+
+            return APIResponse(res, postLikes, "Likes récupérés avec succès", 200);
+        } catch (error) {
+            const status = getHttpStatus(error);
+            const message = error instanceof Error ? error.message : "Like error";
 
             return APIResponse(res, null, message, status);
         }

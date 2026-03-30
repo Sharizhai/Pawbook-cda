@@ -13,6 +13,14 @@ export class PostgresPostLikeRepository implements IPostLikeRepository {
         return postLikes.map(postLike => this.toDomain(postLike));
     }
 
+    async findAllByAuthorId(authorId: string): Promise<PostLike[]> {
+        const postLikes = await this.prisma.postLike.findMany({
+            where: { authorId },
+        });
+
+        return postLikes.map(postLike => this.toDomain(postLike));
+    }
+
     async findById(id: string): Promise<PostLike | null> {
         const postlike = await this.prisma.postLike.findUnique({
             where: { id },

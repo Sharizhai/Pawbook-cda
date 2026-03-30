@@ -23,5 +23,12 @@ export default function likeRoutesFactory(likeController: LikeController, middle
      */
     router.delete("/:postId", middleware.isAuthenticated, likeController.unlikePost.bind(likeController));
 
+    /**
+     * @route GET /api/likes/:id
+     * @desc Récupère tous les likes de post d'un user à l'aide de son ID
+     * @access Protected
+     */
+    router.get("/:id", middleware.isAuthenticated, likeController.getAllPostLikesByAuthorId.bind(likeController));
+
     return router;
 }
