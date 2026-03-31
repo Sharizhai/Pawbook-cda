@@ -19,7 +19,7 @@
     import * as messages from "$lib/paraglide/messages";
     import {ProfileTab} from "$types/profileTabsTypes";
     import {profileTabs} from "$config/profileTabsUI";
-    import { user } from "$stores/stores.svelte";
+    import {post, user} from "$stores/stores.svelte";
     import {like} from "$stores/stores.svelte";
 
     const emptyPostIncentive = messages.profile_tab_posts_incentive();
@@ -33,10 +33,9 @@
 
     let activeTab = $state(ProfileTab.Animals);
 
-    let profilePosts = $state<any[]>([]);
     let profileAnimals = $state<any[]>([]);
 
-    let hasNoPosts = $derived(profilePosts.length === 0);
+    let hasNoPosts = $derived(post.posts.length === 0);
     let hasAnimals = $derived(profileAnimals.length > 0);
 
     let profileUserId = $state<string | undefined>(undefined);
@@ -115,12 +114,11 @@
                 fetchAllpostLikesByAuthorId()
             ]);
 
-            profilePosts = postsResult.posts || [];
+            post.setPosts(postsResult.posts || []);
             profileAnimals = animalsResult.animals || [];
             like.setLikes(likesResult);
         } catch (error) {
             console.error("Error loading profile:", error);
-            profilePosts = [];
             profileAnimals = [];
         }
     }
@@ -137,8 +135,8 @@
                         <Button label={addNewPostButtonLabel} onClick={onCreateFirstPostButtonClick} isCTA />
                     {/if}
 
-                    {#each profilePosts as post (post.id)}
-                        <PostCard postData={post}/>
+                    {#each post.posts as p (p.id)}
+                        <PostCard postData={p}/>
                     {/each}
                 {/if}
             </div>
