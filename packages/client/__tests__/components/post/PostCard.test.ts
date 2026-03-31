@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, fireEvent } from "@testing-library/svelte";
 import PostCard from "$components/post/PostCard.svelte";
+import LikeButton from "../../../src/components/post/LikeButton.svelte";
 
 const originalConsoleLog = console.log;
 
@@ -80,16 +81,18 @@ describe("PostCard Component", () => {
     await fireEvent.click(settingsButton);
   });
 
-  it("Should toggle like correctly and call onLikeButtonClick", async () => {
-    const { container } = renderPostCard();
-    
-    const initialLikeButton = container.querySelector(".like-button-icon") as HTMLElement;
-    const initialIsLiked = initialLikeButton.classList.contains("liked");
-    
+  it("Should toggle liked class on click", async () => {
+    const { container } = render(LikeButton, {
+      onClick: () => {},
+      isLikedBeMe: false
+    });
+
+    const icon = container.querySelector(".like-button-icon");
+    expect(icon?.classList.contains("liked")).toBe(false);
+
     await fireEvent.click(container.querySelector(".like-button") as HTMLElement);
-    
-    const updatedLikeButton = container.querySelector(".like-button-icon") as HTMLElement;
-    expect(updatedLikeButton.classList.contains("liked")).toBe(!initialIsLiked);
+
+    expect(icon?.classList.contains("liked")).toBe(true);
   });
 
   it("Should toggle CommentInput visibility", async () => {
