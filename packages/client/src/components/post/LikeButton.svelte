@@ -37,7 +37,6 @@
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
-        width: 100%;
         gap: 1rem;
     }
     

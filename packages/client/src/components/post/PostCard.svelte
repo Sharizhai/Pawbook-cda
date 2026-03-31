@@ -176,12 +176,11 @@
     .postcard-buttons-container {
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
         width: 100%;
         margin-top: 1rem;
         padding-top: 0.5rem;
-        gap: 1rem;
         border-top: 1px solid rgba(30, 138, 182, 0.2);
     }
     
