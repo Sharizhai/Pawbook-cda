@@ -15,8 +15,8 @@ export type PostInformations = {
     } | string;
     textContent?: string;
     photoContent?: string[];
-    likes: string[];
     comments: string[];
+    likeCount?: number;
     reportCount: number;
     moderationStatus: PostModerationStatus;
     updated?: boolean;

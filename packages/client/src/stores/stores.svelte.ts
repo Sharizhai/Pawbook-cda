@@ -5,6 +5,7 @@ import {createAnimalSlice} from "$stores/animalStore.svelte";
 import {createFollowSlice} from "$stores/followStore.svelte";
 import {createPostReportsSlice} from "$stores/postReportsStore.svelte";
 import {createEditableSlice} from "$stores/editionStore.svelte";
+import {createLikeSlice} from "$stores/likeStore.svelte";
 
 export const app = createAppSlice();
 
@@ -19,3 +20,5 @@ export const follow = createFollowSlice();
 export const postReport = createPostReportsSlice();
 
 export const edition = createEditableSlice();
+
+export const like = createLikeSlice();

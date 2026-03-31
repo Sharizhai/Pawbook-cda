@@ -28,7 +28,7 @@ export default function likeRoutesFactory(likeController: LikeController, middle
      * @desc Récupère tous les likes de post d'un user à l'aide de son ID
      * @access Protected
      */
-    router.get("/:id", middleware.isAuthenticated, likeController.getAllPostLikesByAuthorId.bind(likeController));
+    router.get("/", middleware.isAuthenticated, likeController.getAllPostLikesByAuthorId.bind(likeController));
 
     return router;
 }

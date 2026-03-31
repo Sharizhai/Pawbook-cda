@@ -8,6 +8,7 @@
     import EmptyContentCTA from "$components/profile/EmptyContentCTA.svelte";
     import { getUserInformations } from "$services/userServices.svelte";
     import {fetchPostsByAuthorId} from "$services/postsServices.svelte";
+    import {fetchAllpostLikesByAuthorId} from "$services/likeServices";
     import ProfileCard from "$components/profile/ProfileCard.svelte";
     import ProfileTabs from "$components/profile/ProfileTabs.svelte";
     import {fetchAnimalsByOwnerId} from "$services/animalServices";
@@ -18,7 +19,8 @@
     import * as messages from "$lib/paraglide/messages";
     import {ProfileTab} from "$types/profileTabsTypes";
     import {profileTabs} from "$config/profileTabsUI";
-    import { user } from "\$stores/stores.svelte";
+    import { user } from "$stores/stores.svelte";
+    import {like} from "$stores/stores.svelte";
 
     const emptyPostIncentive = messages.profile_tab_posts_incentive();
     const emptyPostButtonLabel = messages.profile_tab_first_post();
@@ -107,13 +109,15 @@
         if (!profileUserId) return;
 
         try {
-            const [postsResult, animalsResult] = await Promise.all([
+            const [postsResult, animalsResult, likesResult] = await Promise.all([
                 fetchPostsByAuthorId(1, 10, profileUserId),
-                fetchAnimalsByOwnerId(0, 10, profileUserId)
+                fetchAnimalsByOwnerId(0, 10, profileUserId),
+                fetchAllpostLikesByAuthorId()
             ]);
 
             profilePosts = postsResult.posts || [];
             profileAnimals = animalsResult.animals || [];
+            like.setLikes(likesResult);
         } catch (error) {
             console.error("Error loading profile:", error);
             profilePosts = [];
@@ -134,7 +138,7 @@
                     {/if}
 
                     {#each profilePosts as post (post.id)}
-                        <PostCard {post}/>
+                        <PostCard postData={post}/>
                     {/each}
                 {/if}
             </div>

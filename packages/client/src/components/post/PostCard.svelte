@@ -3,16 +3,18 @@
     import type {QuickActionsMenuActionProperties} from "$types/quickActionsMenuTypes";
     import ReportDialogPanel from "$components/dialogPanels/ReportDialogPanel.svelte";
     import SettingsButton from "$components/generic/SettingsButton.svelte";
+    import {createPostReport} from "$services/postReportsServices.svelte";
+    import {createLike, deleteLike} from "$services/likeServices";
     import LikeButton from "$components/post/LikeButton.svelte";
     import TopContainerInfos from "./TopContainerInfos.svelte";
+    import {PostReportReason} from "$types/postReportTypes";
     import type {PostInformations} from "$types/postTypes";
+    import {user, like, post} from "$stores/stores.svelte";
     import * as messages from "$lib/paraglide/messages";
     import CommentInput from "./CommentInput.svelte";
     import PostContent from "./PostContent.svelte";
-    import {user} from "\$stores/stores.svelte";
     import {push} from "svelte-spa-router";
-    import {createPostReport} from "$services/postReportsServices.svelte";
-    import {PostReportReason} from "$types/postReportTypes";
+    import {onMount} from "svelte";
 
     import commentIcon from "$assets/icons/posts/comment.svg?raw";
     import reportIcon from "$assets/icons//posts/report.svg?raw";
@@ -24,13 +26,13 @@
     const deletePostLabel = messages.post_card_settings_delete();
     const reportPostLabel = messages.post_card_settings_report();
 
-    let { post } : { post : PostInformations } = $props();
+    let { postData } : { postData : PostInformations } = $props();
 
-    const author = $derived(typeof post.authorId === 'object' ? post.authorId : null);
+    const author = $derived(typeof postData.authorId === 'object' ? postData.authorId : null);
     const isOwnPost = $derived(
-        typeof post.authorId === 'object'
-            ? post.authorId.id === user.information.id
-            : post.authorId === user.information.id
+        typeof postData.authorId === 'object'
+            ? postData.authorId.id === user.information.id
+            : postData.authorId === user.information.id
     );
 
     let isCommentInputVisible = $state(false);
@@ -64,13 +66,27 @@
 
     let quickActionsMenuToDisplay: QuickActionsMenuActionProperties[] = $derived(isOwnPost ? selfSettingsQuickActionsMenuActionProperties : otherSettingsQuickActionsMenuActionProperties);
 
+    onMount(async () => {
+        // like.setLikes(likes);
+    });
+
     function onSettingsButtonClick(event: MouseEvent) {
         settingsButtonElement = event.currentTarget as HTMLElement;
         isQuickActionsMenuVisible = !isQuickActionsMenuVisible;
     }
 
-    function onLikeButtonClick() {
-        console.log("Like button clicked!");
+    async function onLikeButtonClick(postId: string) {
+        try {
+            if (like.isLikingPost(postId)) {
+                await deleteLike(postId);
+                post.updatePost(postId, { likeCount: (post.posts.find(p => p.id === postId)?.likeCount ?? 1) - 1 });
+            } else {
+                await createLike(postId);
+                post.updatePost(postId, { likeCount: (post.posts.find(p => p.id === postId)?.likeCount ?? 0) + 1 });
+            }
+        } catch (error) {
+            console.error("Error liking post:", error);
+        }
     }
 
     function onCommentButtonClick() {
@@ -100,7 +116,7 @@
 
     async function onSubmitReportDialogPanelButtonClick(reason: PostReportReason, description?: string) {
         try {
-            await createPostReport(post.id, user.information.id, reason, description);
+            await createPostReport(postData.id, user.information.id, reason, description);
             isReportDialogPanelVisible = false;
         } catch (error) {
             console.error("Error submitting report:", error);
@@ -113,11 +129,11 @@
 
         <TopContainerInfos profilePicture={author?.profilePicture || "/paws.png"}
                            firstName={author?.firstName} lastName={author?.name}
-                           postCreationDate={new Date(post.createdAt)} onNameClick={onTopContainerNameButtonClick}/>
-        <PostContent textContent={post.textContent} imageContent={post.photoContent}/>
+                           postCreationDate={new Date(postData.createdAt)} onNameClick={onTopContainerNameButtonClick}/>
+        <PostContent textContent={postData.textContent} imageContent={postData.photoContent}/>
 
         <div class="postcard-buttons-container">
-            <LikeButton onClick={onLikeButtonClick} likeCount={post.likes.length}/>
+            <LikeButton onClick={() => onLikeButtonClick(postData.id)} isLikedBeMe={like.isLikingPost(postData.id)} likeCount={postData.likeCount}/>
 
             <button class="postcard-button postcard-comment-button" onclick={onCommentButtonClick}>
                 <span class="postcard-button-icon">{@html commentIcon}</span>

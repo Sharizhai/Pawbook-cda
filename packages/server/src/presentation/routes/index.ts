@@ -201,7 +201,7 @@ export const setupRoutes = (app: express.Application): void => {
                         likes: {
                             likePost: "POST /likes/:postId",
                             unlikePost: "DELETE /likes/:postId",
-                            getAllPostLikesByAuthorId: "GET /likes/:id",
+                            getAllPostLikesByAuthorId: "GET /likes",
                         },
                         utility: {
                             health: "GET /health",

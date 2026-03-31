@@ -4,22 +4,29 @@
     import filledLikeIcon from "$assets/icons/posts/like-fill.svg?raw";
     import likeIcon from "$assets/icons/posts/like.svg?raw";
 
-    let { onClick, likeCount } : { onClick: MouseEventHandler<HTMLButtonElement>, likeCount?: string[] } = $props();
-    let isLikedBeMe = $state(false);
+    let {
+        onClick,
+        likeCount,
+        isLikedBeMe
+    } : {
+        onClick: () => void,
+        likeCount?: number,
+        isLikedBeMe?: boolean
+    } = $props();
 
     function onLikeButtonClick(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
         event.stopPropagation();
         isLikedBeMe = !isLikedBeMe;
-        onClick && onClick(event);
+        onClick && onClick();
     }
 
 </script>
 
     <div class="like-button-container">
         <button class="like-button" onclick={onLikeButtonClick}>
-            <span class="like-button-icon {isLikedBeMe ? 'liked' : ''}">{@html isLikedBeMe ? filledLikeIcon : likeIcon}</span>
-            {#if likeCount}
-                <span class="like-button-count">{likeCount}</span>
+            <span class="like-button-icon" class:liked={isLikedBeMe}>{@html isLikedBeMe ? filledLikeIcon : likeIcon}</span>
+            {#if likeCount !== undefined && likeCount > 0}
+                <span class="like-button-count" class:liked={isLikedBeMe}>{likeCount}</span>
             {/if}
         </button>
     </div>
@@ -61,9 +68,13 @@
         }
 
         &-count {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             font-weight: bold;
-            color: var(--color-like);
+            color: var(--main-text-color);
+
+            &.liked {
+                color: var(--color-like);
+            }
         }
     }
 

@@ -61,7 +61,7 @@ export class LikeController {
 
     async getAllPostLikesByAuthorId(req: Request, res: Response) {
         try {
-            const authorId = req.params.authorId as string;
+            const authorId = req.user.id;
 
             if (!authorId) {
                 return APIResponse(res, null, "Invalid authorId parameter", 400);

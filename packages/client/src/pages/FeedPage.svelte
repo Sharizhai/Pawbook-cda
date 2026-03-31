@@ -3,19 +3,23 @@
 </svelte:head>
 
 <script lang="ts">
+    import {fetchAllpostLikesByAuthorId} from "$services/likeServices";
+    import {setupInfiniteScroll} from "$utils/infiniteScrollUtils";
     import {fetchAllPosts} from "$services/postsServices.svelte";
     import NavHeader from "$components/navbar/NavHeader.svelte";
     import PostCard from "$components/post/PostCard.svelte";
+    import {like, post, user} from "$stores/stores.svelte";
     import Navbar from "$components/navbar/Navbar.svelte";
     import {onMount} from "svelte";
-    import {post} from "$stores/stores.svelte";
-    import {setupInfiniteScroll} from "$utils/infiniteScrollUtils";
 
     let isLoading = $state(true);
     let error = $state<string | null>(null);
 
+    $inspect(user.information.id);
+
     onMount(() => {
         loadInitialPosts();
+        getPostLikes();
 
         const cleanup = setupInfiniteScroll({threshold: 300, loadMorePosts: loadMorePosts });
 
@@ -57,6 +61,12 @@
             isLoading = false;
         }
     }
+
+    async function getPostLikes() {
+        fetchAllpostLikesByAuthorId().then(likes => {
+            like.setLikes(likes);
+        });
+    }
 </script>
 
     <main id="feed-page-container">
@@ -65,7 +75,7 @@
 
         <div class="feed-page-postcard-container">
             {#each post.posts as postItem (postItem.id)}
-                <PostCard post={postItem} />
+                <PostCard postData={postItem} />
             {/each}
         </div>
 

@@ -20,7 +20,7 @@ const mockPost = {
 };
 
 function renderPostCard() {
-    return render(PostCard, { post: mockPost });
+    return render(PostCard, { postData: mockPost });
 }
 
 describe("PostCard Component", () => {
@@ -43,7 +43,7 @@ describe("PostCard Component", () => {
     expect(container.querySelector(".postcard-buttons-container")).not.toBeNull();
   });
 
-  it("Should display iuser infos", () => {
+  it("Should display user infos", () => {
     const { container } = renderPostCard();
     
     const userAvatar = container.querySelector(".postcard-user-avatar") as HTMLImageElement;
@@ -90,7 +90,6 @@ describe("PostCard Component", () => {
     
     const updatedLikeButton = container.querySelector(".like-button-icon") as HTMLElement;
     expect(updatedLikeButton.classList.contains("liked")).toBe(!initialIsLiked);
-    expect(console.log).toHaveBeenCalledWith("Like button clicked!");
   });
 
   it("Should toggle CommentInput visibility", async () => {
