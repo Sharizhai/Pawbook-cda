@@ -15,8 +15,6 @@
     let isLoading = $state(true);
     let error = $state<string | null>(null);
 
-    $inspect(user.information.id);
-
     onMount(() => {
         loadInitialPosts();
         getPostLikes();
