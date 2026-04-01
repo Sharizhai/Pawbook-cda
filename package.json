@@ -12,6 +12,12 @@
   "pnpm": {
     "overrides": {
       "effect": ">=3.20.0"
+    },
+    "neverBuiltDependencies": [],
+    "supportedArchitectures": {
+      "os": ["win32", "linux", "darwin"],
+      "cpu": ["x64", "arm64"],
+      "libc": ["glibc", "musl"]
     }
   },
   "workspaces": [
