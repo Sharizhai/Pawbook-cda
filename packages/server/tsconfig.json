@@ -11,7 +11,7 @@
     "outDir": "./dist",
     "module": "Node16",
     "rootDir": "./src",
-//    "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": true,
     "paths": {
       "$application/*": ["./src/application/*"],
       "$config/*": ["./src/config/*"],
