@@ -11,43 +11,32 @@ commands:
     steps:
       - run:
           name: Install pnpm
-          command: |
-            sudo npm install -g pnpm@10.11.0
-            pnpm config set store-dir ~/.pnpm-store
+          command: sudo npm install -g pnpm@10.11.0
 
   restore-dependencies:
     description: "Restaurer le cache des dépendances"
     steps:
       - restore_cache:
           keys:
-            - pnpm-store-v1-{{ checksum "pnpm-lock.yaml" }}
-            - pnpm-store-v1-
+            - pnpm-packages-v1-{{ checksum "pnpm-lock.yaml" }}
+            - pnpm-packages-v1-
 
   install-dependencies:
     description: "Installer les dépendances du monorepo"
     steps:
       - run:
           name: Install dependencies
-          command: |
-            pnpm install --frozen-lockfile
-            pnpm rebuild rolldown
-      - run:
-          name: Debug versions
-          command: |
-            echo "=== pnpm store path ==="
-            pnpm store path
-            echo "=== rolldown binding ==="
-            ls node_modules/.pnpm/ | grep rolldown
-            echo "=== jsdom version ==="
-            cat node_modules/.pnpm/lock.yaml | grep jsdom || echo "not found"
-            find node_modules/.pnpm -name "*.node" | grep rolldown || echo "no .node files found"      
+          command: pnpm install --frozen-lockfile
 
   save-dependencies:
     description: "Sauvegarder le cache des dépendances"
     steps:
       - save_cache:
-          key: pnpm-store-v1-{{ checksum "pnpm-lock.yaml" }}
+          key: pnpm-packages-v1-{{ checksum "pnpm-lock.yaml" }}
           paths:
+            - node_modules
+            - packages/client/node_modules
+            - packages/server/node_modules
             - ~/.pnpm-store
 
 # Définition des jobs
