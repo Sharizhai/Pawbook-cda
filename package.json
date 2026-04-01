@@ -36,7 +36,7 @@
     "sass": "^1.97.3"
   },
   "optionalDependencies": {
-    "@rolldown/binding-linux-x64-gnu": "*",
-    "@rolldown/binding-linux-x64-musl": "*"
+    "@rolldown/binding-linux-x64-gnu": "1.0.0-rc.12",
+    "@rolldown/binding-linux-x64-musl": "1.0.0-rc.12"
   }
 }
