@@ -18,21 +18,23 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - pnpm-packages-v1-{{ checksum "pnpm-lock.yaml" }}
-            - pnpm-packages-v1-
+            - pnpm-packages-v2-{{ checksum "pnpm-lock.yaml" }}
+            - pnpm-packages-v2-
 
   install-dependencies:
     description: "Installer les dépendances du monorepo"
     steps:
       - run:
           name: Install dependencies
-          command: pnpm install --frozen-lockfile
+          command: |
+            pnpm store prune
+            pnpm install --frozen-lockfile
 
   save-dependencies:
     description: "Sauvegarder le cache des dépendances"
     steps:
       - save_cache:
-          key: pnpm-packages-v1-{{ checksum "pnpm-lock.yaml" }}
+          key: pnpm-packages-v2-{{ checksum "pnpm-lock.yaml" }}
           paths:
             - node_modules
             - packages/client/node_modules
