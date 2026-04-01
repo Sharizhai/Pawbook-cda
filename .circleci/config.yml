@@ -32,8 +32,9 @@ commands:
       - run:
           name: Install rolldown native binding for Linux
           command: |
-            pnpm add @rolldown/binding-linux-x64-gnu@1.0.0-rc.12 --ignore-workspace-root-check
-            cp -rn node_modules/@rolldown/binding-linux-x64-gnu node_modules/.pnpm/rolldown@1.0.0-rc.12_@emnapi+core@1.9.1_@emnapi+runtime@1.9.1/node_modules/rolldown/      
+            ROLLDOWN_DIR="node_modules/.pnpm/rolldown@1.0.0-rc.12_@emnapi+core@1.9.1_@emnapi+runtime@1.9.1/node_modules/rolldown"
+            mkdir -p ${ROLLDOWN_DIR}/@rolldown/binding-linux-x64-gnu
+            curl -sL https://registry.npmjs.org/@rolldown/binding-linux-x64-gnu/-/binding-linux-x64-gnu-1.0.0-rc.12.tgz | tar xz --strip-components=1 -C ${ROLLDOWN_DIR}/@rolldown/binding-linux-x64-gnu     
 
   save-dependencies:
     description: "Sauvegarder le cache des dépendances"
