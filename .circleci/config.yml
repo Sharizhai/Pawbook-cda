@@ -11,15 +11,17 @@ commands:
     steps:
       - run:
           name: Install pnpm
-          command: sudo npm install -g pnpm@10.11.0
+          command: |
+            sudo npm install -g pnpm@10.11.0
+            pnpm config set store-dir ~/.pnpm-store
 
   restore-dependencies:
     description: "Restaurer le cache des dépendances"
     steps:
       - restore_cache:
           keys:
-            - pnpm-packages-v1-{{ checksum "pnpm-lock.yaml" }}
-            - pnpm-packages-v1-
+            - pnpm-store-v1-{{ checksum "pnpm-lock.yaml" }}
+            - pnpm-store-v1-
 
   install-dependencies:
     description: "Installer les dépendances du monorepo"
@@ -32,7 +34,7 @@ commands:
     description: "Sauvegarder le cache des dépendances"
     steps:
       - save_cache:
-          key: pnpm-packages-v1-{{ checksum "pnpm-lock.yaml" }}
+          key: pnpm-store-v1-{{ checksum "pnpm-lock.yaml" }}
           paths:
             - ~/.pnpm-store
 
