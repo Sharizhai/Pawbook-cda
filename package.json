@@ -34,5 +34,9 @@
   },
   "dependencies": {
     "sass": "^1.97.3"
+  },
+  "optionalDependencies": {
+    "@rolldown/binding-linux-x64-gnu": "*",
+    "@rolldown/binding-linux-x64-musl": "*"
   }
 }
