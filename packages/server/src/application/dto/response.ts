@@ -1,5 +1,5 @@
-import { User, UserData } from '$domain/entities/Users';
 import {AnimalData} from "$domain/entities/Animals";
+import { UserData } from '$domain/entities/Users';
 
 /**
  * Response DTO for SearchUserOrPetUserCase

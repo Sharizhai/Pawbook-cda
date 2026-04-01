@@ -6,10 +6,10 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node16",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "outDir": "./dist",
-    "module": "Node16",
+    "module": "ESNext",
     "rootDir": "./src",
     "allowSyntheticDefaultImports": true,
     "paths": {
