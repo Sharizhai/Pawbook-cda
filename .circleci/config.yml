@@ -20,8 +20,8 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - pnpm-store-v1-{{ checksum "pnpm-lock.yaml" }}
-            - pnpm-store-v1-
+            - pnpm-store-v3-{{ checksum "pnpm-lock.yaml" }}
+            - pnpm-store-v3-
 
   install-dependencies:
     description: "Installer les dépendances du monorepo"
@@ -34,7 +34,7 @@ commands:
     description: "Sauvegarder le cache des dépendances"
     steps:
       - save_cache:
-          key: pnpm-store-v1-{{ checksum "pnpm-lock.yaml" }}
+          key: pnpm-store-v3-{{ checksum "pnpm-lock.yaml" }}
           paths:
             - ~/.pnpm-store
 
