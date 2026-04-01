@@ -13,7 +13,7 @@
     "overrides": {
       "effect": ">=3.20.0"
     },
-    "approvedBuilds": [
+    "onlyBuiltDependencies": [
       "@parcel/watcher",
       "@prisma/client",
       "@prisma/engines",
