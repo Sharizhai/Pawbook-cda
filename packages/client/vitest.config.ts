@@ -15,6 +15,7 @@ export default defineConfig(({ mode }) => ({
     globals: true,
     environment: 'jsdom',
     include: ["__tests__/**/*.{test,spec}.{ts,js}"],
+    pool: 'vmThreads',
     coverage: {
       reporter: ["text", "json", "html"],
       provider: 'istanbul',
