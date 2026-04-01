@@ -2,9 +2,7 @@
     "extends": "./tsconfig.json",
     "compilerOptions": {
       "types": ["vitest", "node"],
-      "moduleResolution": "node"
+      "moduleResolution": "bundler"
     },
-    "include": ["src/**/*.ts",
-      "vitest.config"
-    ]
+    "include": ["src/**/*.ts", "vitest.config.ts"]
   }
