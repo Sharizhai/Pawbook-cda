@@ -32,7 +32,7 @@ commands:
       - run:
           name: Install rolldown native binding for Linux
           command: |
-            npm install --no-save @rolldown/binding-linux-x64-gnu@1.0.0-rc.12
+            pnpm install --no-save @rolldown/binding-linux-x64-gnu@1.0.0-rc.12
             cp -r node_modules/@rolldown/binding-linux-x64-gnu node_modules/.pnpm/rolldown@1.0.0-rc.12_@emnapi+core@1.9.1_@emnapi+runtime@1.9.1/node_modules/rolldown/      
 
   save-dependencies:
