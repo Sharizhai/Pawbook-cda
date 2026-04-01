@@ -12,18 +12,7 @@
   "pnpm": {
     "overrides": {
       "effect": ">=3.20.0"
-    },
-    "onlyBuiltDependencies": [
-      "@parcel/watcher",
-      "@prisma/client",
-      "@prisma/engines",
-      "argon2",
-      "esbuild",
-      "prisma",
-      "rolldown",
-      "@rolldown/binding-linux-x64-gnu",
-      "@rolldown/binding-linux-x64-musl"
-    ]
+    }
   },
   "workspaces": [
     "packages/*"
