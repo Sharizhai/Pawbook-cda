@@ -1,17 +1,17 @@
+import { svelte, vitePreprocess } from "@sveltejs/vite-plugin-svelte"
 import { paraglideVitePlugin } from '@inlang/paraglide-js'
-import { svelte } from "@sveltejs/vite-plugin-svelte";
-import sveltePreprocess from "svelte-preprocess";
-import { defineConfig } from "vitest/config";
-import path from "path";
+import { defineConfig } from "vitest/config"
+import path from "path"
 
 export default defineConfig({
-  plugins: [svelte({
-              preprocess: sveltePreprocess()
-            }),
-            paraglideVitePlugin({ 
-              project: './project.inlang', 
-              outdir: './src/lib/paraglide' 
-            })
+  plugins: [
+    svelte({
+      preprocess: vitePreprocess()
+    }),
+    paraglideVitePlugin({
+      project: './project.inlang',
+      outdir: './src/lib/paraglide'
+    })
   ],
   test: {
     globals: true,
@@ -27,7 +27,7 @@ export default defineConfig({
       $assets: path.resolve("./src/assets"),
       $components: path.resolve("./src/components"),
       $config: path.resolve("./src/config"),
-        $data: path.resolve("./src/data"),
+      $data: path.resolve("./src/data"),
       $lib: path.resolve("./src/lib"),
       $pages: path.resolve("./src/pages"),
       $services: path.resolve("./src/services"),
