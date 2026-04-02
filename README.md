@@ -16,6 +16,12 @@
     <a href="https://www.postgresql.org">
       <img src="https://img.shields.io/badge/PostgreSQL-16-4169e1?logo=postgresql&logoColor=white" alt="PostgreSQL"/>
     </a>
+   <a href="https://www.prisma.io">
+     <img src="https://img.shields.io/badge/Prisma-7-2D3748?logo=prisma&logoColor=white" alt="Prisma"/>
+   </a>
+   <a href="https://vitejs.dev">
+      <img src="https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white" alt="Vite"/>
+   </a>
     <a href="LICENSE">
       <img src="https://img.shields.io/badge/license-MIT-blue" alt="License"/>
     </a>
