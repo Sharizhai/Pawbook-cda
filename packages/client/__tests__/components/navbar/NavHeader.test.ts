@@ -2,6 +2,7 @@ import { test, expect, vi, beforeEach } from "vitest";
 import { render, fireEvent } from "@testing-library/svelte";
 import "@testing-library/jest-dom";
 import NavHeader from "$components/navbar/NavHeader.svelte";
+import * as spaRouter from "svelte-spa-router";
 
 beforeEach(() => {
     delete (window as any).location;
@@ -43,11 +44,12 @@ test("onClick should open the quick action menu", async () => {
 });
 
 test("Should render logo as button on administration page", () => {
-    window.location = {
-        href: 'http://localhost/#/administration',
-        hash: '#/administration',
-        pathname: '/administration',
-    } as Location;
+    vi.spyOn(spaRouter, 'location', 'get').mockReturnValue({
+        subscribe: (fn: (value: string) => void) => {
+            fn('/administration');
+            return () => {};
+        }
+    } as any);
 
     const { container } = render(NavHeader);
     const logoButton = container.querySelector(".feed-header-logo-button");

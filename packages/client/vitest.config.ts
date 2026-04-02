@@ -16,6 +16,11 @@ export default defineConfig(({ mode }) => ({
     environment: 'jsdom',
     include: ["__tests__/**/*.{test,spec}.{ts,js}"],
     pool: 'vmThreads',
+    environmentOptions: {
+      jsdom: {
+        url: 'http://localhost',
+      }
+    },
     coverage: {
       reporter: ["text", "json", "html"],
       provider: 'istanbul',
