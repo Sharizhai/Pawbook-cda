@@ -1,6 +1,6 @@
-import { User, UserData } from '$domain/entities/Users';
 import { UserFilters, IUserRepository } from '$domain/interfaces/repositories/userRepository.interface';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "../../../../generated/prisma";
+import { User, UserData } from '$domain/entities/Users';
 
 export class PostgresUserRepository implements IUserRepository {
     constructor(private prisma: PrismaClient) {}

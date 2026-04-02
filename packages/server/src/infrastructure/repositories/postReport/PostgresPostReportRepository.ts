@@ -1,6 +1,6 @@
 import {IPostReportRepository} from "$domain/interfaces/repositories/reports/postReportRepository.interface";
 import {PostReport, PostReportData} from "$domain/entities/PostReports";
-import {PrismaClient} from "@prisma/client";
+import { PrismaClient } from "../../../../generated/prisma";
 
 export class PostgresPostReportRepository implements IPostReportRepository {
     constructor(private prisma: PrismaClient) {}

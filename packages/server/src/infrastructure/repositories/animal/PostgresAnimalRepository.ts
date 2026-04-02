@@ -1,6 +1,6 @@
 import {AnimalFilters, IAnimalRepository} from "$domain/interfaces/repositories/animalRepository.interface";
 import {Animal, AnimalData} from "$domain/entities/Animals";
-import {PrismaClient} from "@prisma/client";
+import { PrismaClient } from "../../../../generated/prisma";
 
 export class PostgresAnimalRepository implements IAnimalRepository{
     constructor(private prisma: PrismaClient) {}

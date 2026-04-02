@@ -1,6 +1,6 @@
 import {IFollowRepository} from "$domain/interfaces/repositories/followRepository.interface";
 import {Follow} from "$domain/entities/Follows";
-import {PrismaClient} from "@prisma/client";
+import { PrismaClient } from "../../../../generated/prisma";
 
 export class PostgresFollowRepository implements IFollowRepository {
     constructor(private prisma: PrismaClient) {}

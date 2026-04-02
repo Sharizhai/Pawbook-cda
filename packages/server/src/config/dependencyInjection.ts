@@ -88,7 +88,7 @@ import {AuthServices} from "$application/services/authServices";
 
 import {env} from "$config/env";
 import {prisma} from "$config/prisma";
-import {PrismaClient} from "@prisma/client";
+import { PrismaClient } from "../../generated/prisma";
 
 export interface Dependencies {
     prisma: PrismaClient;

@@ -1,6 +1,6 @@
 import {IPostLikeRepository} from "$domain/interfaces/repositories/like/postLikeRepository.interface";
-import {PrismaClient} from "@prisma/client";
-import {PostLike, PostLikeData} from "$domain/entities/PostLike";
+import { PrismaClient } from "../../../../generated/prisma";
+import {PostLike} from "$domain/entities/PostLike";
 
 export class PostgresPostLikeRepository implements IPostLikeRepository {
     constructor(private prisma: PrismaClient) {}
