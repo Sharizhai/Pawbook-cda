@@ -84,8 +84,8 @@ importers:
         specifier: ^3.1.8
         version: 3.1.9
       '@inlang/paraglide-js':
-        specifier: 2.15.0
-        version: 2.15.0
+        specifier: 2.15.1
+        version: 2.15.1
       '@sveltejs/vite-plugin-svelte':
         specifier: ^7.0.0
         version: 7.0.0(svelte@5.55.1)(vite@8.0.3(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.0)(esbuild@0.27.4)(jiti@2.6.1)(sass@1.98.0)(tsx@4.21.0))
@@ -791,8 +791,8 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  '@inlang/paraglide-js@2.15.0':
-    resolution: {integrity: sha512-2ZOa9nssVn4tjkKskqb88KP5A7cTIjo8AiM9xnPvH+vBhRIRenO+ftAbVOHhHcHjcFxy2QFcOfBAH/Cw1LIsUg==}
+  '@inlang/paraglide-js@2.15.1':
+    resolution: {integrity: sha512-7wWKbLWwLx1dkkYz55TnVp+39atKXf7rnlHnL8adSmM73UaAdB9fXDzo24GHSY/6FPGFKSkgHdT2qyJv2whWsA==}
     hasBin: true
 
   '@inlang/recommend-sherlock@0.2.1':
@@ -3922,7 +3922,7 @@ snapshots:
     transitivePeerDependencies:
       - babel-plugin-macros
 
-  '@inlang/paraglide-js@2.15.0':
+  '@inlang/paraglide-js@2.15.1':
     dependencies:
       '@inlang/recommend-sherlock': 0.2.1
       '@inlang/sdk': 2.9.1
@@ -4498,7 +4498,7 @@ snapshots:
       magicast: 0.5.2
       obug: 2.1.1
       tinyrainbow: 3.1.0
-      vitest: 4.1.2(@types/node@25.5.0)(@vitest/ui@4.1.2)(jsdom@29.0.1(@noble/hashes@1.8.0))(vite@8.0.3(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.0)(esbuild@0.27.5)(jiti@2.6.1)(sass@1.98.0)(tsx@4.21.0))
+      vitest: 4.1.2(@types/node@25.5.0)(@vitest/ui@4.1.2)(jsdom@26.1.0)(vite@8.0.3(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.0)(esbuild@0.27.4)(jiti@2.6.1)(sass@1.98.0)(tsx@4.21.0))
     transitivePeerDependencies:
       - supports-color
 
@@ -4554,7 +4554,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.1.0
-      vitest: 4.1.2(@types/node@25.5.0)(@vitest/ui@4.1.2)(jsdom@29.0.1(@noble/hashes@1.8.0))(vite@8.0.3(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.0)(esbuild@0.27.5)(jiti@2.6.1)(sass@1.98.0)(tsx@4.21.0))
+      vitest: 4.1.2(@types/node@25.5.0)(@vitest/ui@4.1.2)(jsdom@26.1.0)(vite@8.0.3(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@types/node@25.5.0)(esbuild@0.27.4)(jiti@2.6.1)(sass@1.98.0)(tsx@4.21.0))
 
   '@vitest/utils@4.1.2':
     dependencies:

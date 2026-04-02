@@ -5,7 +5,7 @@
 
   <p>
     <a href="https://nodejs.org">
-      <img src="https://img.shields.io/badge/Node.js-22-339933?logo=node.js&logoColor=white" alt="Node.js"/>
+      <img src="https://img.shields.io/badge/Node.js-22+-339933?logo=node.js&logoColor=white" alt="Node.js"/>
     </a>
     <a href="https://svelte.dev">
       <img src="https://img.shields.io/badge/Svelte-5-ff3e00?logo=svelte&logoColor=white" alt="Svelte"/>
