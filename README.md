@@ -22,6 +22,12 @@
    <a href="https://vitejs.dev">
       <img src="https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white" alt="Vite"/>
    </a>
+   <a href="https://expressjs.com">
+  <img src="https://img.shields.io/badge/Express-5-000000?logo=express&logoColor=white" alt="Express"/>
+</a>
+<a href="https://vitest.dev">
+  <img src="https://img.shields.io/badge/Vitest-4-6E9F18?logo=vitest&logoColor=white" alt="Vitest"/>
+</a>
     <a href="LICENSE">
       <img src="https://img.shields.io/badge/license-MIT-blue" alt="License"/>
     </a>
