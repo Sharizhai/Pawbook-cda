@@ -7,5 +7,8 @@ export default defineConfig({
     outDir: "dist",
     clean: true,
     sourcemap: true,
-    unbundle: true,
+    // unbundle: true,
+    deps: {
+        neverBundle: [/^@prisma\//, "prisma"],
+    },
 })
