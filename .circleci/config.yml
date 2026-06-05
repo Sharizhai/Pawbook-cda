@@ -95,6 +95,11 @@ jobs:
       - install-dependencies
       - save-dependencies
       - run:
+          name: Generate Prisma Client
+          command: |
+            cd packages/server
+            pnpm exec prisma generate
+      - run:
           name: Run server tests
           command: |
             cd packages/server
