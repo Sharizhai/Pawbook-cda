@@ -98,7 +98,7 @@ describe("Use case: User wants to update his password", () => {
     it("Should return an error if new password doesn't have a special character", async () => {
         const noNumberPassword = {
             currentPassword: "Password!123",
-            newPassword: "Password!Pass"
+            newPassword: "Password1234"
         };
 
         await expect(updatePasswordUseCase.execute(UnitUser.john.id, noNumberPassword)).rejects.toThrow("Password must contain at least one special character");

@@ -17,6 +17,10 @@ export default defineConfig(({ mode }) =>({
         coverage: {
             reporter: ["text", "json", "html"],
             provider: 'istanbul',
+            include: [
+                'src/application/**',
+                'src/domain/entities/**',
+            ],
             exclude: [
                 'node_modules/**',
                 '**/*.d.ts',
