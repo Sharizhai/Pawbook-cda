@@ -94,11 +94,19 @@ jobs:
       - restore-dependencies
       - install-dependencies
       - save-dependencies
+#      - run:
+#          name: Generate Prisma Client
+#          command: |
+#            cd packages/server
+#            pnpm exec prisma generate
       - run:
           name: Generate Prisma Client
           command: |
             cd packages/server
             pnpm exec prisma generate
+            echo "=== Contenu generated/ ==="
+            ls -la generated/ || echo "Dossier generated/ ABSENT"
+            ls -la generated/prisma/ || echo "Dossier generated/prisma/ ABSENT"
       - run:
           name: Run server tests
           command: |
