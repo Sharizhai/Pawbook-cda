@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "prebuild": "",
-    "build": "tsdown",
+    "build": "prisma generate && tsdown",
     "postbuild": "",
-    "build:production": "prisma generate && prisma db push --accept-data-loss && tsdown",
+    "build:production": "prisma db push --accept-data-loss && tsdown",
     "start": "node dist/server.mjs",
     "test": "vitest",
     "test:run": "vitest run",
