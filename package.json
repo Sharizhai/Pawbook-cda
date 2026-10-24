@@ -11,7 +11,7 @@
   },
   "pnpm": {
     "overrides": {
-      "effect": ">=3.20.0"
+      "effect": "^3.20.0"
     },
     "onlyBuiltDependencies": [
       "@parcel/watcher",
